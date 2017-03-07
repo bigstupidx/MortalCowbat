@@ -76,6 +76,8 @@ public class Character : MonoBehaviour
 	public void Hit(Defs.HDirection dir)
 	{
 		transform.AddPositionX((int)dir * 1.0f);
+		audioSource.clip = settings.HitSfx;
+		audioSource.Play();
 	}
 
 	void SetHorizontalDirection(Defs.HDirection dir)
