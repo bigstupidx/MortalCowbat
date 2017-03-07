@@ -3,6 +3,21 @@ using UnityEngine;
 
 public static class Extensions
 {
+	public static void AddPositionX(this Transform tr, float x)
+	{
+		var pos = tr.position;
+		pos.x += x;
+		tr.position = pos;
+	}
+
+	public static void AddPositionY(this Transform tr, float y)
+	{
+		var pos = tr.position;
+		pos.y += y;
+		tr.position = pos;
+	}
+
+
 	public static void SetPositionX(this Transform tr, float x)
 	{
 		var pos = tr.position;

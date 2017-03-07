@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
+using System;
 
 public class Character : MonoBehaviour
 {
+	public Action<Character> AttackAction;
+	public CharacterSettings Settings { get { return settings; }}
+
+	[SerializeField]
+	CharacterSettings settings;
+
 	[SerializeField]
 	SpriteRenderer spriteRen;
 
@@ -55,7 +62,13 @@ public class Character : MonoBehaviour
 		if (!punching) {
 			animator.SetTrigger("punch");	
 			punching = true;
+			AttackAction(this);
 		}
+	}
+
+	public void Hit()
+	{
+		transform.AddPositionX(-(int)hDirection * 1.0f);
 	}
 
 	void SetHorizontalDirection(Defs.HDirection dir)
