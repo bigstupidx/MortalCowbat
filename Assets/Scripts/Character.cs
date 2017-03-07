@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System;
+using System.IO;
 
 public class Character : MonoBehaviour
 {
 	public Action<Character> AttackAction;
 	public CharacterSettings Settings { get { return settings; }}
+	public Defs.HDirection HDirection { get { return hDirection; }}
 
 	[SerializeField]
 	CharacterSettings settings;
@@ -66,9 +68,9 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	public void Hit()
+	public void Hit(Defs.HDirection dir)
 	{
-		transform.AddPositionX(-(int)hDirection * 1.0f);
+		transform.AddPositionX((int)dir * 1.0f);
 	}
 
 	void SetHorizontalDirection(Defs.HDirection dir)
