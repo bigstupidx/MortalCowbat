@@ -9,6 +9,9 @@ public class Character : MonoBehaviour
 	public Defs.HDirection HDirection { get { return hDirection; }}
 
 	[SerializeField]
+	AudioSource audioSource;
+
+	[SerializeField]
 	CharacterSettings settings;
 
 	[SerializeField]
@@ -64,6 +67,8 @@ public class Character : MonoBehaviour
 		if (!punching) {
 			animator.SetTrigger("punch");	
 			punching = true;
+			audioSource.clip = settings.AttackSfx;
+			audioSource.Play();
 			AttackAction(this);
 		}
 	}
