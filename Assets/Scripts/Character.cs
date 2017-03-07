@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Character : MonoBehaviour
 {
@@ -13,9 +11,10 @@ public class Character : MonoBehaviour
 	[SerializeField]
 	float movingSpeed;
 
+	Defs.HDirection hDirection;
+	Defs.VDirection vDirection;
 
-	Defs.Direction direction;
-	float speed;
+	Vector3 speed;
 	bool punching;
 
 	void Awake()
@@ -23,18 +22,32 @@ public class Character : MonoBehaviour
 		SetState(Defs.State.Idle);
 	}
 
-	public void Move(Defs.Direction dir)
+	public void MoveHorizontally(Defs.HDirection dir)
 	{
-		SetDirection(dir);
 		SetState(Defs.State.Moving);
-		SetSpeed(movingSpeed);
+		SetHorizontalDirection(dir);
+		SetHorizontalSpeed(movingSpeed);
 	}
 
-
-	public void StopMoving()
+	public void MoveVertically(Defs.VDirection dir)
 	{
-		SetSpeed(0);
-		SetState(Defs.State.Idle);
+		SetState(Defs.State.Moving);
+		SetVerticalDirection(dir);
+		SetVerticalSpeed(movingSpeed);
+	}
+
+	public void StopMovingHorizontally()
+	{
+		SetHorizontalSpeed(0);
+		if (!IsMoving())
+			SetState(Defs.State.Idle);
+	}
+
+	public void StopMovingVertically()
+	{
+		SetVerticalSpeed(0);
+		if (!IsMoving())
+			SetState(Defs.State.Idle);
 	}
 
 	public void Punch()
@@ -45,10 +58,15 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	void SetDirection(Defs.Direction dir)
+	void SetHorizontalDirection(Defs.HDirection dir)
 	{
-		spriteRen.flipX = dir == Defs.Direction.Left;
-		direction = dir;
+		spriteRen.flipX = dir == Defs.HDirection.Left;
+		hDirection = dir;
+	}
+
+	void SetVerticalDirection(Defs.VDirection dir)
+	{
+		vDirection = dir;
 	}
 
 	void SetState(Defs.State state)
@@ -61,9 +79,14 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	void SetSpeed(float speed)
+	void SetHorizontalSpeed(float speed)
 	{
-		this.speed = speed;
+		this.speed.x = speed;
+	}
+
+	void SetVerticalSpeed(float speed)
+	{
+		this.speed.y = speed;
 	}
 
 	void PlayAnimation(string animName)
@@ -71,9 +94,18 @@ public class Character : MonoBehaviour
 		animator.SetTrigger(animName);
 	}
 
+	bool IsMoving()
+	{
+		return speed.sqrMagnitude > 0;
+	}
+
+
 	void Update()
 	{
-		transform.position += new Vector3(speed * (int)direction, 0, 0 ) * movingSpeed;
+		transform.position += new Vector3(
+			speed.x * (int)hDirection, 
+			speed.y * (int)vDirection, 
+			0) * movingSpeed;
 	}
 
 	void AnimationEvent(string name)

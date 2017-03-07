@@ -11,8 +11,13 @@ public class KeyboadController : MonoBehaviour
 	KeyCode right;
 
 	[SerializeField]
-	KeyCode punch;
+	KeyCode up;
 
+	[SerializeField]
+	KeyCode down;
+
+	[SerializeField]
+	KeyCode punch;
 
 	[SerializeField]
 	Character character;
@@ -20,18 +25,24 @@ public class KeyboadController : MonoBehaviour
 	void Update()
 	{
 		if (Input.GetKeyDown(left)) {
-			character.Move(Defs.Direction.Left);	
+			character.MoveHorizontally(Defs.HDirection.Left);	
 		}
 		else if (Input.GetKeyDown(right)) {
-			character.Move(Defs.Direction.Right);	
+			character.MoveHorizontally(Defs.HDirection.Right);	
 		}
-		else if (Input.GetKeyUp(left) && !Input.GetKey(right)) {
-			character.StopMoving();	
+		if (Input.GetKeyDown(up)) {
+			character.MoveVertically(Defs.VDirection.Up);	
 		}
-		else if (Input.GetKeyUp(right) && !Input.GetKey(left)) {
-			character.StopMoving();	
+		else if (Input.GetKeyDown(down)) {
+			character.MoveVertically(Defs.VDirection.Down);	
 		}
-		else if (Input.GetKeyDown(punch)) {
+		if ((Input.GetKeyUp(right) && !Input.GetKey(left)) || (Input.GetKeyUp(left) && !Input.GetKey(right))) {
+			character.StopMovingHorizontally();	
+		}
+		if ((Input.GetKeyUp(up) && !Input.GetKey(down)) || (Input.GetKeyUp(down) && !Input.GetKey(up))) {
+			character.StopMovingVertically();	
+		}
+		if (Input.GetKeyDown(punch)) {
 			character.Punch();
 		}
 	}
