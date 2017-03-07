@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 	{
 		var hitCharacter = GetHitCharacter(attackingCharacter);
 		if (hitCharacter != null) {
-			hitCharacter.Hit();
+			hitCharacter.Hit(attackingCharacter.HDirection);
 		}
 	}
 
