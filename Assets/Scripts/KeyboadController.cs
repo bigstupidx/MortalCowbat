@@ -17,7 +17,10 @@ public class KeyboadController : MonoBehaviour
 	KeyCode down;
 
 	[SerializeField]
-	KeyCode punch;
+	KeyCode attack;
+
+	[SerializeField]
+	KeyCode specialAttack;
 
 	[SerializeField]
 	Character character;
@@ -42,8 +45,11 @@ public class KeyboadController : MonoBehaviour
 		if ((Input.GetKeyUp(up) && !Input.GetKey(down)) || (Input.GetKeyUp(down) && !Input.GetKey(up))) {
 			character.StopMovingVertically();	
 		}
-		if (Input.GetKeyDown(punch)) {
-			character.Punch();
+		if (Input.GetKeyDown(attack)) {
+			character.Attack();
+		}
+		else if (Input.GetKeyDown(specialAttack)) {
+			character.SpecialAttack();
 		}
 	}
 }

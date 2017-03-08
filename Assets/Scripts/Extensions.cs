@@ -31,4 +31,18 @@ public static class Extensions
 		pos.y = y;
 		tr.position = pos;
 	}
+
+	public static void SetScaleX(this Transform tr, float x)
+	{
+		var scale = tr.localScale;
+		scale.x = x;
+		tr.localScale = scale;
+	}
+
+	public static void SetScaleY(this Transform tr, float y)
+	{
+		var scale = tr.localScale;
+		scale.y = y;
+		tr.localScale = scale;
+	}
 }

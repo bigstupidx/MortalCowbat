@@ -6,12 +6,14 @@ public static class Defs
 	{
 		public static string Walk = "walk";
 		public static string Idle = "idle";
-		public static string Punch = "punch";
+		public static string Attack = "attack";
+		public static string SpecialAttack = "specialattack";
+		public static string Play = "play";
 	}
 
 	public static class Events
 	{
-		public static string PunchFinshed = "punchfinish";
+		public const string AttackFinished = "attackfinished";
 	}
 
 	public enum HDirection 

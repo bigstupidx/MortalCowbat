@@ -26,7 +26,7 @@ public partial class Character : MonoBehaviour
 	Defs.VDirection vDirection;
 
 	Vector3 speed;
-	bool punching;
+	bool attacking;
 
 	void Awake()
 	{
@@ -61,16 +61,31 @@ public partial class Character : MonoBehaviour
 			SetState(Defs.State.Idle);
 	}
 
-	public void Punch()
+	public void Attack()
 	{
-		if (!punching) {
-			animator.SetTrigger("punch");	
-			punching = true;
+		if (!attacking) {
+			animator.SetTrigger(Defs.Animations.Attack);	
+			attacking = true;
 			audioSource.clip = settings.AttackSfx;
 			audioSource.Play();
 			AttackAction(this);
 		}
 	}
+
+	public void SpecialAttack()
+	{
+		if (!attacking) {
+			animator.SetTrigger(Defs.Animations.SpecialAttack);	
+			attacking = true;
+			audioSource.clip = settings.AttackSfx;
+			audioSource.Play();
+			if (settings.SpecialAttackEffect != null) {
+				CreatEffect(settings.SpecialAttackEffect,"SpecialAttackEffect");
+			}
+			AttackAction(this);
+		}
+	}
+
 
 	public void Hit(Defs.HDirection dir)
 	{
@@ -81,7 +96,8 @@ public partial class Character : MonoBehaviour
 
 	void SetHorizontalDirection(Defs.HDirection dir)
 	{
-		spriteRen.flipX = dir == Defs.HDirection.Left;
+		//spriteRen.flipX = dir == Defs.HDirection.Left;
+		transform.SetScaleX((int)dir);
 		hDirection = dir;
 	}
 
@@ -131,9 +147,17 @@ public partial class Character : MonoBehaviour
 
 	void AnimationEvent(string name)
 	{
-		if (name.Equals(Defs.Events.PunchFinshed)) {
-			punching = false;
+		if (name.Equals(Defs.Events.AttackFinished)) {
+			attacking = false;
 		}
+	}
+
+	void CreatEffect(GameObject prefab, string containerName)
+	{
+		var effect = Instantiate(prefab);
+		effect.transform.SetParent(transform.FindChild(containerName));
+		effect.transform.localPosition = Vector3.zero;
+		effect.transform.localScale = Vector3.one;
 	}
 
 }
