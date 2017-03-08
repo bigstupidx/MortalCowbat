@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System;
-using System.IO;
 
-public class Character : MonoBehaviour
+public partial class Character : MonoBehaviour
 {
 	public Action<Character> AttackAction;
 	public CharacterSettings Settings { get { return settings; }}
