@@ -27,6 +27,7 @@ public partial class Character : MonoBehaviour
 
 	Vector3 speed;
 	bool attacking;
+	bool specialAttacking;
 
 	void Awake()
 	{
@@ -35,16 +36,20 @@ public partial class Character : MonoBehaviour
 
 	public void MoveHorizontally(Defs.HDirection dir)
 	{
-		SetState(Defs.State.Moving);
-		SetHorizontalDirection(dir);
-		SetHorizontalSpeed(movingSpeed);
+		if (!specialAttacking) {
+			SetState(Defs.State.Moving);
+			SetHorizontalDirection(dir);
+			SetHorizontalSpeed(movingSpeed);
+		}
 	}
 
 	public void MoveVertically(Defs.VDirection dir)
 	{
-		SetState(Defs.State.Moving);
-		SetVerticalDirection(dir);
-		SetVerticalSpeed(movingSpeed);
+		if (!specialAttacking) {
+			SetState(Defs.State.Moving);
+			SetVerticalDirection(dir);
+			SetVerticalSpeed(movingSpeed);
+		}
 	}
 
 	public void StopMovingHorizontally()
@@ -63,7 +68,7 @@ public partial class Character : MonoBehaviour
 
 	public void Attack()
 	{
-		if (!attacking) {
+		if (!Atacking()) {
 			animator.SetTrigger(Defs.Animations.Attack);	
 			attacking = true;
 			audioSource.clip = settings.AttackSfx;
@@ -74,9 +79,12 @@ public partial class Character : MonoBehaviour
 
 	public void SpecialAttack()
 	{
-		if (!attacking) {
+		if (!Atacking()) {
+			StopMovingVertically();
+			StopMovingHorizontally();
+
 			animator.SetTrigger(Defs.Animations.SpecialAttack);	
-			attacking = true;
+			specialAttacking = true;
 			audioSource.clip = settings.AttackSfx;
 			audioSource.Play();
 			if (settings.SpecialAttackEffect != null) {
@@ -150,6 +158,9 @@ public partial class Character : MonoBehaviour
 		if (name.Equals(Defs.Events.AttackFinished)) {
 			attacking = false;
 		}
+		else if (name.Equals(Defs.Events.SpecialAttackFinished)) {
+			specialAttacking = false;
+		}
 	}
 
 	void CreatEffect(GameObject prefab, string containerName)
@@ -160,4 +171,9 @@ public partial class Character : MonoBehaviour
 		effect.transform.localScale = Vector3.one;
 	}
 
+
+	bool Atacking()
+	{
+		return specialAttacking || attacking;
+	}
 }
