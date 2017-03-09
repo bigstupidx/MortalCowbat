@@ -11,6 +11,9 @@ public partial class Character : MonoBehaviour
 	public Vector3 Position { get { return transform.position; }}
 
 	[SerializeField]
+	HealthBar healthBar;
+
+	[SerializeField]
 	Attack specialAttack;
 
 	[SerializeField]
@@ -28,9 +31,6 @@ public partial class Character : MonoBehaviour
 	[SerializeField]
 	Animator animator;
 
-	[SerializeField]
-	float movingSpeed;
-
 
 	CharacterContext context;
 	Defs.HDirection hDirection;
@@ -39,15 +39,14 @@ public partial class Character : MonoBehaviour
 	Vector3 speed;
 	bool attacking;
 	bool specialAttacking;
+	int actualHealth;
 
-	void Awake()
-	{
-		SetState(Defs.State.Idle);
-	}
 
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
+		SetState(Defs.State.Idle);
+		SetHealth(settings.Health);
 	}
 
 	public void MoveHorizontally(Defs.HDirection dir)
@@ -55,7 +54,7 @@ public partial class Character : MonoBehaviour
 		if (!specialAttacking) {
 			SetState(Defs.State.Moving);
 			SetHorizontalDirection(dir);
-			SetHorizontalSpeed(movingSpeed);
+			SetHorizontalSpeed(settings.MovingSpeed);
 		}
 	}
 
@@ -64,7 +63,7 @@ public partial class Character : MonoBehaviour
 		if (!specialAttacking) {
 			SetState(Defs.State.Moving);
 			SetVerticalDirection(dir);
-			SetVerticalSpeed(movingSpeed);
+			SetVerticalSpeed(settings.MovingSpeed);
 		}
 	}
 
@@ -87,7 +86,7 @@ public partial class Character : MonoBehaviour
 		if (!IsAttacking()) {
 			attacking = true;
 			animator.SetTrigger(Defs.Animations.Attack);	
-			audioSource.clip = settings.AttackSfx;
+			audioSource.clip = baseAttack.Sfx;
 			audioSource.Play();
 			AttackAction(this, baseAttack);
 		}
@@ -113,6 +112,8 @@ public partial class Character : MonoBehaviour
 		}
 		audioSource.clip = settings.HitSfx;
 		audioSource.Play();
+
+		SetHealth(actualHealth - attack.AttackPoints);
 	}
 
 	void SetHorizontalDirection(Defs.HDirection dir)
@@ -163,7 +164,7 @@ public partial class Character : MonoBehaviour
 		transform.position += new Vector3(
 			speed.x * (int)hDirection, 
 			speed.y * (int)vDirection, 
-			0) * movingSpeed;
+			0) * settings.MovingSpeed;
 	}
 
 	void AnimationEvent(string name)
@@ -186,6 +187,12 @@ public partial class Character : MonoBehaviour
 				attack.Effects[i].Effect.gameObject, 
 				transform.Find(attack.Effects[i].Container));
 		}
+	}
+
+	void SetHealth(int health)
+	{
+		actualHealth = Math.Max(0, health);
+		healthBar.Set((float)actualHealth / settings.Health);
 	}
 
 	bool IsAttacking()

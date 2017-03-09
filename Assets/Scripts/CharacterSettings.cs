@@ -2,10 +2,8 @@
 
 public class CharacterSettings : MonoBehaviour
 {
-	public float AttackDistance;
 	public float MovingSpeed;
-	public AudioClip AttackSfx;
+	public int Health;
 	public AudioClip HitSfx;
-	public GameObject AttackEffect;
 }
 
