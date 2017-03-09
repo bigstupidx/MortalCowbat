@@ -3,9 +3,18 @@ using System;
 
 public partial class Character : MonoBehaviour
 {
-	public Action<Character> AttackAction;
+	public Action<Character, Attack> AttackAction;
+	public Action<Character, Attack> SpecialAttackAction;
+
 	public CharacterSettings Settings { get { return settings; }}
 	public Defs.HDirection HDirection { get { return hDirection; }}
+	public Vector3 Position { get { return transform.position; }}
+
+	[SerializeField]
+	Attack specialAttack;
+
+	[SerializeField]
+	Attack baseAttack;
 
 	[SerializeField]
 	AudioSource audioSource;
@@ -22,6 +31,8 @@ public partial class Character : MonoBehaviour
 	[SerializeField]
 	float movingSpeed;
 
+
+	CharacterContext context;
 	Defs.HDirection hDirection;
 	Defs.VDirection vDirection;
 
@@ -32,6 +43,11 @@ public partial class Character : MonoBehaviour
 	void Awake()
 	{
 		SetState(Defs.State.Idle);
+	}
+
+	public void Init(CharacterContext context)
+	{
+		this.context = context;
 	}
 
 	public void MoveHorizontally(Defs.HDirection dir)
@@ -68,36 +84,33 @@ public partial class Character : MonoBehaviour
 
 	public void Attack()
 	{
-		if (!Atacking()) {
-			animator.SetTrigger(Defs.Animations.Attack);	
+		if (!IsAttacking()) {
 			attacking = true;
+			animator.SetTrigger(Defs.Animations.Attack);	
 			audioSource.clip = settings.AttackSfx;
 			audioSource.Play();
-			AttackAction(this);
+			AttackAction(this, baseAttack);
 		}
 	}
 
 	public void SpecialAttack()
 	{
-		if (!Atacking()) {
+		if (!IsAttacking()) {
+			specialAttacking = true;
 			StopMovingVertically();
 			StopMovingHorizontally();
-
-			animator.SetTrigger(Defs.Animations.SpecialAttack);	
-			specialAttacking = true;
-			audioSource.clip = settings.AttackSfx;
-			audioSource.Play();
-			if (settings.SpecialAttackEffect != null) {
-				CreatEffect(settings.SpecialAttackEffect,"SpecialAttackEffect");
-			}
-			AttackAction(this);
+			PlayAnimation(Defs.Animations.SpecialAttack);
+			StartAttack(specialAttack);
+			SpecialAttackAction(this, specialAttack);
 		}
 	}
 
 
-	public void Hit(Defs.HDirection dir)
+	public void Hit(Attack attack, Defs.HDirection dir)
 	{
-		transform.AddPositionX((int)dir * 1.0f);
+		if (attack.ShiftHitEnemy) {
+			transform.AddPositionX((int)dir * 1.0f);
+		}
 		audioSource.clip = settings.HitSfx;
 		audioSource.Play();
 	}
@@ -163,16 +176,19 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	void CreatEffect(GameObject prefab, string containerName)
+	void StartAttack(Attack attack)
 	{
-		var effect = Instantiate(prefab);
-		effect.transform.SetParent(transform.FindChild(containerName));
-		effect.transform.localPosition = Vector3.zero;
-		effect.transform.localScale = Vector3.one;
+		audioSource.clip = attack.Sfx;
+		audioSource.Play();
+
+		for (int i = 0; i < attack.Effects.Count; ++i) {
+			context.EffectManager.CreateEffect(
+				attack.Effects[i].Effect.gameObject, 
+				transform.Find(attack.Effects[i].Container));
+		}
 	}
 
-
-	bool Atacking()
+	bool IsAttacking()
 	{
 		return specialAttacking || attacking;
 	}

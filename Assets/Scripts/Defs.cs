@@ -17,6 +17,11 @@ public static class Defs
 		public const string AttackFinished = "attackfinished";
 	}
 
+	public static class Pois
+	{
+		public const string SpecialAttackEffect = "SpecialAttackEffect";
+	}
+
 	public enum HDirection 
 	{
 		Left = -1,

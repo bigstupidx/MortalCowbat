@@ -10,7 +10,7 @@ public class Effect : MonoBehaviour
 
 	void Awake()
 	{
-		animator.SetTrigger(Defs.Animations.Play);
+		//animator.SetTrigger(Defs.Animations.Play);
 	}
 
 
