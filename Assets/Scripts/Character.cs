@@ -5,13 +5,12 @@ public partial class Character : MonoBehaviour
 {
 	public Action<Character, Attack> AttackAction;
 	public Action<Character, Attack> SpecialAttackAction;
+	public Action<float, float> HealthChangedAction;
+	public Action<Character> DeathAction;
 
 	public CharacterSettings Settings { get { return settings; }}
 	public Defs.HDirection HDirection { get { return hDirection; }}
 	public Vector3 Position { get { return transform.position; }}
-
-	[SerializeField]
-	HealthBar healthBar;
 
 	[SerializeField]
 	Attack specialAttack;
@@ -38,6 +37,7 @@ public partial class Character : MonoBehaviour
 
 	Vector3 speed;
 	bool attacking;
+	bool dying;
 	bool specialAttacking;
 	int actualHealth;
 
@@ -51,7 +51,7 @@ public partial class Character : MonoBehaviour
 
 	public void MoveHorizontally(Defs.HDirection dir)
 	{
-		if (!specialAttacking) {
+		if (CanMove()) {
 			SetState(Defs.State.Moving);
 			SetHorizontalDirection(dir);
 			SetHorizontalSpeed(settings.MovingSpeed);
@@ -60,7 +60,7 @@ public partial class Character : MonoBehaviour
 
 	public void MoveVertically(Defs.VDirection dir)
 	{
-		if (!specialAttacking) {
+		if (CanMove()) {
 			SetState(Defs.State.Moving);
 			SetVerticalDirection(dir);
 			SetVerticalSpeed(settings.MovingSpeed);
@@ -83,7 +83,7 @@ public partial class Character : MonoBehaviour
 
 	public void Attack()
 	{
-		if (!IsAttacking()) {
+		if (CanAttack()) {
 			attacking = true;
 			animator.SetTrigger(Defs.Animations.Attack);	
 			audioSource.clip = baseAttack.Sfx;
@@ -94,7 +94,7 @@ public partial class Character : MonoBehaviour
 
 	public void SpecialAttack()
 	{
-		if (!IsAttacking()) {
+		if (CanAttack()) {
 			specialAttacking = true;
 			StopMovingVertically();
 			StopMovingHorizontally();
@@ -175,6 +175,12 @@ public partial class Character : MonoBehaviour
 		else if (name.Equals(Defs.Events.SpecialAttackFinished)) {
 			specialAttacking = false;
 		}
+		else if (name.Equals(Defs.Events.DieFinished)) {
+			if (DeathAction != null) {
+				DeathAction(this);
+			}
+			Destroy(gameObject);
+		}
 	}
 
 	void StartAttack(Attack attack)
@@ -192,11 +198,34 @@ public partial class Character : MonoBehaviour
 	void SetHealth(int health)
 	{
 		actualHealth = Math.Max(0, health);
-		healthBar.Set((float)actualHealth / settings.Health);
+		if (HealthChangedAction != null) {
+			HealthChangedAction(actualHealth, settings.Health);
+		}
+
+		if (actualHealth == 0) {
+			dying = true;
+			PlayAnimation(Defs.Animations.Die);
+		}
+	}
+
+	bool CanAttack()
+	{
+		return !IsAttacking() && !IsDying();
+	}
+
+	bool CanMove()
+	{
+		return !IsDying() && !specialAttacking;
 	}
 
 	bool IsAttacking()
 	{
 		return specialAttacking || attacking;
 	}
+
+	bool IsDying()
+	{
+		return dying;
+	}
+
 }

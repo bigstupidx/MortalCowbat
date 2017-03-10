@@ -9,12 +9,14 @@ public static class Defs
 		public static string Attack = "attack";
 		public static string SpecialAttack = "specialattack";
 		public static string Play = "play";
+		public static string Die = "die";
 	}
 
 	public static class Events
 	{
 		public const string SpecialAttackFinished = "specialattackfinished";
 		public const string AttackFinished = "attackfinished";
+		public const string DieFinished = "dieFinished";
 	}
 
 	public static class Pois

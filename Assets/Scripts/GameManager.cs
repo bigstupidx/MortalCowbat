@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Ui;
 
-public class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour
 {
 	[SerializeField]
 	EffectManager effectManager;
 
+	[SerializeField]
+	InGameUiRoot ui;
+
 	List<Character> characters;
+	Character player;
 
 	public void Awake()
 	{
@@ -25,24 +30,18 @@ public class GameManager : MonoBehaviour
 	{
 		var characterContext = CreateCharacterContext();
 		for (int i = 0; i < characters.Count; ++i) {
+			if (i == 0) {
+				player = characters[i];
+				player.HealthChangedAction += ui.OnPlayerHealthChanged;
+			};
 			characters[i].Init(characterContext);
 			characters[i].AttackAction = OnCharacterAttack;
 			characters[i].SpecialAttackAction = OnCharacterSpecialAttack;
+			characters[i].DeathAction = OnCharacterDeath;
 		}
+		player = characters.Count > 0 ? characters[0] : null;
 	}
 
-
-	void OnCharacterAttack(Character attackingCharacter, Attack attack)
-	{
-		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.HDirection));
-	}
-
-	void OnCharacterSpecialAttack(Character attackingCharacter, Attack attack)
-	{
-		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.HDirection));
-	}
 
 	float GetCharactersSqrDistance(Character character1, Character character2) 
 	{
@@ -60,21 +59,6 @@ public class GameManager : MonoBehaviour
 				new List<Character>() : 
 				new List<Character>() { BattleUtils.SortCharactersByDistanceTo(charactersInRange, attackingCharacter.Position)[0]};
 		}
-
-//		var charactersInAttackDistance = new List<KeyValuePair<float, Character>>();
-//		for (int i = 0; i < characters.Count; ++i) {
-//			var otherCharacter = characters[i];
-//			if (otherCharacter != attackingCharacter) {
-//				float sqrDistance = GetCharactersSqrDistance(otherCharacter, attackingCharacter);
-//				if (IsCharacterInFronOfCharacter(otherCharacter, attackingCharacter)) {
-//					if (sqrDistance < attackingCharacter.Settings.AttackDistance * attackingCharacter.Settings.AttackDistance) {
-//						charactersInAttackDistance.Add(new KeyValuePair<float, Character>(sqrDistance, otherCharacter));
-//					}
-//				}
-//			}
-//		}
-//		charactersInAttackDistance.Sort((a, b) => a.Key < b.Key ? -1 : 1);
-//		return charactersInAttackDistance.Count == 0 ? null : charactersInAttackDistance[0].Value;
 	}
 
 	bool IsCharacterInFronOfCharacter(Character who, Character from)
