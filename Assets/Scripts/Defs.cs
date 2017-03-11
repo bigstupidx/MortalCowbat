@@ -2,6 +2,12 @@
 
 public static class Defs
 {
+	public enum CharacterType
+	{
+		Player,
+		NPC
+	}
+
 	public static class Animations
 	{
 		public static string Walk = "walk";

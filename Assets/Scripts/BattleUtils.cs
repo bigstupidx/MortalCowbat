@@ -21,6 +21,11 @@ public static class BattleUtils
 		return charactersInRange;
 	}
 
+	public static bool IsPointInRange(Vector3 point, Vector3 from, float range)
+	{
+		return (point - from).sqrMagnitude < (range * range);
+	}
+
 	public static List<Character> SortCharactersByDistanceTo(List<Character> characters, Vector3 position)
 	{
 		var copy = new List<Character>(characters);

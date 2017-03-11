@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ui;
+using Ai;
+using UnityEditorInternal;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -40,6 +42,18 @@ public partial class GameManager : MonoBehaviour
 			characters[i].DeathAction = OnCharacterDeath;
 		}
 		player = characters.Count > 0 ? characters[0] : null;
+	
+
+		AiStateMachineContext aiContext = null;
+		for (int i = 0; i < characters.Count; ++i) {
+			var aiStateMachine = characters[i].GetComponent<AiStateMachine>();
+			if (aiStateMachine != null) {
+				if (aiContext == null) {
+					aiContext = new AiStateMachineContext() { Characters = characters };
+				}
+				aiStateMachine.Init(aiContext);
+			}
+		}
 	}
 
 

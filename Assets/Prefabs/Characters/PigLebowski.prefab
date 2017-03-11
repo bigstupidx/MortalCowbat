@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114844989902213830}
   - component: {fileID: 114753656847734008}
   - component: {fileID: 114600560532852356}
+  - component: {fileID: 114759696856425784}
   m_Layer: 0
   m_Name: PigLebowski
   m_TagString: Untagged
@@ -319,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddb6e3a3ab41406d94188943f70ef7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovingSpeed: 0.3
+  MovingSpeed: 0.2
   Health: 100
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114753656847734008
@@ -340,6 +341,19 @@ MonoBehaviour:
   attack: 32
   specialAttack: 120
   character: {fileID: 114844989902213830}
+--- !u!114 &114759696856425784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569f7d8bf65cc400dab813f3afd25151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 114844989902213830}
+  DetectionRange: 500
 --- !u!114 &114844989902213830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,6 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec18f56555a4481f92d56e199973695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 1
   specialAttack: {fileID: 114962683884621062}
   baseAttack: {fileID: 114565483941095976}
   audioSource: {fileID: 82604774091576890}

@@ -35,4 +35,5 @@ public class Attack : MonoBehaviour
 
 	[SerializeField]
 	List<EffectDescriptor> effects;
+
 }

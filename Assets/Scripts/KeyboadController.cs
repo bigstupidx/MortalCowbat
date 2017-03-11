@@ -49,7 +49,7 @@ public class KeyboadController : MonoBehaviour
 			character.Attack();
 		}
 		else if (Input.GetKeyDown(specialAttack)) {
-			character.SpecialAttack();
+			character.PerformSpecialAttack();
 		}
 	}
 }

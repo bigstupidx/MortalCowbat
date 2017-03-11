@@ -8,6 +8,9 @@ public partial class Character : MonoBehaviour
 	public Action<float, float> HealthChangedAction;
 	public Action<Character> DeathAction;
 
+	public Defs.CharacterType Type;
+	public Attack BasicAttack { get { return baseAttack; }}
+	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
 	public Defs.HDirection HDirection { get { return hDirection; }}
 	public Vector3 Position { get { return transform.position; }}
@@ -41,6 +44,7 @@ public partial class Character : MonoBehaviour
 	bool specialAttacking;
 	int actualHealth;
 
+	Defs.State currentState;
 
 	public void Init(CharacterContext context)
 	{
@@ -48,6 +52,29 @@ public partial class Character : MonoBehaviour
 		SetState(Defs.State.Idle);
 		SetHealth(settings.Health);
 	}
+
+	public void Move(Vector2 dir)
+	{
+		SetState(Defs.State.Moving);
+		SetHorizontalDirection(dir.x > 0 ? Defs.HDirection.Right : Defs.HDirection.Left);
+		SetHorizontalSpeed(Math.Abs(dir.x) * settings.MovingSpeed);
+
+		SetVerticalDirection(dir.y > 0 ? Defs.VDirection.Up : Defs.VDirection.Down);
+		SetVerticalSpeed(Math.Abs(dir.y) * settings.MovingSpeed);
+	}
+
+	public void StopMoving()
+	{
+		SetHorizontalSpeed(0);
+		SetVerticalSpeed(0);
+		SetState(Defs.State.Idle);
+	}
+
+	public void FaceTo(Vector3 pos)
+	{
+		SetHorizontalDirection(pos.x > Position.x ? Defs.HDirection.Right : Defs.HDirection.Left);
+	}
+
 
 	public void MoveHorizontally(Defs.HDirection dir)
 	{
@@ -92,7 +119,14 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	public void SpecialAttack()
+	public void Idle()
+	{
+		StopMoving();
+		SetState(Defs.State.Idle);
+	}
+
+
+	public void PerformSpecialAttack()
 	{
 		if (CanAttack()) {
 			specialAttacking = true;
@@ -116,6 +150,13 @@ public partial class Character : MonoBehaviour
 		SetHealth(actualHealth - attack.AttackPoints);
 	}
 
+
+	public float GetBasicAttackRange()
+	{
+		var circleColl =  baseAttack.Colliders.Find(x=> x is CircleCollider2D) as CircleCollider2D;
+		return circleColl.radius + circleColl.offset.magnitude;
+	}
+
 	void SetHorizontalDirection(Defs.HDirection dir)
 	{
 		//spriteRen.flipX = dir == Defs.HDirection.Left;
@@ -130,12 +171,15 @@ public partial class Character : MonoBehaviour
 
 	void SetState(Defs.State state)
 	{
-		if (state == Defs.State.Idle) {
-			PlayAnimation(Defs.Animations.Idle);
+		if (currentState != state) {
+			if (state == Defs.State.Idle) {
+				PlayAnimation(Defs.Animations.Idle);
+			}
+			else if (state == Defs.State.Moving) {
+				PlayAnimation(Defs.Animations.Walk);
+			}
 		}
-		else if (state == Defs.State.Moving) {
-			PlayAnimation(Defs.Animations.Walk);
-		}
+		currentState = state;
 	}
 
 	void SetHorizontalSpeed(float speed)
@@ -165,6 +209,8 @@ public partial class Character : MonoBehaviour
 			speed.x * (int)hDirection, 
 			speed.y * (int)vDirection, 
 			0) * settings.MovingSpeed;
+
+		UpdateSortingOrder();
 	}
 
 	void AnimationEvent(string name)
@@ -208,17 +254,17 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	bool CanAttack()
+	public bool CanAttack()
 	{
 		return !IsAttacking() && !IsDying();
 	}
 
-	bool CanMove()
+	public bool CanMove()
 	{
 		return !IsDying() && !specialAttacking;
 	}
 
-	bool IsAttacking()
+	public bool IsAttacking()
 	{
 		return specialAttacking || attacking;
 	}
@@ -226,6 +272,17 @@ public partial class Character : MonoBehaviour
 	bool IsDying()
 	{
 		return dying;
+	}
+
+	void UpdateSortingOrder()
+	{
+		const float maxY = 10;
+		const float minY = -10;
+		const int minSortingOrder = 10;
+		const int maxSortingOrder = 100;
+
+		float c = (Position.y - minY) / (maxY - minY);
+		spriteRen.sortingOrder = minSortingOrder + (int)((maxSortingOrder - minSortingOrder) * (1 - c));
 	}
 
 }
