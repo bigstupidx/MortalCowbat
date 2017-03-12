@@ -39,7 +39,6 @@ public partial class Character : MonoBehaviour
 	Defs.HDirection hDirection;
 	Defs.VDirection vDirection;
 
-	Vector2 yMoveLimits;
 	Vector3 speed;
 	bool attacking;
 	bool dying;
@@ -48,10 +47,9 @@ public partial class Character : MonoBehaviour
 
 	Defs.State currentState;
 
-	public void Init(CharacterContext context, Vector2 yMoveLimits)
+	public void Init(CharacterContext context)
 	{
 		this.context = context;
-		this.yMoveLimits = yMoveLimits;
 		SetState(Defs.State.Idle);
 		SetHealth(settings.Health);
 	}
@@ -302,7 +300,8 @@ public partial class Character : MonoBehaviour
 	void TrimPositionToLimits()
 	{
 		var pos = transform.position;
-		pos.y = Math.Max(Math.Min(yMoveLimits.y, pos.y), yMoveLimits.x);
+		pos.y = Math.Max(Math.Min(context.Limits.YMax, pos.y), context.Limits.YMin);
+		pos.x = Math.Max(Math.Min(context.Limits.XMax, pos.x), context.Limits.XMin);
 		transform.position = pos;
 	}
 

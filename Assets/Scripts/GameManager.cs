@@ -23,6 +23,7 @@ public partial class GameManager : MonoBehaviour
 
 	CharacterContext characterContext;
 	AiStateMachineContext aiContext;
+	Limits limits;
 
 	public void Awake()
 	{
@@ -38,9 +39,16 @@ public partial class GameManager : MonoBehaviour
 
 	void Initialize()
 	{
+		limits = new Limits() { 
+			XMin = Camera.main.transform.position.x - (Camera.main.orthographicSize * 2 * Camera.main.aspect) * 0.5f,
+			XMax = Camera.main.transform.position.x + (Camera.main.orthographicSize * 2 * Camera.main.aspect) * 0.5f,
+			YMin = levelFrame.GetMinY(),
+			YMax = levelFrame.GetMaxY()
+		};
+
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
 		npcGenerator.Init(levelFrame);
-		characterContext = new CharacterContext(effectManager);
+		characterContext = CreateCharacterContext();
 		aiContext = new AiStateMachineContext() { Characters = Characters };
 	}
 
@@ -58,7 +66,7 @@ public partial class GameManager : MonoBehaviour
 			SetNpcStateMachine(character, aiContext);
 		}
 	
-		character.Init(characterContext, new Vector2(levelFrame.GetMinY(), levelFrame.GetMaxY()));
+		character.Init(characterContext);
 		character.AttackAction = OnCharacterAttack;
 		character.SpecialAttackAction = OnCharacterSpecialAttack;
 		character.DeathAction = OnCharacterDeath;
@@ -111,7 +119,7 @@ public partial class GameManager : MonoBehaviour
 
 	public CharacterContext CreateCharacterContext()
 	{
-		return new CharacterContext(effectManager);
+		return new CharacterContext(effectManager, limits);
 	}
 
 
