@@ -7,6 +7,11 @@ namespace Ai
 {
 	public class AiStateMachine : MonoBehaviour
 	{
+		public AiSettings Settings { get { return settings; }}
+
+		[SerializeField]
+		AiSettings settings;
+
 		[SerializeField]
 		Character character;
 

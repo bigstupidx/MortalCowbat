@@ -13,7 +13,7 @@ namespace Ai
 		public AttackState(AiStateContext context)
 		{
 			this.context = context;
-			nextAttack = Time.time + 0.5f;
+			nextAttack = Time.time + context.Sm.Settings.FirstAttackDelay;
 		}
 
 		public void Update()
@@ -24,7 +24,7 @@ namespace Ai
 				if (targets.Count > 0) {
 					context.Character.FaceTo(targets[0].Position);
 					context.Character.Attack();
-					nextAttack = Time.time + 2.0f;
+					nextAttack = Time.time + context.Sm.Settings.AttackInterval;
 				} else {
 					context.Sm.SetState(new ChasingState(context));
 				}
