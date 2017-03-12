@@ -22,6 +22,7 @@ public static class Defs
 	public static class Events
 	{
 		public const string SpecialAttackFinished = "specialattackfinished";
+		public const string SpecialAttackHit = "specialattackhit";
 		public const string AttackFinished = "attackfinished";
 		public const string DieFinished = "dieFinished";
 	}

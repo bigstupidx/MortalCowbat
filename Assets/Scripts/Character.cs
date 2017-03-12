@@ -137,7 +137,7 @@ public partial class Character : MonoBehaviour
 			StopMovingHorizontally();
 			PlayAnimation(Defs.Animations.SpecialAttack);
 			StartAttack(specialAttack);
-			SpecialAttackAction(this, specialAttack);
+			//SpecialAttackAction(this, specialAttack);
 		}
 	}
 
@@ -237,6 +237,9 @@ public partial class Character : MonoBehaviour
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackFinished)) {
 			specialAttacking = false;
+		}
+		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
+			SpecialAttackAction(this, specialAttack);
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
