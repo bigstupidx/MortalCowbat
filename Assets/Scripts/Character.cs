@@ -39,6 +39,7 @@ public partial class Character : MonoBehaviour
 	Defs.HDirection hDirection;
 	Defs.VDirection vDirection;
 
+	Vector2 yMoveLimits;
 	Vector3 speed;
 	bool attacking;
 	bool dying;
@@ -47,9 +48,10 @@ public partial class Character : MonoBehaviour
 
 	Defs.State currentState;
 
-	public void Init(CharacterContext context)
+	public void Init(CharacterContext context, Vector2 yMoveLimits)
 	{
 		this.context = context;
+		this.yMoveLimits = yMoveLimits;
 		SetState(Defs.State.Idle);
 		SetHealth(settings.Health);
 	}
@@ -154,6 +156,7 @@ public partial class Character : MonoBehaviour
 			PlayAnimation(Defs.Animations.Hit);
 		} else {
 			dying = true;
+			StopMoving();
 			PlayAnimation(Defs.Animations.Die);
 			Destroy(GetComponent<AiStateMachine>());
 			if (DeathAction != null) {
@@ -221,6 +224,8 @@ public partial class Character : MonoBehaviour
 			speed.x * (int)hDirection, 
 			speed.y * (int)vDirection, 
 			0) * settings.MovingSpeed;
+
+		TrimPositionToLimits();
 
 		UpdateSortingOrder();
 	}
@@ -290,5 +295,13 @@ public partial class Character : MonoBehaviour
 		float c = (Position.y - minY) / (maxY - minY);
 		spriteRen.sortingOrder = minSortingOrder + (int)((maxSortingOrder - minSortingOrder) * (1 - c));
 	}
+
+	void TrimPositionToLimits()
+	{
+		var pos = transform.position;
+		pos.y = Math.Max(Math.Min(yMoveLimits.y, pos.y), yMoveLimits.x);
+		transform.position = pos;
+	}
+
 
 }

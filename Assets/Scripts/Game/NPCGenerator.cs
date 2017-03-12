@@ -13,12 +13,17 @@ public class NPCGenerator : MonoBehaviour
 
 	float generateTime = 0;
 	float startTime;
+	LevelFrame levelFrame;
 
 	void Awake()
 	{
 		startTime = Time.time;
 	}
 
+	public void Init(LevelFrame levelFrame)
+	{
+		this.levelFrame = levelFrame;
+	}
 
 	void Update()
 	{
@@ -49,8 +54,10 @@ public class NPCGenerator : MonoBehaviour
 		float camWidh = Camera.main.aspect * camHeight;
 
 		float rndY = UnityEngine.Random.Range(
-			Camera.main.transform.position.y - camHeight * 0.5f, 
-			Camera.main.transform.position.y + camHeight * 0.5f);
+			levelFrame.GetMinY(),
+			levelFrame.GetMaxY());
+			//Camera.main.transform.position.y - camHeight * 0.5f, 
+			//Camera.main.transform.position.y + camHeight * 0.5f);
 		float rndX = Camera.main.transform.position.x + camWidh * (UnityEngine.Random.Range(0,2) == 0 ? -1 : 1);
 		return new Vector3(rndX, rndY, 0);
 	}

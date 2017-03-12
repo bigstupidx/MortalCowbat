@@ -15,6 +15,9 @@ public partial class GameManager : MonoBehaviour
 	[SerializeField]
 	InGameUiRoot ui;
 
+	[SerializeField]
+	LevelFrame levelFrame;
+
 	List<Character> characters;
 	Character player;
 
@@ -36,6 +39,7 @@ public partial class GameManager : MonoBehaviour
 	void Initialize()
 	{
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
+		npcGenerator.Init(levelFrame);
 		characterContext = new CharacterContext(effectManager);
 		aiContext = new AiStateMachineContext() { Characters = Characters };
 	}
@@ -54,7 +58,7 @@ public partial class GameManager : MonoBehaviour
 			SetNpcStateMachine(character, aiContext);
 		}
 	
-		character.Init(characterContext);
+		character.Init(characterContext, new Vector2(levelFrame.GetMinY(), levelFrame.GetMaxY()));
 		character.AttackAction = OnCharacterAttack;
 		character.SpecialAttackAction = OnCharacterSpecialAttack;
 		character.DeathAction = OnCharacterDeath;
