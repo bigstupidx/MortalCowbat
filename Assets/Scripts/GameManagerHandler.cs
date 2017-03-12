@@ -18,4 +18,9 @@ public partial class GameManager
 	{
 		characters.Remove(character);
 	}
+
+	void OnCharacterGenerate(Character character) {
+		characters.Add(character);
+		InitializeCharacter(character);
+	}
 }

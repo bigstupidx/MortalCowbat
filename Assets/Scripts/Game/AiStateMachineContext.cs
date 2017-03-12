@@ -5,7 +5,7 @@ namespace Ai
 {
 	public class AiStateMachineContext
 	{
-		public List<Character> Characters;
+		public Func<List<Character>> Characters;
 	}
 }
 

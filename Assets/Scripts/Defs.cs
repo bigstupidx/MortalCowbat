@@ -16,6 +16,7 @@ public static class Defs
 		public static string SpecialAttack = "specialattack";
 		public static string Play = "play";
 		public static string Die = "die";
+		public static string Hit = "hit";
 	}
 
 	public static class Events

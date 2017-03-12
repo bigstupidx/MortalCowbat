@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114600560532852356}
   - component: {fileID: 114759696856425784}
   m_Layer: 0
-  m_Name: PigLebowski
+  m_Name: PigLebowskiNPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovingSpeed: 0.2
-  Health: 100
+  Health: 10
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114753656847734008
 MonoBehaviour:
@@ -329,7 +329,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1493431373868202}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa0ad13757834474482b1476f5150329, type: 3}
   m_Name: 

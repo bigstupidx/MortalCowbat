@@ -9,6 +9,14 @@ public class EffectManager : MonoBehaviour
 		effectGo.transform.SetParent(container);
 		effectGo.transform.localPosition = Vector3.zero;
 		effectGo.transform.localScale = Vector3.one;
+
+		int offset = 0;
+		var sprRen = Utils.FindParentComponent<SpriteRenderer>(container.gameObject);
+		if (sprRen != null) {
+			offset = sprRen.sortingOrder + 1;
+		}
+		Utils.OffsetSortingOrder(effectGo, offset);
+
 		return effectGo.GetComponent<Effect>();
 	}
 }

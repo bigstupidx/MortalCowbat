@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Ui;
 using Ai;
-using UnityEditorInternal;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -11,51 +10,72 @@ public partial class GameManager : MonoBehaviour
 	EffectManager effectManager;
 
 	[SerializeField]
+	NPCGenerator npcGenerator;
+
+	[SerializeField]
 	InGameUiRoot ui;
 
 	List<Character> characters;
 	Character player;
 
+	CharacterContext characterContext;
+	AiStateMachineContext aiContext;
+
 	public void Awake()
 	{
+		Initialize();
 		GatherCharacters();
 		InitializeCharacters();
 	}
 
+	public List<Character> Characters()
+	{
+		return characters;
+	}
+
+	void Initialize()
+	{
+		npcGenerator.CharacterGenerated += OnCharacterGenerate;
+		characterContext = new CharacterContext(effectManager);
+		aiContext = new AiStateMachineContext() { Characters = Characters };
+	}
 
 	void GatherCharacters()
 	{
 		characters = GameObject.FindObjectsOfType<Character>().ToList();
 	}
 
-	void InitializeCharacters()
+	void InitializeCharacter(Character character)
 	{
-		var characterContext = CreateCharacterContext();
-		for (int i = 0; i < characters.Count; ++i) {
-			if (i == 0) {
-				player = characters[i];
-				player.HealthChangedAction += ui.OnPlayerHealthChanged;
-			};
-			characters[i].Init(characterContext);
-			characters[i].AttackAction = OnCharacterAttack;
-			characters[i].SpecialAttackAction = OnCharacterSpecialAttack;
-			characters[i].DeathAction = OnCharacterDeath;
+		if (character.Type == Defs.CharacterType.Player) {
+			player = character;
+			player.HealthChangedAction += ui.OnPlayerHealthChanged;
+		} else {
+			SetNpcStateMachine(character, aiContext);
 		}
-		player = characters.Count > 0 ? characters[0] : null;
 	
-
-		AiStateMachineContext aiContext = null;
-		for (int i = 0; i < characters.Count; ++i) {
-			var aiStateMachine = characters[i].GetComponent<AiStateMachine>();
-			if (aiStateMachine != null) {
-				if (aiContext == null) {
-					aiContext = new AiStateMachineContext() { Characters = characters };
-				}
-				aiStateMachine.Init(aiContext);
-			}
-		}
+		character.Init(characterContext);
+		character.AttackAction = OnCharacterAttack;
+		character.SpecialAttackAction = OnCharacterSpecialAttack;
+		character.DeathAction = OnCharacterDeath;
 	}
 
+
+	void InitializeCharacters()
+	{
+		characters.ForEach(InitializeCharacter);
+	}
+
+	void SetNpcStateMachine(Character character, AiStateMachineContext aiContext)
+	{
+		var aiStateMachine = character.GetComponent<AiStateMachine>();
+		if (aiStateMachine != null) {
+			if (aiContext == null) {
+				aiContext = new AiStateMachineContext() { Characters = Characters };
+			}
+			aiStateMachine.Init(aiContext);
+		}
+	}
 
 	float GetCharactersSqrDistance(Character character1, Character character2) 
 	{
@@ -66,6 +86,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		var charactersInRange = BattleUtils.GetCharactersInRange(characters, attack.Colliders);
 		charactersInRange.Remove(attackingCharacter);
+		charactersInRange.RemoveAll(x=>x.Type == attackingCharacter.Type);
 		if (attack.Ranged) {
 			return charactersInRange;
 		} else {

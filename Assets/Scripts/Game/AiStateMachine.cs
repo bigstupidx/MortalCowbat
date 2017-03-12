@@ -46,7 +46,7 @@ namespace Ai
 
 		public List<Character> FindTargets(float range)
 		{
-			var players = context.Characters.FindAll(
+			var players = context.Characters().FindAll(
 				x=>x != character && 
 				x.Type == Defs.CharacterType.Player &&
 				BattleUtils.IsPointInRange(x.Position, character.Position, range)

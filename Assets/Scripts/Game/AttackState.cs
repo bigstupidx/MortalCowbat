@@ -13,6 +13,7 @@ namespace Ai
 		public AttackState(AiStateContext context)
 		{
 			this.context = context;
+			nextAttack = Time.time + 0.5f;
 		}
 
 		public void Update()

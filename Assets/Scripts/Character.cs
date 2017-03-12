@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Ai;
 
 public partial class Character : MonoBehaviour
 {
@@ -147,7 +148,18 @@ public partial class Character : MonoBehaviour
 		audioSource.clip = settings.HitSfx;
 		audioSource.Play();
 
-		SetHealth(actualHealth - attack.AttackPoints);
+		bool alive = SetHealth(actualHealth - attack.AttackPoints);
+	
+		if (alive) {
+			PlayAnimation(Defs.Animations.Hit);
+		} else {
+			dying = true;
+			PlayAnimation(Defs.Animations.Die);
+			Destroy(GetComponent<AiStateMachine>());
+			if (DeathAction != null) {
+				DeathAction(this);
+			}
+		}
 	}
 
 
@@ -222,9 +234,6 @@ public partial class Character : MonoBehaviour
 			specialAttacking = false;
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
-			if (DeathAction != null) {
-				DeathAction(this);
-			}
 			Destroy(gameObject);
 		}
 	}
@@ -241,17 +250,14 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	void SetHealth(int health)
+	bool SetHealth(int health)
 	{
 		actualHealth = Math.Max(0, health);
 		if (HealthChangedAction != null) {
 			HealthChangedAction(actualHealth, settings.Health);
 		}
 
-		if (actualHealth == 0) {
-			dying = true;
-			PlayAnimation(Defs.Animations.Die);
-		}
+		return actualHealth > 0;
 	}
 
 	public bool CanAttack()

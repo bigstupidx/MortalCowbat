@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 114753656847734008}
   - component: {fileID: 114669130076354188}
   m_Layer: 0
-  m_Name: PigLebowskiP2
+  m_Name: PigLebowskiPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
