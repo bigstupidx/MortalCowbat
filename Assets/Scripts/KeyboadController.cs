@@ -23,6 +23,10 @@ public class KeyboadController : MonoBehaviour
 	KeyCode specialAttack;
 
 	[SerializeField]
+	KeyCode jump;
+
+
+	[SerializeField]
 	Character character;
 
 	void Update()
@@ -47,6 +51,9 @@ public class KeyboadController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(attack)) {
 			character.Attack();
+		}
+		if (Input.GetKeyDown(jump)) {
+			character.Jump();
 		}
 		else if (Input.GetKeyDown(specialAttack)) {
 			character.PerformSpecialAttack();

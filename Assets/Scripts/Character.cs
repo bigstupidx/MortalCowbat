@@ -120,6 +120,11 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
+	public void Jump ()
+	{
+		PlayAnimation(Defs.Animations.Jump);
+	}
+
 	public void Idle()
 	{
 		StopMoving();
@@ -252,7 +257,7 @@ public partial class Character : MonoBehaviour
 		for (int i = 0; i < attack.Effects.Count; ++i) {
 			context.EffectManager.CreateEffect(
 				attack.Effects[i].Effect.gameObject, 
-				transform.Find(attack.Effects[i].Container));
+				transform.Find("Root/" + attack.Effects[i].Container));
 		}
 	}
 
