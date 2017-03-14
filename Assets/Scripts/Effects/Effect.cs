@@ -8,13 +8,10 @@ public class Effect : MonoBehaviour
 	[SerializeField]
 	Animator animator;
 
-	void Awake()
-	{
-		//animator.SetTrigger(Defs.Animations.Play);
-	}
+	public virtual void Run(GameObject go)
+	{}
 
-
-	void OnEvent(string name)
+	protected void OnEvent(string name)
 	{
 		if (name.Equals("finished")) {
 			if (FinishAction != null) {

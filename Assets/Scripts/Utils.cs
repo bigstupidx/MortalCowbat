@@ -27,5 +27,11 @@ public static class Utils
 	{
 		return go.GetComponentsInChildren<SpriteRenderer>(true).Max(x=> x.sortingOrder);
 	}
+
+	public static void SetColor(GameObject go, Color color)
+	{
+		var renderers = go.GetComponentsInChildren<SpriteRenderer>(true);
+		Array.ForEach(renderers, x=>x.color = color);
+	}
 }
 

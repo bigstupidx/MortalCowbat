@@ -400,6 +400,7 @@ MonoBehaviour:
   Type: 1
   specialAttack: {fileID: 114962683884621062}
   baseAttack: {fileID: 114565483941095976}
+  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
   audioSource: {fileID: 82604774091576890}
   settings: {fileID: 114600560532852356}
   spriteRen: {fileID: 212621288551795596}

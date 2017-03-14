@@ -23,6 +23,9 @@ public partial class Character : MonoBehaviour
 	Attack baseAttack;
 
 	[SerializeField]
+	HitBlink hitBlink;
+
+	[SerializeField]
 	AudioSource audioSource;
 
 	[SerializeField]
@@ -152,6 +155,8 @@ public partial class Character : MonoBehaviour
 		}
 		audioSource.clip = settings.HitSfx;
 		audioSource.Play();
+
+		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
 		bool alive = SetHealth(actualHealth - attack.AttackPoints);
 	
