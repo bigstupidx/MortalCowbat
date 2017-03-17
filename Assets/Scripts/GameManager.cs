@@ -47,6 +47,8 @@ public partial class GameManager : MonoBehaviour
 		};
 
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
+		npcGenerator.NextWaveAction += ui.OnWave;
+		npcGenerator.NPCLeftChagedAction += ui.OnLeft;
 		npcGenerator.Init(levelFrame);
 		characterContext = CreateCharacterContext();
 		aiContext = new AiStateMachineContext() { Characters = Characters };
@@ -104,7 +106,11 @@ public partial class GameManager : MonoBehaviour
 		} else {
 			return charactersInRange.Count == 0 ? 
 				new List<Character>() : 
-				new List<Character>() { BattleUtils.SortCharactersByDistanceTo(charactersInRange, attackingCharacter.Position)[0]};
+				new List<Character>() { 
+					BattleUtils.SortCharactersByDistanceTo(
+					charactersInRange,
+					attackingCharacter.Position)[0]
+			};
 		}
 	}
 

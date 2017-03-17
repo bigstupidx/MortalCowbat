@@ -2,18 +2,29 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public class NPCGenerator : MonoBehaviour
 {
+	public Action<int, int>  NextWaveAction;
+	public Action<int> NPCLeftChagedAction;
+
+
 	public Action<Character> CharacterGenerated;
 	public AnimationCurve spawnCurve;
 
 	[SerializeField]
-	List<GameObject> NpcPrefabs;
+	WaveSettings waves;
 
+	[SerializeField]
+	List<GameObject> NpcPrefabs;
 
 	float generateTime = 0;
 	float startTime;
 	LevelFrame levelFrame;
+
+	int generatedNPCCount;
+	int killedNPCs;
+	int waveIndex;
 
 	void Awake()
 	{
@@ -23,6 +34,21 @@ public class NPCGenerator : MonoBehaviour
 	public void Init(LevelFrame levelFrame)
 	{
 		this.levelFrame = levelFrame;
+
+		NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
+		NPCLeftChagedAction(GetEnemiesLeft());
+	}
+
+	public void OnNPCDeath()
+	{
+		killedNPCs++;
+		if (killedNPCs == waves.EnemiesInWave[waveIndex]) {
+			killedNPCs = 0;
+			generatedNPCCount = 0;
+			waveIndex++;
+			NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
+		}
+		NPCLeftChagedAction(GetEnemiesLeft());
 	}
 
 	void Update()
@@ -31,20 +57,23 @@ public class NPCGenerator : MonoBehaviour
 			GenerateRandomNPC();
 
 			float delay = GetSpawnDelay(Time.time - startTime);
-			Debug.Log(delay);
 			generateTime = Time.time + delay;
 		}	
 	}
 
 	void GenerateRandomNPC()
 	{
-		var prefab = NpcPrefabs[UnityEngine.Random.Range(0, NpcPrefabs.Count)];
-		var npc = Instantiate(prefab);
+		if (generatedNPCCount < waves.EnemiesInWave[waveIndex]) {
+			var prefab = NpcPrefabs[UnityEngine.Random.Range(0, NpcPrefabs.Count)];
+			var npc = Instantiate(prefab);
 
-		npc.transform.position = GetRandomPositionOutsideScreen();
+			npc.transform.position = GetRandomPositionOutsideScreen();
 
-		if (CharacterGenerated != null) {
-			CharacterGenerated(npc.GetComponent<Character>());
+			if (CharacterGenerated != null) {
+				CharacterGenerated(npc.GetComponent<Character>());
+			}
+
+			generatedNPCCount++;
 		}
 	}
 
@@ -56,8 +85,6 @@ public class NPCGenerator : MonoBehaviour
 		float rndY = UnityEngine.Random.Range(
 			levelFrame.GetMinY(),
 			levelFrame.GetMaxY());
-			//Camera.main.transform.position.y - camHeight * 0.5f, 
-			//Camera.main.transform.position.y + camHeight * 0.5f);
 		float rndX = Camera.main.transform.position.x + camWidh * (UnityEngine.Random.Range(0,2) == 0 ? -1 : 1);
 		return new Vector3(rndX, rndY, 0);
 	}
@@ -67,5 +94,9 @@ public class NPCGenerator : MonoBehaviour
 		return spawnCurve.Evaluate(Time.time - startTime);
 	}
 
+	int GetEnemiesLeft()
+	{
+		return waves.EnemiesInWave[waveIndex] - killedNPCs;
+	}
 }
 

@@ -17,6 +17,10 @@ public partial class GameManager
 	void OnCharacterDeath(Character character)
 	{
 		characters.Remove(character);
+	
+		if (character.Type == Defs.CharacterType.NPC) {
+			npcGenerator.OnNPCDeath();
+		}
 	}
 
 	void OnCharacterGenerate(Character character) {

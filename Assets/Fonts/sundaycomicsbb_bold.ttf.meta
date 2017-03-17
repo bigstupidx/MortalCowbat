@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 4d4d03b5a60354cb3a762aff9a6f0266
+timeCreated: 1489555077
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: SundayComics BB
+  fontNames:
+  - SundayComics BB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
