@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Ui;
 using Ai;
+using Vis;
 
 public partial class GameManager : MonoBehaviour
 {
+	[SerializeField]
+	InGameCamera gameCamera;
+
 	[SerializeField]
 	EffectManager effectManager;
 
@@ -40,8 +44,8 @@ public partial class GameManager : MonoBehaviour
 	void Initialize()
 	{
 		limits = new Limits() { 
-			XMin = Camera.main.transform.position.x - (Camera.main.orthographicSize * 2 * Camera.main.aspect) * 0.5f,
-			XMax = Camera.main.transform.position.x + (Camera.main.orthographicSize * 2 * Camera.main.aspect) * 0.5f,
+			XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
+			XMax = gameCamera.GetPosition().x + gameCamera.GetWidth() * 0.5f,
 			YMin = levelFrame.GetMinY(),
 			YMax = levelFrame.GetMaxY()
 		};
@@ -123,10 +127,9 @@ public partial class GameManager : MonoBehaviour
 		}
 	}
 
-	public CharacterContext CreateCharacterContext()
+	CharacterContext CreateCharacterContext()
 	{
 		return new CharacterContext(effectManager, limits);
 	}
-
 
 }
