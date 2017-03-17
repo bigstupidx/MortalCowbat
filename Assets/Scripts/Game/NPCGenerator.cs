@@ -1,16 +1,21 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Vis;
 
 
-public class NPCGenerator : MonoBehaviour
+public class NPCGenerator : MonoBehaviour, IResetable
 {
 	public Action<int, int>  NextWaveAction;
 	public Action<int> NPCLeftChagedAction;
-
-
 	public Action<Character> CharacterGenerated;
 	public AnimationCurve spawnCurve;
+
+	public class Context
+	{
+		public LevelFrame LevelFrame;
+		public InGameCamera GameCamera;
+	}
 
 	[SerializeField]
 	WaveSettings waves;
@@ -20,24 +25,33 @@ public class NPCGenerator : MonoBehaviour
 
 	float generateTime = 0;
 	float startTime;
-	LevelFrame levelFrame;
 
 	int generatedNPCCount;
 	int killedNPCs;
 	int waveIndex;
 
-	void Awake()
-	{
-		startTime = Time.time;
-	}
+	Context context;
 
-	public void Init(LevelFrame levelFrame)
+	public void Init(Context context)
 	{
-		this.levelFrame = levelFrame;
+		this.context = context;
 
 		NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
 		NPCLeftChagedAction(GetEnemiesLeft());
 	}
+
+
+	#region IResetable implementation
+	public void Reset ()
+	{
+		waveIndex = 0;
+		generateTime = 0;
+		killedNPCs = 0;
+		generatedNPCCount = 0;
+		startTime = 0;
+	}
+	#endregion
+
 
 	public void OnNPCDeath()
 	{
@@ -79,13 +93,12 @@ public class NPCGenerator : MonoBehaviour
 
 	Vector3 GetRandomPositionOutsideScreen()
 	{
-		float camHeight = Camera.main.orthographicSize * 2;
-		float camWidh = Camera.main.aspect * camHeight;
+		float camWidh = context.GameCamera.GetWidth();
 
 		float rndY = UnityEngine.Random.Range(
-			levelFrame.GetMinY(),
-			levelFrame.GetMaxY());
-		float rndX = Camera.main.transform.position.x + camWidh * (UnityEngine.Random.Range(0,2) == 0 ? -1 : 1);
+			context.LevelFrame.GetMinY(),
+			context.LevelFrame.GetMaxY());
+		float rndX = context.GameCamera.GetPosition().x + camWidh * (Utils.GetRandomBool() ? -1 : 1);
 		return new Vector3(rndX, rndY, 0);
 	}
 

@@ -27,4 +27,9 @@ public partial class GameManager
 		characters.Add(character);
 		InitializeCharacter(character);
 	}
+
+	void OnLastWaveCompleted()
+	{
+		
+	}
 }

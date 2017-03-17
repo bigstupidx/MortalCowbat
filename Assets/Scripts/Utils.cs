@@ -33,5 +33,11 @@ public static class Utils
 		var renderers = go.GetComponentsInChildren<SpriteRenderer>(true);
 		Array.ForEach(renderers, x=>x.color = color);
 	}
+
+
+	public static bool GetRandomBool()
+	{
+		return UnityEngine.Random.Range(0,2) == 0;
+	}
 }
 

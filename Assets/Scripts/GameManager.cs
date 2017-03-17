@@ -53,9 +53,14 @@ public partial class GameManager : MonoBehaviour
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
 		npcGenerator.NextWaveAction += ui.OnWave;
 		npcGenerator.NPCLeftChagedAction += ui.OnLeft;
-		npcGenerator.Init(levelFrame);
+		npcGenerator.Init(new NPCGenerator.Context {
+			LevelFrame = levelFrame,
+			GameCamera = gameCamera
+		});
 		characterContext = CreateCharacterContext();
-		aiContext = new AiStateMachineContext() { Characters = Characters };
+		aiContext = new AiStateMachineContext { 
+			Characters = Characters
+		};
 	}
 
 	void GatherCharacters()
