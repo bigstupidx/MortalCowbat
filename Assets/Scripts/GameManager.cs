@@ -4,9 +4,13 @@ using System.Linq;
 using Ui;
 using Ai;
 using Vis;
+using UnityEngine.VR.WSA.WebCam;
 
-public partial class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour, IResetable
 {
+	[SerializeField]
+	GameObject playerPrefab;
+
 	[SerializeField]
 	InGameCamera gameCamera;
 
@@ -23,13 +27,20 @@ public partial class GameManager : MonoBehaviour
 	LevelFrame levelFrame;
 
 	List<Character> characters;
-	Character player;
+	List<IResetable> resetables;
 
+	Character player;
 	CharacterContext characterContext;
 	AiStateMachineContext aiContext;
 	Limits limits;
 
-	public void Awake()
+	void Awake()
+	{
+		MainInit();
+	}
+
+
+	void MainInit()
 	{
 		Initialize();
 		GatherCharacters();
@@ -39,6 +50,21 @@ public partial class GameManager : MonoBehaviour
 	public List<Character> Characters()
 	{
 		return characters;
+	}
+
+	#region IResetable implementation
+	public void Reset()
+	{
+		characters.ForEach(x=>Destroy(x.gameObject));
+		characters.Clear();
+	}
+	#endregion
+
+	public void Restart()
+	{
+		resetables.ForEach(x=>x.Reset());	
+
+		MainInit();
 	}
 
 	void Initialize()
@@ -61,11 +87,17 @@ public partial class GameManager : MonoBehaviour
 		aiContext = new AiStateMachineContext { 
 			Characters = Characters
 		};
+
+		resetables = new List<IResetable>() {
+			npcGenerator,
+			this
+		};
 	}
 
 	void GatherCharacters()
 	{
-		characters = GameObject.FindObjectsOfType<Character>().ToList();
+		characters = new List<Character>();
+		characters.Add(PlacePlayer());
 	}
 
 	void InitializeCharacter(Character character)
@@ -135,6 +167,21 @@ public partial class GameManager : MonoBehaviour
 	CharacterContext CreateCharacterContext()
 	{
 		return new CharacterContext(effectManager, limits);
+	}
+
+
+	Character PlacePlayer()
+	{
+		var player = Instantiate(playerPrefab);
+		player.transform.position = Vector3.zero;
+		return player.GetComponent<Character>();
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Restart();
+		}
 	}
 
 }

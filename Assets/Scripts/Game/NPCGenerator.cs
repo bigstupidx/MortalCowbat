@@ -44,6 +44,9 @@ public class NPCGenerator : MonoBehaviour, IResetable
 	#region IResetable implementation
 	public void Reset ()
 	{
+		NextWaveAction = null;
+		NPCLeftChagedAction = null;
+		CharacterGenerated = null;
 		waveIndex = 0;
 		generateTime = 0;
 		killedNPCs = 0;

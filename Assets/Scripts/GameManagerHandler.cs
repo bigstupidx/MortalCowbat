@@ -20,6 +20,8 @@ public partial class GameManager
 	
 		if (character.Type == Defs.CharacterType.NPC) {
 			npcGenerator.OnNPCDeath();
+		} else {
+			Restart();
 		}
 	}
 
