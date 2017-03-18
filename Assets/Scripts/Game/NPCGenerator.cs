@@ -6,6 +6,7 @@ using Vis;
 
 public class NPCGenerator : MonoBehaviour, IResetable
 {
+	public Action AllWavesFinishedAction;
 	public Action<int, int>  NextWaveAction;
 	public Action<int> NPCLeftChagedAction;
 	public Action<Character> CharacterGenerated;
@@ -29,13 +30,14 @@ public class NPCGenerator : MonoBehaviour, IResetable
 	int generatedNPCCount;
 	int killedNPCs;
 	int waveIndex;
+	bool running;
 
 	Context context;
 
 	public void Init(Context context)
 	{
 		this.context = context;
-
+		running = true;
 		NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
 		NPCLeftChagedAction(GetEnemiesLeft());
 	}
@@ -44,6 +46,7 @@ public class NPCGenerator : MonoBehaviour, IResetable
 	#region IResetable implementation
 	public void Reset ()
 	{
+		AllWavesFinishedAction = null;
 		NextWaveAction = null;
 		NPCLeftChagedAction = null;
 		CharacterGenerated = null;
@@ -58,24 +61,33 @@ public class NPCGenerator : MonoBehaviour, IResetable
 
 	public void OnNPCDeath()
 	{
+		bool wavesFinished = false;
+
 		killedNPCs++;
 		if (killedNPCs == waves.EnemiesInWave[waveIndex]) {
 			killedNPCs = 0;
 			generatedNPCCount = 0;
 			waveIndex++;
 			NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
+			wavesFinished = waveIndex == waves.EnemiesInWave.Count;
 		}
-		NPCLeftChagedAction(GetEnemiesLeft());
+		if (wavesFinished) {
+			running = false;
+			AllWavesFinishedAction();
+		} else  {
+			NPCLeftChagedAction(GetEnemiesLeft());
+		}
 	}
 
 	void Update()
 	{
-		if (Time.time > generateTime) {
-			GenerateRandomNPC();
-
-			float delay = GetSpawnDelay(Time.time - startTime);
-			generateTime = Time.time + delay;
-		}	
+		if (running) {
+			if (Time.time > generateTime) {
+				GenerateRandomNPC();
+				float delay = GetSpawnDelay(Time.time - startTime);
+				generateTime = Time.time + delay;
+			}	
+		}
 	}
 
 	void GenerateRandomNPC()

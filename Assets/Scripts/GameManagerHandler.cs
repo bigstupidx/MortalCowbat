@@ -30,8 +30,8 @@ public partial class GameManager
 		InitializeCharacter(character);
 	}
 
-	void OnLastWaveCompleted()
+	void OnAllWavesFinished()
 	{
-		
+		StartCoroutine(SetNextLevel());
 	}
 }

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using Ui;
 using Ai;
 using Vis;
-using UnityEngine.VR.WSA.WebCam;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public partial class GameManager : MonoBehaviour, IResetable
 {
@@ -23,9 +23,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 	[SerializeField]
 	InGameUiRoot ui;
 
-	[SerializeField]
-	LevelFrame levelFrame;
-
 	List<Character> characters;
 	List<IResetable> resetables;
 
@@ -33,6 +30,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	CharacterContext characterContext;
 	AiStateMachineContext aiContext;
 	Limits limits;
+	LevelFrame levelFrame;
 
 	void Awake()
 	{
@@ -63,12 +61,21 @@ public partial class GameManager : MonoBehaviour, IResetable
 	public void Restart()
 	{
 		resetables.ForEach(x=>x.Reset());	
-
 		MainInit();
+	}
+
+	public IEnumerator SetNextLevel()
+	{
+		DestroyImmediate(GameObject.Find("Level").gameObject);
+		SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
+		yield return 0;
+		Restart();
 	}
 
 	void Initialize()
 	{
+		levelFrame = GameObject.FindObjectOfType<LevelFrame>();
+
 		limits = new Limits() { 
 			XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
 			XMax = gameCamera.GetPosition().x + gameCamera.GetWidth() * 0.5f,
@@ -79,6 +86,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
 		npcGenerator.NextWaveAction += ui.OnWave;
 		npcGenerator.NPCLeftChagedAction += ui.OnLeft;
+		npcGenerator.AllWavesFinishedAction += OnAllWavesFinished;
 		npcGenerator.Init(new NPCGenerator.Context {
 			LevelFrame = levelFrame,
 			GameCamera = gameCamera
@@ -176,12 +184,4 @@ public partial class GameManager : MonoBehaviour, IResetable
 		player.transform.position = Vector3.zero;
 		return player.GetComponent<Character>();
 	}
-
-	void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.R)) {
-			Restart();
-		}
-	}
-
 }
