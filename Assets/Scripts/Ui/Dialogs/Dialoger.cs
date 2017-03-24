@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Lib;
 
 namespace Ui
 {
@@ -28,14 +29,15 @@ namespace Ui
 				viewGo = Instantiate(rightSentencePrefab);
 			}
 			var view = viewGo.GetComponent<SentenceView>();
-			view.Init(sentence.Speaker, sentence.Title, sentence.Text);
+			var title = Root.Instance.Services.GetService<Localizations>().Get(sentence.Title);
+			var text = Root.Instance.Services.GetService<Localizations>().Get(sentence.Text);
+			view.Init(sentence.Speaker, title, text);
 			return view;
 		}
 
 
 		IEnumerator ShowDialog(Dialog dialog)
 		{
-
 			for (int i = 0; i < dialog.Sentences.Count; ++i) {
 				var sentence = dialog.Sentences[i];
 				var view = CreateSentenceView(sentence);

@@ -1,0 +1,8 @@
+STR_TONY
+Tony
+STR_TONY_DIALOG1
+Tony's dialog number 1
+STR_PIG_LEBOWSKI
+Pig Lebowski
+STR_PIG_LEBOWSKI_DIALOG1
+Pig Lebowski's dialog number 1
