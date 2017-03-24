@@ -55,10 +55,10 @@ MonoBehaviour:
   - Name: intro
     Sentences:
     - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
-      Title: Tony
-      Text: Tony's text
+      Title: STR_TONY
+      Text: STR_TONY_DIALOG1
       Position: right
     - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
-      Title: Pig Lebowski
-      Text: Pig's text
+      Title: STR_PIG_LEBOWSKI
+      Text: STR_PIG_LEBOWSKI_DIALOG1
       Position: left
