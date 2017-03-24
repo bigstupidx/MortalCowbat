@@ -34,15 +34,13 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	void Awake()
 	{
-		MainInit();
-
-		ui.Dialoger.ShowDialog("intro");;
-
+		StartCoroutine(MainInit());
 	}
 
-
-	void MainInit()
+	IEnumerator MainInit()
 	{
+		yield return StartCoroutine(ui.Dialoger.ShowDialog("intro"));
+
 		Initialize();
 		GatherCharacters();
 		InitializeCharacters();
@@ -64,7 +62,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	public void Restart()
 	{
 		resetables.ForEach(x=>x.Reset());	
-		MainInit();
+		StartCoroutine(MainInit());
 	}
 
 	public IEnumerator SetNextLevel()

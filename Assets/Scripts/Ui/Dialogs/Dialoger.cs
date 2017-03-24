@@ -11,11 +11,11 @@ namespace Ui
 		public GameObject leftSentencePrefab;
 		public GameObject rightSentencePrefab;
 
-		public void ShowDialog(string name)
+		public IEnumerator ShowDialog(string name)
 		{
 			var dialog = dialogDb.Dialogs.Find(x=>x.Name.Equals(name));		
 			if (dialog != null) {
-				StartCoroutine(ShowDialog(dialog));
+				yield return StartCoroutine(ShowDialog(dialog));
 			}
 		}
 
