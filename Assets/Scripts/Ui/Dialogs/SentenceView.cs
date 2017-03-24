@@ -9,13 +9,16 @@ namespace Ui
 		Image speaker;
 
 		[SerializeField]
-		Text sentence;
+		Text text;
 	
+		[SerializeField]
+		Text title;
 	
-		public void Init(Sprite speaker, string text)
+		public void Init(Sprite speaker, string title, string text)
 		{
 			this.speaker.sprite = speaker;
-			this.sentence.text = text;
+			this.title.text = title;
+			this.text.text = text;
 		}
 	}
 }

@@ -1,13 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Ui
 {
 	public class Dialoger : MonoBehaviour
 	{
 		public DialogDb dialogDb;
-		public GameObject sentenceViewPrefab;
+		public GameObject leftSentencePrefab;
+		public GameObject rightSentencePrefab;
 
 		public void ShowDialog(string name)
 		{
@@ -17,10 +18,18 @@ namespace Ui
 			}
 		}
 
-		SentenceView CreateSentenceView()
+		SentenceView CreateSentenceView(Dialog.Sentence sentence)
 		{
-			var viewGo = Instantiate(sentenceViewPrefab);
-			return viewGo.GetComponent<SentenceView>();
+			GameObject viewGo = null;
+
+			if (sentence.Position.Equals("left")) {
+				viewGo = Instantiate(leftSentencePrefab);
+			} else if (sentence.Position.Equals("right")) {
+				viewGo = Instantiate(rightSentencePrefab);
+			}
+			var view = viewGo.GetComponent<SentenceView>();
+			view.Init(sentence.Speaker, sentence.Title, sentence.Text);
+			return view;
 		}
 
 
@@ -28,9 +37,31 @@ namespace Ui
 		{
 
 			for (int i = 0; i < dialog.Sentences.Count; ++i) {
-				yield return 0;
+				var sentence = dialog.Sentences[i];
+				var view = CreateSentenceView(sentence);
+
+				var canvasTr = FindCanvasTransform();
+				view.transform.SetParent(canvasTr);
+				view.transform.SetAsLastSibling();
+				view.transform.localPosition = Vector3.zero;
+
+				while (true) {
+					if (Input.anyKeyDown || Input.GetMouseButtonDown(0)) {
+						yield return 0;
+						break;						
+					}
+					yield return 0;
+				}
+					
+				Destroy(view.gameObject);
 			}
 		}
+
+		Transform FindCanvasTransform()
+		{
+			return GameObject.FindObjectOfType<Canvas>().transform;
+		}
+
 	}
 }
 

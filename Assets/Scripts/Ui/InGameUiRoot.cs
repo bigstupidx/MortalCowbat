@@ -4,11 +4,16 @@ namespace Ui
 {
 	public class InGameUiRoot : MonoBehaviour
 	{
+		public Dialoger Dialoger { get { return dialoger; }}
+
 		[SerializeField]
 		InGamePlayerHealthBar playerHealthbar;
 
 		[SerializeField]
 		Wave wave;
+
+		[SerializeField]
+		Dialoger dialoger;
 
 		public void OnPlayerHealthChanged(float actual, float maxHealth)
 		{

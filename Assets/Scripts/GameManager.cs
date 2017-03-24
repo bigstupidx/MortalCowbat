@@ -35,6 +35,9 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void Awake()
 	{
 		MainInit();
+
+		ui.Dialoger.ShowDialog("intro");;
+
 	}
 
 
