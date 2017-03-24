@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddb6e3a3ab41406d94188943f70ef7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovingSpeed: 0.3
+  MovingSpeed: 3
   Health: 100
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114753656847734008
@@ -416,8 +416,10 @@ MonoBehaviour:
   right: 275
   up: 273
   down: 274
-  attack: 112
-  specialAttack: 109
+  attack: 97
+  specialAttack: 115
+  fastAtack01: 100
+  fastAtack02: 102
   jump: 32
   character: {fileID: 114844989902213830}
 --- !u!114 &114844989902213830

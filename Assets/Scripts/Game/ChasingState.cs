@@ -27,7 +27,7 @@ namespace Ai
 				var dstPosition = chasedCharacter.Position;
 				var direction = (dstPosition - context.Character.Position);
 				var normDir = direction.normalized;
-				context.Character.Move(normDir);
+				context.Character.AiMove(normDir);
 
 				var sqrDist = (context.Character.Position - chasedCharacter.Position).sqrMagnitude;
 
@@ -35,11 +35,11 @@ namespace Ai
 				sqrRangeDist *= 2;
 
 				if (sqrDist < sqrRangeDist) {
-					context.Character.StopMoving();
+					context.Character.Stop();
 					context.Sm.SetState(new AttackState(context));
 				}
 			}else {
-				context.Character.StopMoving();				
+				context.Character.Stop();				
 			}
 		}
 	}

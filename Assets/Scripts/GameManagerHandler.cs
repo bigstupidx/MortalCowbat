@@ -5,13 +5,13 @@ public partial class GameManager
 	void OnCharacterAttack(Character attackingCharacter, Attack attack)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.HDirection));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip()));
 	}
 
 	void OnCharacterSpecialAttack(Character attackingCharacter, Attack attack)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.HDirection));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip()));
 	}
 
 	void OnCharacterDeath(Character character)

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Ai;
+using System.Collections;
 
 public partial class Character : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public partial class Character : MonoBehaviour
 	public Attack BasicAttack { get { return baseAttack; }}
 	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
-	public Defs.HDirection HDirection { get { return hDirection; }}
 	public Vector3 Position { get { return transform.position; }}
 
 	[SerializeField]
@@ -39,116 +39,180 @@ public partial class Character : MonoBehaviour
 
 
 	CharacterContext context;
-	Defs.HDirection hDirection;
-	Defs.VDirection vDirection;
 
-	Vector3 speed;
-	bool attacking;
 	bool dying;
-	bool specialAttacking;
 	int actualHealth;
 
-	Defs.State currentState;
+	float speedX;
+	float speedY;
+	float jumpSpeedX;
+	bool jumping;
+	bool attacking;
 
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
-		SetState(Defs.State.Idle);
 		SetHealth(settings.Health);
 	}
 
-	public void Move(Vector2 dir)
+	public void AiMove(Vector2 dir)
 	{
-		SetState(Defs.State.Moving);
-		SetHorizontalDirection(dir.x > 0 ? Defs.HDirection.Right : Defs.HDirection.Left);
-		SetHorizontalSpeed(Math.Abs(dir.x) * settings.MovingSpeed);
-
-		SetVerticalDirection(dir.y > 0 ? Defs.VDirection.Up : Defs.VDirection.Down);
-		SetVerticalSpeed(Math.Abs(dir.y) * settings.MovingSpeed);
+		var normDir = dir.normalized;
+		SetSpeedX(normDir.x * settings.MovingSpeed);
+		SetSpeedY(normDir.y * settings.MovingSpeed);
+		Flip(dir.x > 0 ?  1 : -1);
 	}
 
-	public void StopMoving()
+	public void MoveH(int dir)
 	{
-		SetHorizontalSpeed(0);
-		SetVerticalSpeed(0);
-		SetState(Defs.State.Idle);
-	}
-
-	public void FaceTo(Vector3 pos)
-	{
-		SetHorizontalDirection(pos.x > Position.x ? Defs.HDirection.Right : Defs.HDirection.Left);
-	}
-
-
-	public void MoveHorizontally(Defs.HDirection dir)
-	{
-		if (CanMove()) {
-			SetState(Defs.State.Moving);
-			SetHorizontalDirection(dir);
-			SetHorizontalSpeed(settings.MovingSpeed);
+		if (!attacking && !jumping) {
+			Flip(dir);
+			SetSpeedX(dir * settings.MovingSpeed);
 		}
 	}
 
-	public void MoveVertically(Defs.VDirection dir)
+	public void MoveV(int dir)
 	{
-		if (CanMove()) {
-			SetState(Defs.State.Moving);
-			SetVerticalDirection(dir);
-			SetVerticalSpeed(settings.MovingSpeed);
+		if (!attacking && !jumping) {
+			SetSpeedY(dir * settings.MovingSpeed);
 		}
 	}
 
-	public void StopMovingHorizontally()
+	public void Stop()
 	{
-		SetHorizontalSpeed(0);
-		if (!IsMoving())
-			SetState(Defs.State.Idle);
+		SetSpeedX(0);
+		SetSpeedY(0);
 	}
 
-	public void StopMovingVertically()
+	public int GetFlip()
 	{
-		SetVerticalSpeed(0);
-		if (!IsMoving())
-			SetState(Defs.State.Idle);
+		return transform.localScale.x > 0 ? 1 : -1;
+	}
+
+	public void Flip(int dir)
+	{
+		var scale = transform.localScale;
+		scale.x = dir;
+		transform.localScale = scale;
 	}
 
 	public void Attack()
 	{
-		if (CanAttack()) {
+		if (!attacking) {
 			attacking = true;
-			animator.SetTrigger(Defs.Animations.Attack);	
-			audioSource.clip = baseAttack.Sfx;
-			audioSource.Play();
+			animator.SetTrigger("attack");
+			StartAttack(baseAttack);
 			AttackAction(this, baseAttack);
 		}
 	}
 
-	public void Jump ()
+	public void AttackFast01()
 	{
-		PlayAnimation(Defs.Animations.Jump);
+		if (!attacking) {
+			attacking = true;
+			animator.SetTrigger("fastpunch01");
+			StartAttack(baseAttack);
+			AttackAction(this, baseAttack);
+		}
 	}
 
-	public void Idle()
+	public void AttackFast02()
 	{
-		StopMoving();
-		SetState(Defs.State.Idle);
+		if (!attacking) {
+			attacking = true;
+			animator.SetTrigger("fastpunch02");
+			AttackAction(this, baseAttack);
+		}
 	}
 
-
-	public void PerformSpecialAttack()
+	public void AttackSpecial()
 	{
-		if (CanAttack()) {
-			specialAttacking = true;
-			StopMovingVertically();
-			StopMovingHorizontally();
-			PlayAnimation(Defs.Animations.SpecialAttack);
+		if (!attacking) {
+			attacking = true;
+			animator.SetTrigger("specialattack");
 			StartAttack(specialAttack);
-			//SpecialAttackAction(this, specialAttack);
+		}
+	}
+
+	public void FaceTo (Vector3 position)
+	{
+		Flip(position.x > transform.position.x ? 1  : -1);
+	}
+
+	public void Jump()
+	{
+		if (!jumping) {
+			jumping = true;
+			jumpSpeedX = speedX;
+			animator.SetTrigger("jump");
+			StartCoroutine(JumpMove());
+		}
+	}
+
+	void SetSpeedX(float speed)
+	{
+		speedX = speed;
+	}
+
+	void SetSpeedY(float speed)
+	{
+		speedY = speed;
+	}
+
+	void Update () 
+	{
+		var pos = transform.position;
+		pos.x += speedX * Time.deltaTime;
+		pos.y += speedY * Time.deltaTime;
+		transform.position = pos;
+
+		animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
+
+		speedX = 0;
+		speedY = 0;
+
+		TrimPositionToLimits();
+
+		UpdateSortingOrder();
+	}
+
+	void OnAnimationEvent(string name)
+	{
+		if (name.Equals("attack_end")) {
+			attacking = false;
+		}
+		else if (name.Equals("jump_end")) {
+			jumping = false;
 		}
 	}
 
 
-	public void Hit(Attack attack, Defs.HDirection dir)
+	IEnumerator JumpMove()
+	{
+		while(jumping)
+		{
+			var pos = transform.position;
+			pos.x += jumpSpeedX * Time.deltaTime;
+			transform.position = pos;
+			yield return 0;
+		}
+	}
+
+
+//	public void Attack()
+//	{
+//		if (CanAttack()) {
+//			attacking = true;
+//			animator.SetTrigger(Defs.Animations.Attack);	
+//			audioSource.clip = baseAttack.Sfx;
+//			audioSource.Play();
+//			AttackAction(this, baseAttack);
+//		}
+//	}
+
+
+
+	public void Hit(Attack attack, int dir)
 	{
 		if (attack.ShiftHitEnemy) {
 			transform.AddPositionX((int)dir * 1.0f);
@@ -161,10 +225,15 @@ public partial class Character : MonoBehaviour
 		bool alive = SetHealth(actualHealth - attack.AttackPoints);
 	
 		if (alive) {
-			PlayAnimation(Defs.Animations.Hit);
+			attacking = false;
+
+			if (!jumping) {
+				Stop();
+				animator.SetTrigger("hit");
+			}
 		} else {
 			dying = true;
-			StopMoving();
+			Stop();
 			PlayAnimation(Defs.Animations.Die);
 			Destroy(GetComponent<AiStateMachine>());
 			if (DeathAction != null) {
@@ -180,41 +249,6 @@ public partial class Character : MonoBehaviour
 		return circleColl.radius + circleColl.offset.magnitude;
 	}
 
-	void SetHorizontalDirection(Defs.HDirection dir)
-	{
-		//spriteRen.flipX = dir == Defs.HDirection.Left;
-		transform.SetScaleX((int)dir);
-		hDirection = dir;
-	}
-
-	void SetVerticalDirection(Defs.VDirection dir)
-	{
-		vDirection = dir;
-	}
-
-	void SetState(Defs.State state)
-	{
-		if (currentState != state) {
-			if (state == Defs.State.Idle) {
-				PlayAnimation(Defs.Animations.Idle);
-			}
-			else if (state == Defs.State.Moving) {
-				PlayAnimation(Defs.Animations.Walk);
-			}
-		}
-		currentState = state;
-	}
-
-	void SetHorizontalSpeed(float speed)
-	{
-		this.speed.x = speed;
-	}
-
-	void SetVerticalSpeed(float speed)
-	{
-		this.speed.y = speed;
-	}
-
 	void PlayAnimation(string animName)
 	{
 		animator.SetTrigger(animName);
@@ -222,20 +256,7 @@ public partial class Character : MonoBehaviour
 
 	bool IsMoving()
 	{
-		return speed.sqrMagnitude > 0;
-	}
-
-
-	void Update()
-	{
-		transform.position += new Vector3(
-			speed.x * (int)hDirection, 
-			speed.y * (int)vDirection, 
-			0) * settings.MovingSpeed;
-
-		TrimPositionToLimits();
-
-		UpdateSortingOrder();
+		return speedX > 0 || speedY > 0;
 	}
 
 	void AnimationEvent(string name)
@@ -244,7 +265,7 @@ public partial class Character : MonoBehaviour
 			attacking = false;
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackFinished)) {
-			specialAttacking = false;
+			attacking = false;
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
 			SpecialAttackAction(this, specialAttack);
@@ -276,20 +297,6 @@ public partial class Character : MonoBehaviour
 		return actualHealth > 0;
 	}
 
-	public bool CanAttack()
-	{
-		return !IsAttacking() && !IsDying();
-	}
-
-	public bool CanMove()
-	{
-		return !IsDying() && !specialAttacking;
-	}
-
-	public bool IsAttacking()
-	{
-		return specialAttacking || attacking;
-	}
 
 	bool IsDying()
 	{

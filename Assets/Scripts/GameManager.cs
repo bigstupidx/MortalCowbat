@@ -165,7 +165,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	bool IsCharacterInFronOfCharacter(Character who, Character from)
 	{
-		if (from.HDirection == Defs.HDirection.Left){
+		if (from.GetFlip() == -1) {
 			return who.transform.position.x < from.transform.position.x;
 		} else {
 			return who.transform.position.x > from.transform.position.x;

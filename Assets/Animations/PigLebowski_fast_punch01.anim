@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PigLebowski_attack
+  m_Name: PigLebowski_fast_punch01
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -19,13 +19,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 77eae0c1e26f74add805c6fcb942ba63, type: 3}
+      value: {fileID: 21300000, guid: becdb6b52b91d4abf95074724161fc37, type: 3}
     - time: 0.06666667
-      value: {fileID: 21300000, guid: fa97b83dce13e41b985de5c593b350d5, type: 3}
+      value: {fileID: 21300000, guid: 1fdfebb9cf9044f2181c64cd024258b5, type: 3}
     - time: 0.13333334
-      value: {fileID: 21300000, guid: eaf23e7fed2e4452282e95ff33c81c86, type: 3}
+      value: {fileID: 21300000, guid: 79704c87d9d65494e8e107c43937e6c2, type: 3}
     - time: 0.2
-      value: {fileID: 21300000, guid: d47367b6b01dd4d8f86d37deea21fd20, type: 3}
+      value: {fileID: 21300000, guid: fa110357d8cf04396a9d053e62565868, type: 3}
     attribute: m_Sprite
     path: Root
     classID: 212
@@ -44,10 +44,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 77eae0c1e26f74add805c6fcb942ba63, type: 3}
-    - {fileID: 21300000, guid: fa97b83dce13e41b985de5c593b350d5, type: 3}
-    - {fileID: 21300000, guid: eaf23e7fed2e4452282e95ff33c81c86, type: 3}
-    - {fileID: 21300000, guid: d47367b6b01dd4d8f86d37deea21fd20, type: 3}
+    - {fileID: 21300000, guid: becdb6b52b91d4abf95074724161fc37, type: 3}
+    - {fileID: 21300000, guid: 1fdfebb9cf9044f2181c64cd024258b5, type: 3}
+    - {fileID: 21300000, guid: 79704c87d9d65494e8e107c43937e6c2, type: 3}
+    - {fileID: 21300000, guid: fa110357d8cf04396a9d053e62565868, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

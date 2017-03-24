@@ -23,6 +23,12 @@ public class KeyboadController : MonoBehaviour
 	KeyCode specialAttack;
 
 	[SerializeField]
+	KeyCode fastAtack01;
+
+	[SerializeField]
+	KeyCode fastAtack02;
+
+	[SerializeField]
 	KeyCode jump;
 
 
@@ -31,32 +37,30 @@ public class KeyboadController : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(left)) {
-			character.MoveHorizontally(Defs.HDirection.Left);	
+		if (Input.GetKey(left)) {
+			character.MoveH(-1);
+		} else if (Input.GetKey(right)) {
+			character.MoveH(1);	
 		}
-		else if (Input.GetKeyDown(right)) {
-			character.MoveHorizontally(Defs.HDirection.Right);	
-		}
-		if (Input.GetKeyDown(up)) {
-			character.MoveVertically(Defs.VDirection.Up);	
-		}
-		else if (Input.GetKeyDown(down)) {
-			character.MoveVertically(Defs.VDirection.Down);	
-		}
-		if ((Input.GetKeyUp(right) && !Input.GetKey(left)) || (Input.GetKeyUp(left) && !Input.GetKey(right))) {
-			character.StopMovingHorizontally();	
-		}
-		if ((Input.GetKeyUp(up) && !Input.GetKey(down)) || (Input.GetKeyUp(down) && !Input.GetKey(up))) {
-			character.StopMovingVertically();	
-		}
-		if (Input.GetKeyDown(attack)) {
-			character.Attack();
+		if (Input.GetKey(up)) {
+			character.MoveV(1);
+		} else if (Input.GetKey(down)) {
+			character.MoveV(-1);	
 		}
 		if (Input.GetKeyDown(jump)) {
-			character.Jump();
+			character.Jump();			
 		}
-		else if (Input.GetKeyDown(specialAttack)) {
-			character.PerformSpecialAttack();
+		if (Input.GetKeyDown(fastAtack01)) {
+			character.AttackFast01();			
+		}
+		if (Input.GetKeyDown(fastAtack02)) {
+			character.AttackFast02();			
+		}
+		if (Input.GetKeyDown(attack)) {
+			character.Attack();			
+		}
+		if (Input.GetKeyDown(specialAttack)) {
+			character.AttackSpecial();			
 		}
 	}
 }
