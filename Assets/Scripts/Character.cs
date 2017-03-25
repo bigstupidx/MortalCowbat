@@ -226,7 +226,7 @@ public partial class Character : MonoBehaviour
 
 		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
-		if (attack.HitEffect != null) {
+		if (attack.HitEffect != null && attack.HitEffect.Effect != null) {
 			context.EffectManager.CreateEffect(
 				attack.HitEffect.Effect.gameObject,
 				GetPoi(attack.HitEffect.Container))
