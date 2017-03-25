@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public partial class Character : MonoBehaviour
 {
-	public Action<Character, Attack> AttackAction;
+	public Action<Character, Attack, float> AttackAction;
 	public Action<Character, Attack> SpecialAttackAction;
 	public Action<float, float> HealthChangedAction;
 	public Action<Character> DeathAction;
@@ -52,7 +52,10 @@ public partial class Character : MonoBehaviour
 	float jumpSpeedX;
 	bool jumping;
 	bool attacking;
+
 	bool chargedAttackReleased;
+	float chargedAttackStartTime;
+	float chargedDuration;
 
 	public void Init(CharacterContext context)
 	{
@@ -107,7 +110,7 @@ public partial class Character : MonoBehaviour
 			attacking = true;
 			animator.SetTrigger("attack");
 			StartAttack(baseAttack);
-			AttackAction(this, baseAttack);
+			AttackAction(this, baseAttack, 1.0f);
 		}
 	}
 
@@ -116,6 +119,7 @@ public partial class Character : MonoBehaviour
 		if (!attacking) {
 			attacking = true;
 			chargedAttackReleased = false;
+			chargedAttackStartTime = -1;
 			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 			animator.SetTrigger(trigger);
 			StartAttack(baseAttack);
@@ -126,6 +130,12 @@ public partial class Character : MonoBehaviour
 	{
 		chargedAttackReleased = true;
 		animator.speed = 1.0f;
+
+		if (chargedAttackStartTime > 0) {
+			chargedDuration = Time.time - chargedAttackStartTime;
+		} else {
+			chargedDuration = 0;
+		}
 	}
 
 	public void AttackSpecial()
@@ -192,7 +202,7 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	public void Hit(Attack attack, int dir)
+	public void Hit(Attack attack, int dir, float multiplicator)
 	{
 		if (attack.ShiftHitEnemy) {
 			transform.AddPositionX((int)dir * 1.0f);
@@ -209,7 +219,7 @@ public partial class Character : MonoBehaviour
 				.Run(gameObject);
 		}
 
-		bool alive = SetHealth(actualHealth - attack.AttackPoints);
+		bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
 	
 		if (alive) {
 			attacking = false;
@@ -258,7 +268,7 @@ public partial class Character : MonoBehaviour
 			SpecialAttackAction(this, specialAttack);
 		}
 		else if (name.Equals(Defs.Events.FastAttackHit)) {
-			AttackAction(this, baseAttack);
+			AttackAction(this, baseAttack, AttackMultiplicator(chargedDuration));
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
@@ -269,13 +279,14 @@ public partial class Character : MonoBehaviour
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
 				animator.speed = 0;
+				chargedAttackStartTime = Time.time;
 			}
 		}
 	}
 
 	bool IsChargedAttackReleased()
 	{
-		return Type == Defs.CharacterType.NPC ? true : chargedAttackReleased;
+		return Type == Defs.CharacterType.NPC || chargedAttackReleased;
 	}
 
 	void StartAttack(Attack attack)
@@ -329,4 +340,15 @@ public partial class Character : MonoBehaviour
 	{
 		return pois.Find(x=>x.name.Equals(name));
 	}
+
+
+	float AttackMultiplicator(float chargedTime)
+	{
+		const float maxTime = 2.0f;
+		const float maxMultiplication = 3.0f;;
+		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime);
+
+		return chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+	}
+
 }
