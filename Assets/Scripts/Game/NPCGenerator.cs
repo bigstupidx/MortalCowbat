@@ -67,7 +67,7 @@ public class NPCGenerator : MonoBehaviour, IResetable
 		if (killedNPCs == waves.EnemiesInWave[waveIndex]) {
 			killedNPCs = 0;
 			generatedNPCCount = 0;
-			waveIndex++;
+			waveIndex = Math.Min(waveIndex + 1, waves.EnemiesInWave.Count);
 			NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
 			wavesFinished = waveIndex == waves.EnemiesInWave.Count;
 		}

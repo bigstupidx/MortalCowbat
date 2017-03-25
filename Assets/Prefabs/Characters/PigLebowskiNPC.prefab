@@ -42,6 +42,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1187019387207778
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4028084892607608}
+  m_Layer: 0
+  m_Name: HitEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1306903610394398
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,6 +144,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4028084892607608
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187019387207778}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.26, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4115526199302134}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4066104247787474
 Transform:
   m_ObjectHideFlags: 1
@@ -158,6 +186,7 @@ Transform:
   - {fileID: 4162828180120206}
   - {fileID: 4447742745825770}
   - {fileID: 4472913441465222}
+  - {fileID: 4028084892607608}
   m_Father: {fileID: 4066104247787474}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -369,6 +398,9 @@ MonoBehaviour:
   attackPoints: 10
   attackSfx: {fileID: 0}
   effects: []
+  hitEffect:
+    Effect: {fileID: 114758506737833710, guid: b55362694e35b4aef8f062754a293ae0, type: 2}
+    Container: HitEffect
 --- !u!114 &114600560532852356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,6 +432,8 @@ MonoBehaviour:
   down: 115
   attack: 32
   specialAttack: 120
+  fastAtack01: 0
+  fastAtack02: 0
   jump: 0
   character: {fileID: 114844989902213830}
 --- !u!114 &114759696856425784
@@ -435,6 +469,8 @@ MonoBehaviour:
   settings: {fileID: 114600560532852356}
   spriteRen: {fileID: 212621288551795596}
   animator: {fileID: 95620492397566638}
+  pois:
+  - {fileID: 4028084892607608}
 --- !u!114 &114944756800234506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -468,6 +504,9 @@ MonoBehaviour:
   effects:
   - Effect: {fileID: 114650871884612002, guid: 2ae387ea4a77b4370bc39db29b5d9e26, type: 2}
     Container: SpecialAttackEffect
+  hitEffect:
+    Effect: {fileID: 0}
+    Container: 
 --- !u!212 &212183298239502970
 SpriteRenderer:
   m_ObjectHideFlags: 1

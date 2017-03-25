@@ -2,6 +2,8 @@
 using System;
 using Ai;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 public partial class Character : MonoBehaviour
 {
@@ -37,6 +39,8 @@ public partial class Character : MonoBehaviour
 	[SerializeField]
 	Animator animator;
 
+	[SerializeField]
+	List<Transform> pois;
 
 	CharacterContext context;
 
@@ -222,6 +226,13 @@ public partial class Character : MonoBehaviour
 
 		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
+		if (attack.HitEffect != null) {
+			context.EffectManager.CreateEffect(
+				attack.HitEffect.Effect.gameObject,
+				GetPoi(attack.HitEffect.Container))
+				.Run(gameObject);
+		}
+
 		bool alive = SetHealth(actualHealth - attack.AttackPoints);
 	
 		if (alive) {
@@ -322,5 +333,8 @@ public partial class Character : MonoBehaviour
 		transform.position = pos;
 	}
 
-
+	Transform GetPoi(string name)
+	{
+		return pois.Find(x=>x.name.Equals(name));
+	}
 }

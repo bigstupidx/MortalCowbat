@@ -67,7 +67,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	public IEnumerator SetNextLevel()
 	{
-		Destroy(GameObject.Find("Level").gameObject);
+		//Destroy(GameObject.Find("Level").gameObject);
+		//yield return 0;
 		SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
 		yield return 0;
 		Restart();
