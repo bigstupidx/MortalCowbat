@@ -3,6 +3,8 @@ using System;
 using Ai;
 using System.Collections;
 using System.Collections.Generic;
+using Vis;
+using System.Runtime.InteropServices;
 
 
 public partial class Character : MonoBehaviour
@@ -17,6 +19,10 @@ public partial class Character : MonoBehaviour
 	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
+
+
+	[SerializeField]
+	ChargingBar chargingBar;
 
 	[SerializeField]
 	Attack specialAttack;
@@ -56,6 +62,9 @@ public partial class Character : MonoBehaviour
 	bool chargedAttackReleased;
 	float chargedAttackStartTime;
 	float chargedDuration;
+
+	const float maxTime = 1.0f;
+	const float maxMultiplication = 3.0f;
 
 	public void Init(CharacterContext context)
 	{
@@ -119,7 +128,6 @@ public partial class Character : MonoBehaviour
 		if (!attacking) {
 			attacking = true;
 			chargedAttackReleased = false;
-			chargedAttackStartTime = -1;
 			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 			animator.SetTrigger(trigger);
 			StartAttack(baseAttack);
@@ -131,8 +139,9 @@ public partial class Character : MonoBehaviour
 		chargedAttackReleased = true;
 		animator.speed = 1.0f;
 
-		if (chargedAttackStartTime > 0) {
+		if (Charging()) {
 			chargedDuration = Time.time - chargedAttackStartTime;
+			chargedAttackStartTime = -1;
 		} else {
 			chargedDuration = 0;
 		}
@@ -185,8 +194,8 @@ public partial class Character : MonoBehaviour
 		speedY = 0;
 
 		TrimPositionToLimits();
-
 		UpdateSortingOrder();
+		UpdateCharging();
 	}
 
 
@@ -268,6 +277,7 @@ public partial class Character : MonoBehaviour
 			SpecialAttackAction(this, specialAttack);
 		}
 		else if (name.Equals(Defs.Events.FastAttackHit)) {
+			chargedAttackStartTime = -1;
 			AttackAction(this, baseAttack, AttackMultiplicator(chargedDuration));
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
@@ -328,6 +338,24 @@ public partial class Character : MonoBehaviour
 		spriteRen.sortingOrder = minSortingOrder + (int)((maxSortingOrder - minSortingOrder) * (1 - c));
 	}
 
+	void UpdateCharging()
+	{
+		if (Type == Defs.CharacterType.Player) {
+			if (Charging()) {
+				chargedDuration = Time.time - chargedAttackStartTime;
+				float normalizedMultiplicator = Mathf.Min(chargedDuration / maxTime, 1.0f);
+				if (normalizedMultiplicator > 0) {
+					chargingBar.gameObject.SetActive(true);
+					chargingBar.SetValue(normalizedMultiplicator);
+				}else {
+					chargingBar.gameObject.SetActive(false);
+				}
+			} else {
+				chargingBar.gameObject.SetActive(false);
+			}
+		}
+	}
+
 	void TrimPositionToLimits()
 	{
 		var pos = transform.position;
@@ -341,14 +369,15 @@ public partial class Character : MonoBehaviour
 		return pois.Find(x=>x.name.Equals(name));
 	}
 
-
-	float AttackMultiplicator(float chargedTime)
+	bool Charging()
 	{
-		const float maxTime = 2.0f;
-		const float maxMultiplication = 3.0f;;
-		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime);
-
-		return chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+		return chargedAttackStartTime > 0;
 	}
 
+
+	static float AttackMultiplicator(float chargedTime)
+	{
+		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime);
+		return chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+	}
 }
