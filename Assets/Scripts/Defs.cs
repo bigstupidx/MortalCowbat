@@ -24,8 +24,10 @@ public static class Defs
 	{
 		public const string SpecialAttackFinished = "specialattackfinished";
 		public const string SpecialAttackHit = "specialattackhit";
+		public const string FastAttackHit = "fastattackhit";
 		public const string AttackFinished = "attackfinished";
-		public const string DieFinished = "dieFinished";
+		public const string DieFinished = "diefinished";
+		public const string JumpFinished = "jumpfinished";
 	}
 
 	public static class Pois

@@ -46,7 +46,7 @@ public partial class Character : MonoBehaviour
 
 	bool dying;
 	int actualHealth;
-
+	int fastAttackCounter;
 	float speedX;
 	float speedY;
 	float jumpSpeedX;
@@ -100,7 +100,7 @@ public partial class Character : MonoBehaviour
 		transform.localScale = scale;
 	}
 
-	public void Attack()
+	void OldAttack()
 	{
 		if (!attacking) {
 			attacking = true;
@@ -110,22 +110,14 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
-	public void AttackFast01()
+	public void FastAttack()
 	{
 		if (!attacking) {
 			attacking = true;
-			animator.SetTrigger("fastpunch01");
+			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
+			animator.SetTrigger(trigger);
 			StartAttack(baseAttack);
-			AttackAction(this, baseAttack);
-		}
-	}
-
-	public void AttackFast02()
-	{
-		if (!attacking) {
-			attacking = true;
-			animator.SetTrigger("fastpunch02");
-			AttackAction(this, baseAttack);
+			//AttackAction(this, baseAttack);
 		}
 	}
 
@@ -180,15 +172,6 @@ public partial class Character : MonoBehaviour
 		UpdateSortingOrder();
 	}
 
-	void OnAnimationEvent(string name)
-	{
-		if (name.Equals("attack_end")) {
-			attacking = false;
-		}
-		else if (name.Equals("jump_end")) {
-			jumping = false;
-		}
-	}
 
 
 	IEnumerator JumpMove()
@@ -281,8 +264,14 @@ public partial class Character : MonoBehaviour
 		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
 			SpecialAttackAction(this, specialAttack);
 		}
+		else if (name.Equals(Defs.Events.FastAttackHit)) {
+			AttackAction(this, baseAttack);
+		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
+		}
+		else if (name.Equals(Defs.Events.JumpFinished)) {
+			jumping = false;
 		}
 	}
 

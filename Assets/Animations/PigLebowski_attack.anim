@@ -76,8 +76,8 @@ AnimationClip:
   m_IsEmpty: 0
   m_Events:
   - time: 0.2
-    functionName: OnAnimationEvent
-    data: attack_end
+    functionName: AnimationEvent
+    data: attackfinished
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

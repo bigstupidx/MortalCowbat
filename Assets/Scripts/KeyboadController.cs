@@ -17,16 +17,10 @@ public class KeyboadController : MonoBehaviour
 	KeyCode down;
 
 	[SerializeField]
-	KeyCode attack;
-
-	[SerializeField]
 	KeyCode specialAttack;
 
 	[SerializeField]
-	KeyCode fastAtack01;
-
-	[SerializeField]
-	KeyCode fastAtack02;
+	KeyCode fastAtack;
 
 	[SerializeField]
 	KeyCode jump;
@@ -50,16 +44,10 @@ public class KeyboadController : MonoBehaviour
 		if (Input.GetKeyDown(jump)) {
 			character.Jump();			
 		}
-		if (Input.GetKeyDown(fastAtack01)) {
-			character.AttackFast01();			
+		if (Input.GetKeyDown(fastAtack)) {
+			character.FastAttack();			
 		}
-		if (Input.GetKeyDown(fastAtack02)) {
-			character.AttackFast02();			
-		}
-		if (Input.GetKeyDown(attack)) {
-			character.Attack();			
-		}
-		if (Input.GetKeyDown(specialAttack)) {
+			if (Input.GetKeyDown(specialAttack)) {
 			character.AttackSpecial();			
 		}
 	}
