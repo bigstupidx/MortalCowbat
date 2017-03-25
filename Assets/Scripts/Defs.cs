@@ -28,6 +28,7 @@ public static class Defs
 		public const string AttackFinished = "attackfinished";
 		public const string DieFinished = "diefinished";
 		public const string JumpFinished = "jumpfinished";
+		public const string AttackCharged = "attackcharged";
 	}
 
 	public static class Pois

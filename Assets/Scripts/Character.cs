@@ -3,7 +3,7 @@ using System;
 using Ai;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+
 
 public partial class Character : MonoBehaviour
 {
@@ -52,6 +52,7 @@ public partial class Character : MonoBehaviour
 	float jumpSpeedX;
 	bool jumping;
 	bool attacking;
+	bool chargedAttackReleased;
 
 	public void Init(CharacterContext context)
 	{
@@ -114,11 +115,17 @@ public partial class Character : MonoBehaviour
 	{
 		if (!attacking) {
 			attacking = true;
+			chargedAttackReleased = false;
 			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 			animator.SetTrigger(trigger);
 			StartAttack(baseAttack);
-			//AttackAction(this, baseAttack);
 		}
+	}
+
+	public void ChargedAttackReleased()
+	{
+		chargedAttackReleased = true;
+		animator.speed = 1.0f;
 	}
 
 	public void AttackSpecial()
@@ -184,20 +191,6 @@ public partial class Character : MonoBehaviour
 			yield return 0;
 		}
 	}
-
-
-//	public void Attack()
-//	{
-//		if (CanAttack()) {
-//			attacking = true;
-//			animator.SetTrigger(Defs.Animations.Attack);	
-//			audioSource.clip = baseAttack.Sfx;
-//			audioSource.Play();
-//			AttackAction(this, baseAttack);
-//		}
-//	}
-
-
 
 	public void Hit(Attack attack, int dir)
 	{
@@ -273,6 +266,16 @@ public partial class Character : MonoBehaviour
 		else if (name.Equals(Defs.Events.JumpFinished)) {
 			jumping = false;
 		}
+		else if (name.Equals(Defs.Events.AttackCharged)) {
+			if (!IsChargedAttackReleased()) {
+				animator.speed = 0;
+			}
+		}
+	}
+
+	bool IsChargedAttackReleased()
+	{
+		return Type == Defs.CharacterType.NPC ? true : chargedAttackReleased;
 	}
 
 	void StartAttack(Attack attack)

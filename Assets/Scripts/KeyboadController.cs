@@ -47,7 +47,11 @@ public class KeyboadController : MonoBehaviour
 		if (Input.GetKeyDown(fastAtack)) {
 			character.FastAttack();			
 		}
-			if (Input.GetKeyDown(specialAttack)) {
+		if (Input.GetKeyUp(fastAtack)) {
+			character.ChargedAttackReleased();			
+		}
+			
+		if (Input.GetKeyDown(specialAttack)) {
 			character.AttackSpecial();			
 		}
 	}
