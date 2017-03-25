@@ -34,6 +34,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	void Awake()
 	{
+		characterContext = CreateCharacterContext();
 		StartCoroutine(MainInit());
 	}
 
@@ -93,7 +94,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 			LevelFrame = levelFrame,
 			GameCamera = gameCamera
 		});
-		characterContext = CreateCharacterContext();
+	
 		aiContext = new AiStateMachineContext { 
 			Characters = Characters
 		};
@@ -115,6 +116,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		if (character.Type == Defs.CharacterType.Player) {
 			player = character;
 			player.HealthChangedAction += ui.OnPlayerHealthChanged;
+			player.SpecialAttackProgressAction += ui.OnPlayerSpecialAttackProgress;
 		} else {
 			SetNpcStateMachine(character, aiContext);
 		}
@@ -176,7 +178,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	CharacterContext CreateCharacterContext()
 	{
-		return new CharacterContext(effectManager, limits);
+		return new CharacterContext(effectManager, GetLimits);
 	}
 
 
@@ -186,4 +188,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 		player.transform.position = Vector3.zero;
 		return player.GetComponent<Character>();
 	}
+
+	Limits GetLimits()
+	{
+		return limits;
+	}
+
 }

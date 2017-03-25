@@ -572,6 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
+  specialAttackCooldown: 20
   chargingBar: {fileID: 114109011872003456}
   specialAttack: {fileID: 114351736271625434}
   baseAttack: {fileID: 114611607432357674}

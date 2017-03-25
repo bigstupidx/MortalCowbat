@@ -10,6 +10,10 @@ namespace Ui
 		InGamePlayerHealthBar playerHealthbar;
 
 		[SerializeField]
+		InGamePlayerSpecialAttackBar playerSpecialAttackBar;
+
+
+		[SerializeField]
 		Wave wave;
 
 		[SerializeField]
@@ -18,6 +22,10 @@ namespace Ui
 		public void OnPlayerHealthChanged(float actual, float maxHealth)
 		{
 			playerHealthbar.Set(actual / maxHealth);		
+		}
+		public void OnPlayerSpecialAttackProgress(float progress)
+		{
+			playerSpecialAttackBar.Set(progress);
 		}
 
 		public void OnWave(int actual, int from)

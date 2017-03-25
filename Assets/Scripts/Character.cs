@@ -4,7 +4,6 @@ using Ai;
 using System.Collections;
 using System.Collections.Generic;
 using Vis;
-using System.Runtime.InteropServices;
 
 
 public partial class Character : MonoBehaviour
@@ -12,6 +11,8 @@ public partial class Character : MonoBehaviour
 	public Action<Character, Attack, float> AttackAction;
 	public Action<Character, Attack> SpecialAttackAction;
 	public Action<float, float> HealthChangedAction;
+	public Action<float> SpecialAttackProgressAction;
+
 	public Action<Character> DeathAction;
 
 	public Defs.CharacterType Type;
@@ -20,6 +21,8 @@ public partial class Character : MonoBehaviour
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
 
+	[SerializeField]
+	float specialAttackCooldown;
 
 	[SerializeField]
 	ChargingBar chargingBar;
@@ -63,12 +66,15 @@ public partial class Character : MonoBehaviour
 	float chargedAttackStartTime;
 	float chargedDuration;
 
+	float specialCooldownStartedTime;
+
 	const float maxTime = 1.0f;
 	const float maxMultiplication = 3.0f;
 
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
+		specialCooldownStartedTime = Time.time;
 		SetHealth(settings.Health);
 	}
 
@@ -149,9 +155,10 @@ public partial class Character : MonoBehaviour
 
 	public void AttackSpecial()
 	{
-		if (!attacking) {
+		if (!attacking && GetSpecialAttackCooldown() >= 1.0f) {
 			attacking = true;
 			animator.SetTrigger("specialattack");
+			specialCooldownStartedTime = Time.time;
 			StartAttack(specialAttack);
 		}
 	}
@@ -196,6 +203,7 @@ public partial class Character : MonoBehaviour
 		TrimPositionToLimits();
 		UpdateSortingOrder();
 		UpdateCharging();
+		UpdateSpecialAttackCooldown();
 	}
 
 
@@ -229,7 +237,8 @@ public partial class Character : MonoBehaviour
 		}
 
 		bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
-	
+		chargedAttackStartTime = -1;
+
 		if (alive) {
 			attacking = false;
 
@@ -344,7 +353,7 @@ public partial class Character : MonoBehaviour
 			if (Charging()) {
 				chargedDuration = Time.time - chargedAttackStartTime;
 				float normalizedMultiplicator = Mathf.Min(chargedDuration / maxTime, 1.0f);
-				if (normalizedMultiplicator > 0) {
+				if (normalizedMultiplicator > 0.2f) {
 					chargingBar.gameObject.SetActive(true);
 					chargingBar.SetValue(normalizedMultiplicator);
 				}else {
@@ -356,12 +365,28 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
+	float GetSpecialAttackCooldown()
+	{
+		float elapsedTime = Time.time - specialCooldownStartedTime;
+		float c = Mathf.Min(elapsedTime / specialAttackCooldown, 1.0f);
+		return c;
+	}
+
+	void UpdateSpecialAttackCooldown()
+	{
+		if (SpecialAttackProgressAction != null) {
+			SpecialAttackProgressAction(GetSpecialAttackCooldown());
+		}
+	}
+
 	void TrimPositionToLimits()
 	{
+		if (context != null) {
 		var pos = transform.position;
-		pos.y = Math.Max(Math.Min(context.Limits.YMax, pos.y), context.Limits.YMin);
-		pos.x = Math.Max(Math.Min(context.Limits.XMax, pos.x), context.Limits.XMin);
-		transform.position = pos;
+			pos.y = Math.Max(Math.Min(context.Limits().YMax, pos.y), context.Limits().YMin);
+			pos.x = Math.Max(Math.Min(context.Limits().XMax, pos.x), context.Limits().XMin);
+			transform.position = pos;
+		}
 	}
 
 	Transform GetPoi(string name)

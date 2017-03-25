@@ -8,8 +8,12 @@ public class Effect : MonoBehaviour
 	[SerializeField]
 	Animator animator;
 
+	GameObject runOn;
+
 	public virtual void Run(GameObject go)
-	{}
+	{
+		runOn = go;
+	}
 
 	protected void OnEvent(string name)
 	{

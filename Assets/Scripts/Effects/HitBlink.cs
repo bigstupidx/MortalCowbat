@@ -12,6 +12,7 @@ public class HitBlink : Effect
 
 	public override void Run(GameObject go)
 	{
+		base.Run(go);
 		StartCoroutine(PlayCoroutine(go));
 	}
 
@@ -19,8 +20,9 @@ public class HitBlink : Effect
 	{
 		Utils.SetColor(go, color);
 		yield return new WaitForSeconds(duration);
-		Utils.SetColor(go, Color.white);
-
+		if (go != null) {
+			Utils.SetColor(go, Color.white);
+		}
 		OnEvent("finished");
 	}
 }
