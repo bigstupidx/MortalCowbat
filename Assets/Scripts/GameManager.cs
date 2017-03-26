@@ -5,9 +5,13 @@ using Ai;
 using Vis;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 public partial class GameManager : MonoBehaviour, IResetable
 {
+	[SerializeField]
+	GameObject nextLevelArrow;
+
 	[SerializeField]
 	GameObject playerPrefab;
 
@@ -32,8 +36,12 @@ public partial class GameManager : MonoBehaviour, IResetable
 	Limits limits;
 	LevelFrame levelFrame;
 
+	int level;
+
 	void Awake()
 	{
+		nextLevelArrow.SetActive(false);
+		level = 1;
 		characterContext = CreateCharacterContext();
 		StartCoroutine(MainInit());
 	}
@@ -55,8 +63,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 	#region IResetable implementation
 	public void Reset()
 	{
-		characters.ForEach(x=>Destroy(x.gameObject));
-		characters.Clear();
+		//characters.For(x=>Destroy(x.gameObject));
+		//characters.Clear();
 	}
 	#endregion
 
@@ -68,16 +76,44 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	public IEnumerator SetNextLevel()
 	{
-		//Destroy(GameObject.Find("Level").gameObject);
-		//yield return 0;
-		SceneManager.LoadScene("Level2", LoadSceneMode.Additive);
+		yield return StartCoroutine(CheckForPlayerOnRightSide());
+		yield return StartCoroutine(MoveCameraToTheNextLevel());
+		level++;
+
 		yield return 0;
 		Restart();
 	}
 
+
+	IEnumerator CheckForPlayerOnRightSide()
+	{
+		var camPos = gameCamera.GetPosition();
+		var dstMinPosX = camPos.x + (limits.XMax - limits.XMin) / 5;
+
+		nextLevelArrow.SetActive(true);
+		nextLevelArrow.transform.SetPositionX(dstMinPosX);
+	
+		while (player.Position.x < dstMinPosX)
+			yield return 0;
+	
+		nextLevelArrow.SetActive(false);
+
+	}
+
+	IEnumerator MoveCameraToTheNextLevel()
+	{
+		var startCamPosX = gameCamera.GetPosition().x;
+		var dstCamPosX = gameCamera.GetPosition().x + 8.0f;
+		yield return StartCoroutine(Utils.LerpWithEase (startCamPosX, 
+			dstCamPosX, 
+			2.0f, 
+			gameCamera.SetPositionX, 
+			Utils.Ease));
+	}
+
 	void Initialize()
 	{
-		levelFrame = GameObject.FindObjectOfType<LevelFrame>();
+		levelFrame = GameObject.Find (string.Format ("LevelFrame{0}", level)).GetComponent<LevelFrame>();
 
 		limits = new Limits() { 
 			XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
@@ -108,7 +144,11 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void GatherCharacters()
 	{
 		characters = new List<Character>();
-		characters.Add(PlacePlayer());
+
+		if (player == null) {
+			player = PlacePlayer();
+		}
+		characters.Add(player);
 	}
 
 	void InitializeCharacter(Character character)

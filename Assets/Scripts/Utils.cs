@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 
 public static class Utils
@@ -38,6 +39,30 @@ public static class Utils
 	public static bool GetRandomBool()
 	{
 		return UnityEngine.Random.Range(0,2) == 0;
+	}
+
+	public static float Ease (float c)
+	{
+		float sqx = c * c;
+		return sqx / (2.0f * (sqx - c) + 1.0f);
+	}
+
+	public static IEnumerator LerpWithEase(float startValue, float endValue, float duration, Action<float> onUpdate, Func<float, float> easing)
+	{
+		float startTime = Time.time;
+		while (true) {
+			float c = Math.Min( (Time.time - startTime) / duration, 1.0f);
+
+			if (easing != null) {
+				c = easing (c);
+			}
+			var lerp = Mathf.Lerp(startValue, endValue, c);
+			onUpdate(lerp);
+
+			if (Mathf.Abs(c - 1) < float.Epsilon)
+				break;
+			yield return 0;
+		}
 	}
 }
 
