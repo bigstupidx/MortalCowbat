@@ -1,8 +1,8 @@
 STR_TONY
 Tony
 STR_TONY_DIALOG1
-Tony's dialog number 1
+Hey, bacon! Get over here so I can strip some love of yo' ass!
 STR_PIG_LEBOWSKI
-Pig Lebowski
+Pig Chlebowski
 STR_PIG_LEBOWSKI_DIALOG1
-Pig Lebowski's dialog number 1
+Eat shit and die!
