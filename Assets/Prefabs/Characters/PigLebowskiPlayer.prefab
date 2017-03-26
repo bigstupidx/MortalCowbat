@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 114844989902213830}
   - component: {fileID: 114753656847734008}
   - component: {fileID: 114669130076354188}
+  - component: {fileID: 114362437923186032}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -506,6 +507,18 @@ MonoBehaviour:
   hitEffect:
     Effect: {fileID: 0}
     Container: 
+--- !u!114 &114362437923186032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2027dd9bbad7c437398308a2c02ba960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 20
 --- !u!114 &114611607432357674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -572,7 +585,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
-  specialAttackCooldown: 20
   chargingBar: {fileID: 114109011872003456}
   specialAttack: {fileID: 114351736271625434}
   baseAttack: {fileID: 114611607432357674}
@@ -581,8 +593,10 @@ MonoBehaviour:
   settings: {fileID: 114669130076354188}
   spriteRen: {fileID: 212198513470007222}
   animator: {fileID: 95620492397566638}
+  shadow: {fileID: 0}
   pois:
   - {fileID: 4896245416441908}
+  specialAttackCooldown: {fileID: 114362437923186032}
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1

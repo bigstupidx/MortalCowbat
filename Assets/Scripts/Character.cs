@@ -11,18 +11,16 @@ public partial class Character : MonoBehaviour
 	public Action<Character, Attack, float> AttackAction;
 	public Action<Character, Attack> SpecialAttackAction;
 	public Action<float, float> HealthChangedAction;
-	public Action<float> SpecialAttackProgressAction;
 
 	public Action<Character> DeathAction;
 
 	public Defs.CharacterType Type;
+	public Cooldown SpecialAttackCooldown { get { return specialAttackCooldown; }}
+
 	public Attack BasicAttack { get { return baseAttack; }}
 	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
-
-	[SerializeField]
-	float specialAttackCooldown;
 
 	[SerializeField]
 	ChargingBar chargingBar;
@@ -49,7 +47,13 @@ public partial class Character : MonoBehaviour
 	Animator animator;
 
 	[SerializeField]
+	GameObject shadow;
+
+	[SerializeField]
 	List<Transform> pois;
+
+	[SerializeField]
+	Cooldown specialAttackCooldown;
 
 	CharacterContext context;
 
@@ -66,15 +70,12 @@ public partial class Character : MonoBehaviour
 	float chargedAttackStartTime;
 	float chargedDuration;
 
-	float specialCooldownStartedTime;
-
 	const float maxTime = 1.0f;
 	const float maxMultiplication = 3.0f;
 
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
-		specialCooldownStartedTime = Time.time;
 		SetHealth(settings.Health);
 	}
 
@@ -155,10 +156,10 @@ public partial class Character : MonoBehaviour
 
 	public void AttackSpecial()
 	{
-		if (!attacking && GetSpecialAttackCooldown() >= 1.0f) {
+		if (!attacking && specialAttackCooldown.IsReady()) {
 			attacking = true;
 			animator.SetTrigger("specialattack");
-			specialCooldownStartedTime = Time.time;
+			specialAttackCooldown.Restart();
 			StartAttack(specialAttack);
 		}
 	}
@@ -203,7 +204,7 @@ public partial class Character : MonoBehaviour
 		TrimPositionToLimits();
 		UpdateSortingOrder();
 		UpdateCharging();
-		UpdateSpecialAttackCooldown();
+
 	}
 
 
@@ -362,20 +363,6 @@ public partial class Character : MonoBehaviour
 			} else {
 				chargingBar.gameObject.SetActive(false);
 			}
-		}
-	}
-
-	float GetSpecialAttackCooldown()
-	{
-		float elapsedTime = Time.time - specialCooldownStartedTime;
-		float c = Mathf.Min(elapsedTime / specialAttackCooldown, 1.0f);
-		return c;
-	}
-
-	void UpdateSpecialAttackCooldown()
-	{
-		if (SpecialAttackProgressAction != null) {
-			SpecialAttackProgressAction(GetSpecialAttackCooldown());
 		}
 	}
 

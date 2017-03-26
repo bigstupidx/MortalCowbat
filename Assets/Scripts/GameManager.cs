@@ -116,7 +116,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		if (character.Type == Defs.CharacterType.Player) {
 			player = character;
 			player.HealthChangedAction += ui.OnPlayerHealthChanged;
-			player.SpecialAttackProgressAction += ui.OnPlayerSpecialAttackProgress;
+			player.SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
 		} else {
 			SetNpcStateMachine(character, aiContext);
 		}
