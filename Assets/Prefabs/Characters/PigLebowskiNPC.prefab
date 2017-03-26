@@ -401,6 +401,7 @@ MonoBehaviour:
   hitEffect:
     Effect: {fileID: 114758506737833710, guid: b55362694e35b4aef8f062754a293ae0, type: 2}
     Container: HitEffect
+    InWorldSpace: 1
 --- !u!114 &114600560532852356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -430,10 +431,8 @@ MonoBehaviour:
   right: 100
   up: 119
   down: 115
-  attack: 32
   specialAttack: 120
-  fastAtack01: 0
-  fastAtack02: 0
+  fastAtack: 0
   jump: 0
   character: {fileID: 114844989902213830}
 --- !u!114 &114759696856425784
@@ -462,6 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
+  chargingBar: {fileID: 0}
   specialAttack: {fileID: 114962683884621062}
   baseAttack: {fileID: 114565483941095976}
   hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
@@ -469,8 +469,10 @@ MonoBehaviour:
   settings: {fileID: 114600560532852356}
   spriteRen: {fileID: 212621288551795596}
   animator: {fileID: 95620492397566638}
+  shadow: {fileID: 0}
   pois:
   - {fileID: 4028084892607608}
+  specialAttackCooldown: {fileID: 0}
 --- !u!114 &114944756800234506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,9 +506,11 @@ MonoBehaviour:
   effects:
   - Effect: {fileID: 114650871884612002, guid: 2ae387ea4a77b4370bc39db29b5d9e26, type: 2}
     Container: SpecialAttackEffect
+    InWorldSpace: 0
   hitEffect:
     Effect: {fileID: 0}
     Container: 
+    InWorldSpace: 0
 --- !u!212 &212183298239502970
 SpriteRenderer:
   m_ObjectHideFlags: 1

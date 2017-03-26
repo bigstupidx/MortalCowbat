@@ -12,12 +12,17 @@ public class EffectManager : MonoBehaviour
 		return effectGo.GetComponent<Effect>();
 	}
 
-	public Effect CreateEffect(GameObject prefab, Transform container)
+	public Effect CreateEffect(EffectDescriptor descr, Transform container, int dir)
 	{
-		var effectGo = Instantiate(prefab);
-		effectGo.transform.SetParent(container);
-		effectGo.transform.localPosition = Vector3.zero;
-		effectGo.transform.localScale = Vector3.one;
+		var effectGo = Instantiate(descr.Effect.gameObject);
+
+		if (descr.InWorldSpace) {
+			effectGo.transform.position = container.position;
+		} else {
+ 			effectGo.transform.SetParent(container);
+			effectGo.transform.localPosition = Vector3.zero;
+		}
+		effectGo.transform.localScale = new Vector3(dir, 1,1);
 	
 		int offset = 0;
 		var sprRen = Utils.FindParentComponent<SpriteRenderer>(container.gameObject);

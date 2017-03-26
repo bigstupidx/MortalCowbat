@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Vis;
 
 
-public partial class Character : MonoBehaviour
+public partial class Character : MonoBehaviour, ICharacter
 {
 	public Action<Character, Attack, float> AttackAction;
 	public Action<Character, Attack> SpecialAttackAction;
@@ -113,23 +113,6 @@ public partial class Character : MonoBehaviour
 		return transform.localScale.x > 0 ? 1 : -1;
 	}
 
-	public void Flip(int dir)
-	{
-		var scale = transform.localScale;
-		scale.x = dir;
-		transform.localScale = scale;
-	}
-
-	void OldAttack()
-	{
-		if (!attacking) {
-			attacking = true;
-			animator.SetTrigger("attack");
-			StartAttack(baseAttack);
-			AttackAction(this, baseAttack, 1.0f);
-		}
-	}
-
 	public void FastAttack()
 	{
 		if (!attacking) {
@@ -179,6 +162,23 @@ public partial class Character : MonoBehaviour
 		}
 	}
 
+	void Flip(int dir)
+	{
+		var scale = transform.localScale;
+		scale.x = dir;
+		transform.localScale = scale;
+	}
+
+	void OldAttack()
+	{
+		if (!attacking) {
+			attacking = true;
+			animator.SetTrigger("attack");
+			StartAttack(baseAttack);
+			AttackAction(this, baseAttack, 1.0f);
+		}
+	}
+
 	void SetSpeedX(float speed)
 	{
 		speedX = speed;
@@ -204,10 +204,7 @@ public partial class Character : MonoBehaviour
 		TrimPositionToLimits();
 		UpdateSortingOrder();
 		UpdateCharging();
-
 	}
-
-
 
 	IEnumerator JumpMove()
 	{
@@ -226,14 +223,15 @@ public partial class Character : MonoBehaviour
 			transform.AddPositionX((int)dir * 1.0f);
 		}
 		audioSource.clip = settings.HitSfx;
-		audioSource.Play();
+		audioSource.PlayOneShot(audioSource.clip);
 
 		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
 		if (attack.HitEffect != null && attack.HitEffect.Effect != null) {
-			context.EffectManager.CreateEffect(
-				attack.HitEffect.Effect.gameObject,
-				GetPoi(attack.HitEffect.Container))
+			context.EffectManager.CreateEffect(attack.HitEffect,
+				GetPoi(attack.HitEffect.Container),
+				GetFlip()
+				)
 				.Run(gameObject);
 		}
 
@@ -316,8 +314,8 @@ public partial class Character : MonoBehaviour
 
 		for (int i = 0; i < attack.Effects.Count; ++i) {
 			context.EffectManager.CreateEffect(
-				attack.Effects[i].Effect.gameObject, 
-				transform.Find("Root/" + attack.Effects[i].Container));
+				attack.Effects[i], 
+				transform.Find("Root/" + attack.Effects[i].Container), GetFlip());
 		}
 	}
 

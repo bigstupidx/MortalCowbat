@@ -27,12 +27,6 @@ public class Attack : MonoBehaviour
 	[SerializeField]
 	AudioClip attackSfx;
 
-	[System.Serializable]
-	public class EffectDescriptor
-	{
-		public Effect Effect;
-		public string Container;
-	}
 
 	[SerializeField]
 	List<EffectDescriptor> effects;
