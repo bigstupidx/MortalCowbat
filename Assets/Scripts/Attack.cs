@@ -10,7 +10,7 @@ public class Attack : MonoBehaviour
 	public AudioClip Sfx { get { return attackSfx; }}
 	public List<EffectDescriptor> Effects { get { return effects; }}
 	public List<Collider2D> Colliders { get { return colliders; }}
-	public EffectDescriptor HitEffect { get { return hitEffect; }}
+	public List<EffectDescriptor> HitEffectS { get { return hitEffects; }}
 
 	[SerializeField]
 	List<Collider2D> colliders;
@@ -32,6 +32,6 @@ public class Attack : MonoBehaviour
 	List<EffectDescriptor> effects;
 
 	[SerializeField]
-	EffectDescriptor hitEffect;
+	List<EffectDescriptor> hitEffects;
 
 }

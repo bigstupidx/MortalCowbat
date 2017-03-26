@@ -8,8 +8,8 @@ using Vis;
 
 public partial class Character : MonoBehaviour, ICharacter
 {
-	public Action<Character, Attack, float> AttackAction;
-	public Action<Character, Attack> SpecialAttackAction;
+	public Action<Character, Attack, float, bool> AttackAction;
+	public Action<Character, Attack, bool> SpecialAttackAction;
 	public Action<float, float> HealthChangedAction;
 
 	public Action<Character> DeathAction;
@@ -21,6 +21,9 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
+
+	[SerializeField]
+	CameraShake shake;
 
 	[SerializeField]
 	ChargingBar chargingBar;
@@ -175,7 +178,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			attacking = true;
 			animator.SetTrigger("attack");
 			StartAttack(baseAttack);
-			AttackAction(this, baseAttack, 1.0f);
+			AttackAction(this, baseAttack, 1.0f, false);
 		}
 	}
 
@@ -217,7 +220,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	public void Hit(Attack attack, int dir, float multiplicator)
+	public void Hit(Attack attack, int dir, float multiplicator, bool maxed)
 	{
 		if (attack.ShiftHitEnemy) {
 			transform.AddPositionX((int)dir * 1.0f);
@@ -227,12 +230,19 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
-		if (attack.HitEffect != null && attack.HitEffect.Effect != null) {
-			context.EffectManager.CreateEffect(attack.HitEffect,
-				GetPoi(attack.HitEffect.Container),
-				GetFlip()
+		for (int i = 0; i < attack.HitEffectS.Count; ++i) {
+			var effectDescr = attack.HitEffectS[i];
+			if (effectDescr.Effect != null) {
+				context.EffectManager.CreateEffect(effectDescr,
+					GetPoi(effectDescr.Container),
+					GetFlip()
 				)
-				.Run(gameObject);
+					.Run(gameObject);
+			}
+		}
+
+		if (maxed) {
+			context.EffectManager.CreateEffect(shake.gameObject);
 		}
 
 		bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
@@ -282,11 +292,12 @@ public partial class Character : MonoBehaviour, ICharacter
 			attacking = false;
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
-			SpecialAttackAction(this, specialAttack);
+			SpecialAttackAction(this, specialAttack, false);
 		}
 		else if (name.Equals(Defs.Events.FastAttackHit)) {
 			chargedAttackStartTime = -1;
-			AttackAction(this, baseAttack, AttackMultiplicator(chargedDuration));
+			var chargedState = AttackMultiplicator(chargedDuration);
+			AttackAction(this, baseAttack, chargedState.Key, chargedState.Value);
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
@@ -385,9 +396,10 @@ public partial class Character : MonoBehaviour, ICharacter
 	}
 
 
-	static float AttackMultiplicator(float chargedTime)
+	static KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
 	{
-		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime);
-		return chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime, 1.0f);
+		var value =  chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+		return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
 	}
 }

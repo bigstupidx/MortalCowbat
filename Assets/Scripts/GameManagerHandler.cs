@@ -2,16 +2,16 @@
 
 public partial class GameManager
 {
-	void OnCharacterAttack(Character attackingCharacter, Attack attack, float multiplicator)
+	void OnCharacterAttack(Character attackingCharacter, Attack attack, float multiplicator, bool maxed)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip(), multiplicator));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip(), multiplicator, maxed));
 	}
 
-	void OnCharacterSpecialAttack(Character attackingCharacter, Attack attack)
+	void OnCharacterSpecialAttack(Character attackingCharacter, Attack attack, bool maxed)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip(), 1.0f));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter.GetFlip(), 1.0f, maxed));
 	}
 
 	void OnCharacterDeath(Character character)
