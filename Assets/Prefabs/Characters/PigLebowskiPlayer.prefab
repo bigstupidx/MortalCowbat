@@ -566,8 +566,9 @@ MonoBehaviour:
   right: 275
   up: 273
   down: 274
-  specialAttack: 115
+  specialAttack: 100
   fastAtack: 97
+  heavyAttack: 115
   jump: 32
   character: {fileID: 114844989902213830}
 --- !u!114 &114844989902213830

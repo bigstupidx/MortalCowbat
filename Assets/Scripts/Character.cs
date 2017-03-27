@@ -8,7 +8,8 @@ using Vis;
 
 public partial class Character : MonoBehaviour, ICharacter
 {
-	public Action<Character, Attack, float, bool> AttackAction;
+	public Action<Character, Attack, float, bool> HeavyAttackAction;
+	public Action<Character, Attack> AttackAction;
 	public Action<Character, Attack, bool> SpecialAttackAction;
 	public Action<float, float> HealthChangedAction;
 
@@ -120,9 +121,18 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (!attacking) {
 			attacking = true;
-			chargedAttackReleased = false;
 			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 			animator.SetTrigger(trigger);
+			StartAttack(baseAttack);
+		}
+	}
+
+	public void HeavyAttack()
+	{
+		if (!attacking) {
+			attacking = true;
+			chargedAttackReleased = false;
+			animator.SetTrigger(Defs.Animations.HeavyAttack);
 			StartAttack(baseAttack);
 		}
 	}
@@ -178,7 +188,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			attacking = true;
 			animator.SetTrigger("attack");
 			StartAttack(baseAttack);
-			AttackAction(this, baseAttack, 1.0f, false);
+			AttackAction(this, baseAttack);
 		}
 	}
 
@@ -295,9 +305,12 @@ public partial class Character : MonoBehaviour, ICharacter
 			SpecialAttackAction(this, specialAttack, false);
 		}
 		else if (name.Equals(Defs.Events.FastAttackHit)) {
+			AttackAction(this, baseAttack);
+		}
+		else if (name.Equals(Defs.Events.HeavyAttackHit)) {
 			chargedAttackStartTime = -1;
 			var chargedState = AttackMultiplicator(chargedDuration);
-			AttackAction(this, baseAttack, chargedState.Key, chargedState.Value);
+			HeavyAttackAction(this, baseAttack, chargedState.Key, chargedState.Value);
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);

@@ -5,6 +5,7 @@ public interface ICharacter
 	void MoveV(int dir);
 	void Stop();
 	void FastAttack();
+	void HeavyAttack();
 	int GetFlip();
 }
 

@@ -164,6 +164,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		character.Init(characterContext);
 		character.AttackAction = OnCharacterAttack;
 		character.SpecialAttackAction = OnCharacterSpecialAttack;
+		character.HeavyAttackAction = OnCharacterHeavyAttack;
 		character.DeathAction = OnCharacterDeath;
 	}
 

@@ -23,6 +23,9 @@ public class KeyboadController : MonoBehaviour
 	KeyCode fastAtack;
 
 	[SerializeField]
+	KeyCode heavyAttack;
+
+	[SerializeField]
 	KeyCode jump;
 
 
@@ -47,7 +50,11 @@ public class KeyboadController : MonoBehaviour
 		if (Input.GetKeyDown(fastAtack)) {
 			character.FastAttack();			
 		}
-		if (Input.GetKeyUp(fastAtack)) {
+		if (Input.GetKeyDown(heavyAttack)) {
+			character.HeavyAttack();			
+		}
+
+		if (Input.GetKeyUp(heavyAttack)) {
 			character.ChargedAttackReleased();			
 		}
 			

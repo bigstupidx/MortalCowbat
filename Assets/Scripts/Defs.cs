@@ -14,6 +14,7 @@ public static class Defs
 		public static string Idle = "idle";
 		public static string Attack = "attack";
 		public static string SpecialAttack = "specialattack";
+		public static string HeavyAttack = "heavyattack";
 		public static string Play = "play";
 		public static string Die = "die";
 		public static string Hit = "hit";
@@ -24,6 +25,7 @@ public static class Defs
 	{
 		public const string SpecialAttackFinished = "specialattackfinished";
 		public const string SpecialAttackHit = "specialattackhit";
+		public const string HeavyAttackHit = "heavyattackhit";
 		public const string FastAttackHit = "fastattackhit";
 		public const string AttackFinished = "attackfinished";
 		public const string DieFinished = "diefinished";
