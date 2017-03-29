@@ -18,6 +18,8 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Defs.CharacterType Type;
 	public Cooldown SpecialAttackCooldown { get { return specialAttackCooldown; }}
 
+	public bool CheckLimits { get; set;}
+
 	public Attack BasicAttack { get { return baseAttack; }}
 	public Attack SpecialAttack { get { return specialAttack; }}
 	public CharacterSettings Settings { get { return settings; }}
@@ -76,6 +78,11 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	const float maxTime = 1.0f;
 	const float maxMultiplication = 3.0f;
+
+	void Awake()
+	{
+		CheckLimits = true;
+	}
 
 	public void Init(CharacterContext context)
 	{
@@ -214,7 +221,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		speedX = 0;
 		speedY = 0;
 
-		TrimPositionToLimits();
+		if (CheckLimits) {
+			TrimPositionToLimits();
+		}
 		UpdateSortingOrder();
 		UpdateCharging();
 	}
@@ -280,7 +289,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public float GetBasicAttackRange()
 	{
 		var circleColl =  baseAttack.Colliders.Find(x=> x is CircleCollider2D) as CircleCollider2D;
-		return circleColl.radius + circleColl.offset.magnitude;
+		return circleColl.radius + circleColl.offset.x;
 	}
 
 	void PlayAnimation(string animName)

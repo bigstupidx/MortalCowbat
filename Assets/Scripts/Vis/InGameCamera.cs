@@ -4,9 +4,14 @@ namespace Vis
 {
 	public class InGameCamera : MonoBehaviour
 	{
+		public SmoothFollow Follower { get { return follow; } }
+
 		[SerializeField]
 		Camera  mainCamera;
-	
+
+		[SerializeField]
+		SmoothFollow follow;
+
 		public Vector3 GetPosition()
 		{
 			return mainCamera.transform.position;

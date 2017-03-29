@@ -48,6 +48,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	IEnumerator MainInit()
 	{
+		InitializeLevelFrame (level);
+
 		yield return StartCoroutine(ui.Dialoger.ShowDialog("intro"));
 
 		Initialize();
@@ -76,19 +78,28 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	public IEnumerator SetNextLevel()
 	{
+		
 		yield return StartCoroutine(CheckForPlayerOnRightSide());
-		yield return StartCoroutine(MoveCameraToTheNextLevel());
+		player.CheckLimits = false;
+		gameCamera.Follower.CheckLimits = false;
+		yield return StartCoroutine(MovePlayerToTheNextLevel());
+
 		level++;
 
 		yield return 0;
+
 		Restart();
+
+		yield return StartCoroutine(gameCamera.Follower.AllignWithLimit());
+
+		player.CheckLimits = true;
+		gameCamera.Follower.CheckLimits = true;
 	}
 
 
 	IEnumerator CheckForPlayerOnRightSide()
 	{
-		var camPos = gameCamera.GetPosition();
-		var dstMinPosX = camPos.x + (limits.XMax - limits.XMin) / 5;
+		var dstMinPosX = limits.XMax - 2; // TODO
 
 		nextLevelArrow.SetActive(true);
 		nextLevelArrow.transform.SetPositionX(dstMinPosX);
@@ -97,31 +108,48 @@ public partial class GameManager : MonoBehaviour, IResetable
 			yield return 0;
 	
 		nextLevelArrow.SetActive(false);
+	}
+
+	IEnumerator MovePlayerToTheNextLevel()
+	{
+		var dstPosX = limits.XMax + 4.0f; // TODO
+
+		while (player.Position.x < dstPosX) {
+			player.MoveH(1);
+			yield return 0;
+		}
 
 	}
 
 	IEnumerator MoveCameraToTheNextLevel()
 	{
 		var startCamPosX = gameCamera.GetPosition().x;
-		var dstCamPosX = gameCamera.GetPosition().x + 8.0f;
+		var dstCamPosX = player.Position.x;
 		yield return StartCoroutine(Utils.LerpWithEase (startCamPosX, 
 			dstCamPosX, 
 			2.0f, 
 			gameCamera.SetPositionX, 
 			Utils.Ease));
+
+	}
+
+	void InitializeLevelFrame (int level)
+	{
+		levelFrame = GameObject.Find (string.Format ("LevelFrame{0}", level)).GetComponent<LevelFrame> ();
+		gameCamera.Follower.LevelFrame = levelFrame;
+
+		limits = new Limits() { 
+			//XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
+			//XMax = gameCamera.GetPosition().x + gameCamera.GetWidth() * 0.5f,
+			XMin = levelFrame.GetXMin(),
+			XMax = levelFrame.GetXMax(),
+			YMin = levelFrame.GetMinY(),
+			YMax = levelFrame.GetMaxY()
+		};
 	}
 
 	void Initialize()
 	{
-		levelFrame = GameObject.Find (string.Format ("LevelFrame{0}", level)).GetComponent<LevelFrame>();
-
-		limits = new Limits() { 
-			XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
-			XMax = gameCamera.GetPosition().x + gameCamera.GetWidth() * 0.5f,
-			YMin = levelFrame.GetMinY(),
-			YMax = levelFrame.GetMaxY()
-		};
-
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
 		npcGenerator.NextWaveAction += ui.OnWave;
 		npcGenerator.NPCLeftChagedAction += ui.OnLeft;
@@ -147,6 +175,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		if (player == null) {
 			player = PlacePlayer();
+			gameCamera.Follower.Target = player.transform;
 		}
 		characters.Add(player);
 	}
