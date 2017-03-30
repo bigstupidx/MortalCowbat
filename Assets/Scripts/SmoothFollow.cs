@@ -8,6 +8,8 @@ public class SmoothFollow : MonoBehaviour
 	public Transform Target;
 	public LevelFrame LevelFrame;
 	public bool CheckLimits { get; set; }
+	public bool Follow { get; set; }
+
 
 	InGameCamera cam;
 
@@ -15,11 +17,12 @@ public class SmoothFollow : MonoBehaviour
 	{
 		cam = GetComponent<InGameCamera>();
 		CheckLimits = true;
+		Follow = true;
 	}
 
 	void Update()
 	{
-		if (Target)
+		if (Follow && Target)
 		{
 //			if (Target.position.x > (cam.GetPosition().x + cam.GetWidth() / 4.0f)) {
 //				var posX = Mathf.Lerp (transform.position.x, Target.position.x, 0.1f);
@@ -48,14 +51,20 @@ public class SmoothFollow : MonoBehaviour
 		while (transform.position.x > xMax) {
 			var posX = Mathf.Lerp (transform.position.x, xMax, 0.1f);
 			transform.SetPositionX(posX);
+			if ( Mathf.Abs(transform.position.x - xMax) < 0.05f)
+				break;
+			
 			yield return 0;
 		}
 
 		while (transform.position.x < xMin) {
 			var posX = Mathf.Lerp (transform.position.x, xMin, 0.1f);
 			transform.SetPositionX(posX);
+			if ( Mathf.Abs(transform.position.x - xMin) < 0.05f)
+				break;
 			yield return 0;
 		}
+		yield  break;
 	}
 }
 

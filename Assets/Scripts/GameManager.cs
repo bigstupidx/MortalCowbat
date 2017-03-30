@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Ui;
 using Ai;
 using Vis;
-using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
@@ -83,7 +82,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		player.CheckLimits = false;
 		gameCamera.Follower.CheckLimits = false;
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
-
+		gameCamera.Follower.Follow = false;
 		level++;
 
 		yield return 0;
@@ -94,6 +93,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		player.CheckLimits = true;
 		gameCamera.Follower.CheckLimits = true;
+		gameCamera.Follower.Follow = true;
 	}
 
 
