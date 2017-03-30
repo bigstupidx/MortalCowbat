@@ -125,6 +125,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1540844789549800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4749859258491930}
+  m_Layer: 0
+  m_Name: Mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1697516205566094
 GameObject:
   m_ObjectHideFlags: 1
@@ -202,6 +217,7 @@ Transform:
   - {fileID: 4115526199302134}
   - {fileID: 4205072537090974}
   - {fileID: 4254645799878262}
+  - {fileID: 4749859258491930}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -313,6 +329,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4115526199302134}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4749859258491930
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1540844789549800}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.577, y: 0.974, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4066104247787474}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61082574198584610
 BoxCollider2D:
@@ -474,6 +503,10 @@ MonoBehaviour:
     InWorldSpace: 1
     CustomData:
     - OnAttacker
+  - Effect: {fileID: 114243814342895862, guid: 060487c82891846649aa850e53b6a071, type: 2}
+    Container: Mouth
+    InWorldSpace: 0
+    CustomData: []
 --- !u!114 &114600560532852356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -548,6 +581,7 @@ MonoBehaviour:
   pois:
   - {fileID: 4028084892607608}
   - {fileID: 4254645799878262}
+  - {fileID: 4749859258491930}
   specialAttackCooldown: {fileID: 0}
 --- !u!114 &114944756800234506
 MonoBehaviour:
