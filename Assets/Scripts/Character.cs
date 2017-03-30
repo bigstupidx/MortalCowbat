@@ -288,8 +288,8 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public float GetBasicAttackRange()
 	{
-		var circleColl =  baseAttack.Colliders.Find(x=> x is CircleCollider2D) as CircleCollider2D;
-		return circleColl.radius + circleColl.offset.x;
+		var box =  baseAttack.Colliders.Find(x=> x is BoxCollider2D) as BoxCollider2D;
+		return box.size.x * 0.5f + box.offset.x;
 	}
 
 	void PlayAnimation(string animName)

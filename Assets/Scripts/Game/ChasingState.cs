@@ -32,7 +32,7 @@ namespace Ai
 				var sqrDist = (context.Character.Position - chasedCharacter.Position).sqrMagnitude;
 
 				var sqrRangeDist = context.Character.GetBasicAttackRange() * 0.9f;
-				sqrRangeDist *= 2;
+				sqrRangeDist *= sqrRangeDist;
 
 				if (sqrDist < sqrRangeDist) {
 					context.Character.Stop();

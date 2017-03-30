@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Attack : MonoBehaviour
 {
@@ -33,5 +34,10 @@ public class Attack : MonoBehaviour
 
 	[SerializeField]
 	List<EffectDescriptor> hitEffects;
+
+	void Awake()
+	{
+		colliders = GetComponents<Collider2D>().ToList();
+	}
 
 }

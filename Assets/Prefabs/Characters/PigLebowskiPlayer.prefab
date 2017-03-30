@@ -87,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4672839399874602}
   - component: {fileID: 114611607432357674}
-  - component: {fileID: 58096420178735890}
+  - component: {fileID: 61994107059315322}
   m_Layer: 0
   m_Name: PigBaseAttacks
   m_TagString: Untagged
@@ -374,20 +374,6 @@ Transform:
   m_Father: {fileID: 4066104247787474}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58096420178735890
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1481085899930496}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 1.26, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.7546041
 --- !u!61 &61275100916209336
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -402,6 +388,20 @@ BoxCollider2D:
   m_Offset: {x: 4.3, y: -0.05}
   serializedVersion: 2
   m_Size: {x: 9.84, y: 3.08}
+--- !u!61 &61994107059315322
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1481085899930496}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 2.52, y: -0.05}
+  serializedVersion: 2
+  m_Size: {x: 3.55, y: 3.24}
 --- !u!82 &82464175507182106
 AudioSource:
   m_ObjectHideFlags: 1
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliders:
-  - {fileID: 58096420178735890}
+  - {fileID: 0}
   ranged: 0
   shiftHitEnemy: 0
   attackPoints: 10
