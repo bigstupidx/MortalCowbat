@@ -239,7 +239,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	public void Hit(Attack attack, int dir, float multiplicator, bool maxed)
+	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed)
 	{
 		if (attack.ShiftHitEnemy) {
 			transform.AddPositionX((int)dir * 1.0f);
@@ -249,11 +249,18 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
-		for (int i = 0; i < attack.HitEffectS.Count; ++i) {
-			var effectDescr = attack.HitEffectS[i];
+		for (int i = 0; i < attack.HitEffects.Count; ++i) {
+			var effectDescr = attack.HitEffects[i];
 			if (effectDescr.Effect != null) {
+
+				Transform poi = 
+					effectDescr.CustomData.Contains ("OnAttacker") ?
+					attackingCharacter.GetPoi (effectDescr.Container) : 
+					GetPoi (effectDescr.Container);
+
 				context.EffectManager.CreateEffect(effectDescr,
-					GetPoi(effectDescr.Container),
+					poi,
+					gameObject,
 					GetFlip()
 				)
 					.Run(gameObject);
@@ -347,8 +354,10 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		for (int i = 0; i < attack.Effects.Count; ++i) {
 			context.EffectManager.CreateEffect(
-				attack.Effects[i], 
-				transform.Find("Root/" + attack.Effects[i].Container), GetFlip());
+				attack.Effects[i],
+				transform.Find("Root/" + attack.Effects[i].Container),
+				gameObject,
+				GetFlip());
 		}
 	}
 

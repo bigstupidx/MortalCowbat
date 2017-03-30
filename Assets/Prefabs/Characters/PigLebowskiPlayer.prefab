@@ -130,6 +130,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1554829906313390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4128893259724038}
+  m_Layer: 0
+  m_Name: Hit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1605776605725196
 GameObject:
   m_ObjectHideFlags: 1
@@ -214,15 +229,29 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1493431373868202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.37, y: -2.34, z: 0}
+  m_LocalPosition: {x: -5.15, y: -2.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4185840299897978}
   - {fileID: 4170419622160586}
   - {fileID: 4613886232197990}
   - {fileID: 4957256672009704}
+  - {fileID: 4128893259724038}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4128893259724038
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1554829906313390}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.78, y: 0.68, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4066104247787474}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4170419622160586
 Transform:
@@ -535,6 +564,7 @@ MonoBehaviour:
   - Effect: {fileID: 114650871884612002, guid: 2ae387ea4a77b4370bc39db29b5d9e26, type: 2}
     Container: SpecialAttackEffectContainer
     InWorldSpace: 0
+    CustomData: []
   hitEffects: []
 --- !u!114 &114362437923186032
 MonoBehaviour:
@@ -577,7 +607,12 @@ MonoBehaviour:
   attackPoints: 10
   attackSfx: {fileID: 0}
   effects: []
-  hitEffects: []
+  hitEffects:
+  - Effect: {fileID: 114868955937026058, guid: 3b8d22656bf2348e899fcc97128c2c14, type: 2}
+    Container: Hit
+    InWorldSpace: 1
+    CustomData:
+    - OnAttacker
 --- !u!114 &114669130076354188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -636,6 +671,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   pois:
   - {fileID: 4896245416441908}
+  - {fileID: 4128893259724038}
   specialAttackCooldown: {fileID: 114362437923186032}
 --- !u!212 &212109857875351130
 SpriteRenderer:

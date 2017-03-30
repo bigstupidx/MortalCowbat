@@ -12,7 +12,7 @@ public class EffectManager : MonoBehaviour
 		return effectGo.GetComponent<Effect>();
 	}
 
-	public Effect CreateEffect(EffectDescriptor descr, Transform container, int dir)
+	public Effect CreateEffect(EffectDescriptor descr, Transform container, GameObject onWhat, int dir)
 	{
 		var effectGo = Instantiate(descr.Effect.gameObject);
 
@@ -25,7 +25,7 @@ public class EffectManager : MonoBehaviour
 		effectGo.transform.localScale = new Vector3(dir, 1,1);
 	
 		int offset = 0;
-		var sprRen = Utils.FindParentComponent<SpriteRenderer>(container.gameObject);
+		var sprRen = onWhat.GetComponentInChildren<SpriteRenderer>();
 		if (sprRen != null) {
 			offset = sprRen.sortingOrder + 1;
 		}
