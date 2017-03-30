@@ -61,6 +61,9 @@ public partial class Character : MonoBehaviour, ICharacter
 	[SerializeField]
 	Cooldown specialAttackCooldown;
 
+	[SerializeField]
+	Sprite jumpKick;
+
 	CharacterContext context;
 
 	bool dying;
@@ -71,6 +74,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	float jumpSpeedX;
 	bool jumping;
 	bool attacking;
+	bool jumpAttacking;
 
 	bool chargedAttackReleased;
 	float chargedAttackStartTime;
@@ -127,10 +131,14 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void FastAttack()
 	{
 		if (!attacking) {
-			attacking = true;
-			var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
-			animator.SetTrigger(trigger);
-			StartAttack(baseAttack);
+			if (jumping) {
+				jumpAttacking = true;
+			} else {
+				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
+				animator.SetTrigger(trigger);
+				StartAttack(baseAttack);
+				attacking = true;
+			}
 		}
 	}
 
@@ -174,7 +182,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Jump()
 	{
-		if (!jumping) {
+		if (!jumping && !attacking) {
 			jumping = true;
 			jumpSpeedX = Math.Sign(speedX) * settings.JumpingSpeed;
 			animator.SetTrigger("jump");
@@ -228,6 +236,13 @@ public partial class Character : MonoBehaviour, ICharacter
 		UpdateCharging();
 	}
 
+	void LateUpdate()
+	{
+		if (jumpAttacking) {
+			ForceJumpKickFrame();
+		}
+	}
+
 	IEnumerator JumpMove()
 	{
 		while(jumping)
@@ -275,7 +290,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		if (alive) {
 			attacking = false;
-
+			jumpAttacking = false;
 			if (!jumping) {
 				Stop();
 				animator.SetTrigger("hit");
@@ -333,6 +348,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 		else if (name.Equals(Defs.Events.JumpFinished)) {
 			jumping = false;
+			jumpAttacking = false;
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
@@ -403,6 +419,11 @@ public partial class Character : MonoBehaviour, ICharacter
 				chargingBar.gameObject.SetActive(false);
 			}
 		}
+	}
+
+	void ForceJumpKickFrame()
+	{
+		spriteRen.sprite = jumpKick;
 	}
 
 	void TrimPositionToLimits()

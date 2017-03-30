@@ -708,6 +708,7 @@ MonoBehaviour:
   - {fileID: 4128893259724038}
   - {fileID: 4080270058744970}
   specialAttackCooldown: {fileID: 114362437923186032}
+  jumpKick: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1

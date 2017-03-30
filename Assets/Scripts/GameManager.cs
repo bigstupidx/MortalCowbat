@@ -139,8 +139,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.LevelFrame = levelFrame;
 
 		limits = new Limits() { 
-			//XMin = gameCamera.GetPosition().x - gameCamera.GetWidth() * 0.5f,
-			//XMax = gameCamera.GetPosition().x + gameCamera.GetWidth() * 0.5f,
 			XMin = levelFrame.GetXMin(),
 			XMax = levelFrame.GetXMax(),
 			YMin = levelFrame.GetMinY(),
