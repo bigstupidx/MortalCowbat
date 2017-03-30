@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2027dd9bbad7c437398308a2c02ba960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 20
+  time: 4
 --- !u!114 &114549759214523460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovingSpeed: 6
+  JumpingSpeed: 9
   Health: 100
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114753656847734008

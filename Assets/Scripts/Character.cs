@@ -176,7 +176,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (!jumping) {
 			jumping = true;
-			jumpSpeedX = speedX;
+			jumpSpeedX = Math.Sign(speedX) * settings.JumpingSpeed;
 			animator.SetTrigger("jump");
 			StartCoroutine(JumpMove());
 		}
@@ -260,8 +260,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 				context.EffectManager.CreateEffect(effectDescr,
 					poi,
-					gameObject,
-					GetFlip()
+					gameObject
 				)
 					.Run(gameObject);
 			}
@@ -284,6 +283,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		} else {
 			dying = true;
 			Stop();
+			jumpSpeedX = 0.0f;
 			PlayAnimation(Defs.Animations.Die);
 			Destroy(GetComponent<AiStateMachine>());
 			if (DeathAction != null) {
@@ -356,8 +356,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			context.EffectManager.CreateEffect(
 				attack.Effects[i],
 				transform.Find("Root/" + attack.Effects[i].Container),
-				gameObject,
-				GetFlip());
+				gameObject);
 		}
 	}
 
