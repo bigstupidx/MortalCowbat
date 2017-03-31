@@ -320,7 +320,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public float GetBasicAttackRange()
 	{
 		var box =  baseAttack.Colliders.Find(x=> x is BoxCollider2D) as BoxCollider2D;
-		return box.size.x * 0.5f + box.offset.x;
+		return (box.size.x * 0.5f + box.offset.x) * Math.Abs(transform.localScale.x);
 	}
 
 	void PlayAnimation(string animName)
