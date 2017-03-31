@@ -11,6 +11,23 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1493431373868202}
   m_IsPrefabParent: 1
+--- !u!1 &1114444404757384
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4376981505844798}
+  - component: {fileID: 114053792649777356}
+  - component: {fileID: 61606742329124576}
+  m_Layer: 0
+  m_Name: PigBaseAttacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1129738617194814
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +121,7 @@ GameObject:
   - component: {fileID: 114611607432357674}
   - component: {fileID: 61994107059315322}
   m_Layer: 0
-  m_Name: PigBaseAttacks
+  m_Name: PigJumpAttacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,7 +262,7 @@ Transform:
   m_GameObject: {fileID: 1493431373868202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.15, y: -2.34, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4185840299897978}
   - {fileID: 4170419622160586}
@@ -293,6 +310,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4277916914946824}
+  - {fileID: 4376981505844798}
   - {fileID: 4672839399874602}
   - {fileID: 4584346276206976}
   - {fileID: 4896245416441908}
@@ -337,7 +355,20 @@ Transform:
   m_LocalScale: {x: 7, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 4
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4376981505844798
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114444404757384}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4170419622160586}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4419213477316520
 Transform:
@@ -363,7 +394,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4613886232197990
 Transform:
@@ -390,7 +421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4872331934969100
 Transform:
@@ -417,7 +448,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4957256672009704
 Transform:
@@ -446,6 +477,20 @@ BoxCollider2D:
   m_Offset: {x: 4.3, y: -0.05}
   serializedVersion: 2
   m_Size: {x: 9.84, y: 3.08}
+--- !u!61 &61606742329124576
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114444404757384}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 2.52, y: -0.05}
+  serializedVersion: 2
+  m_Size: {x: 3.55, y: 3.24}
 --- !u!61 &61994107059315322
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -457,9 +502,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 2.52, y: -0.05}
+  m_Offset: {x: 2.13, y: -0.26}
   serializedVersion: 2
-  m_Size: {x: 3.55, y: 3.24}
+  m_Size: {x: 4.09, y: 3.58}
 --- !u!82 &82464175507182106
 AudioSource:
   m_ObjectHideFlags: 1
@@ -557,6 +602,34 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114053792649777356
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114444404757384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b79482f57d1451dbd580c6dfc148b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 0}
+  ranged: 0
+  shiftHitEnemy: 0
+  attackPoints: 10
+  attackSfx: {fileID: 0}
+  effects: []
+  hitEffects:
+  - Effect: {fileID: 114868955937026058, guid: 3b8d22656bf2348e899fcc97128c2c14, type: 2}
+    Container: Hit
+    InWorldSpace: 1
+    CustomData:
+    - OnAttacker
+  - Effect: {fileID: 114243814342895862, guid: 060487c82891846649aa850e53b6a071, type: 2}
+    Container: Mouth
+    InWorldSpace: 0
+    CustomData: []
 --- !u!114 &114109011872003456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -631,15 +704,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliders:
   - {fileID: 0}
-  ranged: 0
-  shiftHitEnemy: 0
-  attackPoints: 10
+  ranged: 1
+  shiftHitEnemy: 1
+  attackPoints: 20
   attackSfx: {fileID: 0}
   effects: []
   hitEffects:
   - Effect: {fileID: 114868955937026058, guid: 3b8d22656bf2348e899fcc97128c2c14, type: 2}
     Container: Hit
-    InWorldSpace: 1
+    InWorldSpace: 0
     CustomData:
     - OnAttacker
   - Effect: {fileID: 114243814342895862, guid: 060487c82891846649aa850e53b6a071, type: 2}
@@ -696,7 +769,8 @@ MonoBehaviour:
   shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
   chargingBar: {fileID: 114109011872003456}
   specialAttack: {fileID: 114351736271625434}
-  baseAttack: {fileID: 114611607432357674}
+  baseAttack: {fileID: 114053792649777356}
+  jumpAttack: {fileID: 114611607432357674}
   hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
   audioSource: {fileID: 82464175507182106}
   settings: {fileID: 114669130076354188}

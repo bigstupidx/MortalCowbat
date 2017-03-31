@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 1493431373868202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.66, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4171324223734838}
   - {fileID: 4115526199302134}
@@ -572,6 +572,7 @@ MonoBehaviour:
   chargingBar: {fileID: 0}
   specialAttack: {fileID: 114962683884621062}
   baseAttack: {fileID: 114565483941095976}
+  jumpAttack: {fileID: 0}
   hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
   audioSource: {fileID: 82604774091576890}
   settings: {fileID: 114600560532852356}
@@ -583,6 +584,7 @@ MonoBehaviour:
   - {fileID: 4254645799878262}
   - {fileID: 4749859258491930}
   specialAttackCooldown: {fileID: 0}
+  jumpKick: {fileID: 0}
 --- !u!114 &114944756800234506
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -11,6 +11,8 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Action<Character, Attack, float, bool> HeavyAttackAction;
 	public Action<Character, Attack> AttackAction;
 	public Action<Character, Attack, bool> SpecialAttackAction;
+	public Action<Character, Attack> JumpAttackAction;
+
 	public Action<float, float> HealthChangedAction;
 
 	public Action<Character> DeathAction;
@@ -22,6 +24,8 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public Attack BasicAttack { get { return baseAttack; }}
 	public Attack SpecialAttack { get { return specialAttack; }}
+	public Attack JumpAttack { get { return jumpAttack; }}
+
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
 
@@ -36,6 +40,9 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	[SerializeField]
 	Attack baseAttack;
+
+	[SerializeField]
+	Attack jumpAttack;
 
 	[SerializeField]
 	HitBlink hitBlink;
@@ -133,6 +140,8 @@ public partial class Character : MonoBehaviour, ICharacter
 		if (!attacking) {
 			if (jumping) {
 				jumpAttacking = true;
+				StartAttack(jumpAttack);
+				JumpAttackAction(this, specialAttack);
 			} else {
 				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 				animator.SetTrigger(trigger);
@@ -193,7 +202,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	void Flip(int dir)
 	{
 		var scale = transform.localScale;
-		scale.x = dir;
+		scale.x = dir * Math.Abs(scale.x);
 		transform.localScale = scale;
 	}
 
