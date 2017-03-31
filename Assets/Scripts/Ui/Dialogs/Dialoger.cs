@@ -46,6 +46,7 @@ namespace Ui
 				view.transform.SetParent(canvasTr);
 				view.transform.SetAsLastSibling();
 				view.transform.localPosition = Vector3.zero;
+				view.MakeFullscreen();
 
 				while (true) {
 					if (Input.anyKeyDown || Input.GetMouseButtonDown(0)) {
