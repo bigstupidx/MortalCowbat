@@ -27,6 +27,9 @@ public partial class GameManager
 		if (character.Type == Defs.CharacterType.NPC) {
 			npcGenerator.OnNPCDeath();
 		} else {
+			if (events.PlayerDied != null) {
+				events.PlayerDied(level, npcGenerator.WaveIndex);
+			}
 			Restart();
 		}
 	}
@@ -38,6 +41,38 @@ public partial class GameManager
 
 	void OnAllWavesFinished()
 	{
+		if (events.AllWavesFinished != null) {
+			events.AllWavesFinished(level);
+		}
+
 		StartCoroutine(SetNextLevel());
+	}
+
+	void OnWaveStarted(int actualWave, int waveCount)
+	{
+		if (events.WaveStarted != null) {
+			events.WaveStarted(actualWave,waveCount);
+		}
+	}
+
+	void OnWaveFinished(int actualWave, int waveCount)
+	{
+		if (events.WaveFinished != null) {
+			events.WaveFinished(level, actualWave);
+		}
+	}
+
+	void OnNPCLeftChanged(int npcLeft)
+	{
+		if (events.NPCLeftChanged != null) {
+			events.NPCLeftChanged(npcLeft);
+		}
+	}
+
+	void OnLevelStarted(int level)
+	{
+		if (events.LevelStarted != null) {
+			events.LevelStarted(level);
+		}
 	}
 }

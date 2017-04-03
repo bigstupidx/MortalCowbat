@@ -11,12 +11,16 @@ namespace Ui
 		public GameObject leftSentencePrefab;
 		public GameObject rightSentencePrefab;
 
-		public IEnumerator ShowDialog(string name)
+		public IEnumerator ShowDialog(string name, Action onStartAction, Action onFinishAction)
 		{
+			onStartAction();
+
 			var dialog = dialogDb.Dialogs.Find(x=>x.Name.Equals(name));		
 			if (dialog != null) {
 				yield return StartCoroutine(ShowDialog(dialog));
 			}
+
+			onFinishAction();
 		}
 
 		SentenceView CreateSentenceView(Dialog.Sentence sentence)

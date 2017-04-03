@@ -26,7 +26,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	[SerializeField]
 	InGameUiRoot ui;
 
-	List<Character> characters;
+	List<Character> characters = new List<Character>();
 	List<IResetable> resetables;
 
 	Character player;
@@ -35,22 +35,34 @@ public partial class GameManager : MonoBehaviour, IResetable
 	Limits limits;
 	LevelFrame levelFrame;
 
+	GameEvents events;
+
+
 	int level;
 
 	void Awake()
 	{
-		nextLevelArrow.SetActive(false);
-		level = 1;
-		characterContext = CreateCharacterContext();
-		StartCoroutine(MainInit());
+		events = new GameEvents();
 	}
 
-	IEnumerator MainInit()
+
+	void Start()
+	{
+		ui.DialogController.startAction = Pause;
+		ui.DialogController.finishAction = Resume;
+
+		nextLevelArrow.SetActive(false);
+		level = 1;
+	
+		characterContext = CreateCharacterContext();
+		MainInit();
+	
+		OnLevelStarted(level);
+	}
+
+	void MainInit()
 	{
 		InitializeLevelFrame (level);
-
-		yield return StartCoroutine(ui.Dialoger.ShowDialog("intro"));
-
 		Initialize();
 		GatherCharacters();
 		InitializeCharacters();
@@ -72,7 +84,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	public void Restart()
 	{
 		resetables.ForEach(x=>x.Reset());	
-		StartCoroutine(MainInit());
+		MainInit();
 	}
 
 	public IEnumerator SetNextLevel()
@@ -85,6 +97,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.Follow = false;
 		level++;
 
+		OnLevelStarted(level);
+
 		yield return 0;
 
 		Restart();
@@ -96,6 +110,17 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.Follow = true;
 	}
 
+	public void Pause()
+	{
+		characters.ForEach(x=>x.Pause());	
+		npcGenerator.Pause();
+	}
+
+	public void Resume()
+	{
+		characters.ForEach(x=>x.Resume());	
+		npcGenerator.Resume();
+	}
 
 	IEnumerator CheckForPlayerOnRightSide()
 	{
@@ -149,9 +174,21 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void Initialize()
 	{
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
-		npcGenerator.NextWaveAction += ui.OnWave;
-		npcGenerator.NPCLeftChagedAction += ui.OnLeft;
 		npcGenerator.AllWavesFinishedAction += OnAllWavesFinished;
+		npcGenerator.NextWaveAction += OnWaveStarted;
+		npcGenerator.WaveFinishedAction += OnWaveFinished;
+		npcGenerator.NPCLeftChagedAction += OnNPCLeftChanged;
+
+		events.WaveStarted += ui.OnWave;
+		events.WaveStarted += ui.DialogController.OnWaveStarted;
+		events.WaveFinished += ui.DialogController.OnWaveFinished;
+		events.AllWavesFinished += ui.DialogController.OnAllWavesFinished;
+		events.LevelStarted += ui.DialogController.OnLevelStarted;
+
+	
+		events.NPCLeftChanged += ui.OnLeft;
+	
+
 		npcGenerator.Init(new NPCGenerator.Context {
 			LevelFrame = levelFrame,
 			GameCamera = gameCamera

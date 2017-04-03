@@ -90,6 +90,10 @@ public partial class Character : MonoBehaviour, ICharacter
 	const float maxTime = 1.0f;
 	const float maxMultiplication = 3.0f;
 
+	bool paused;
+
+	float animatorSpeed;
+
 	void Awake()
 	{
 		CheckLimits = true;
@@ -199,6 +203,19 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
+	public void Pause()
+	{
+		animatorSpeed = animator.speed;
+		animator.speed = 0.0f;
+		paused = true;
+	}
+
+	public void Resume()
+	{
+		animator.speed = animatorSpeed;
+		paused = false;
+	}
+
 	void Flip(int dir)
 	{
 		var scale = transform.localScale;
@@ -228,21 +245,23 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	void Update () 
 	{
-		var pos = transform.position;
-		pos.x += speedX * Time.deltaTime;
-		pos.y += speedY * Time.deltaTime;
-		transform.position = pos;
+		if (!paused) {
+			var pos = transform.position;
+			pos.x += speedX * Time.deltaTime;
+			pos.y += speedY * Time.deltaTime;
+			transform.position = pos;
 
-		animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
+			animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
 
-		speedX = 0;
-		speedY = 0;
+			speedX = 0;
+			speedY = 0;
 
-		if (CheckLimits) {
-			TrimPositionToLimits();
+			if (CheckLimits) {
+				TrimPositionToLimits();
+			}
+			UpdateSortingOrder();
+			UpdateCharging();
 		}
-		UpdateSortingOrder();
-		UpdateCharging();
 	}
 
 	void LateUpdate()

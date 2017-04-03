@@ -7,5 +7,8 @@ public interface ICharacter
 	void FastAttack();
 	void HeavyAttack();
 	int GetFlip();
+
+	void Pause();
+	void Resume();
 }
 

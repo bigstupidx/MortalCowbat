@@ -4,7 +4,7 @@ namespace Ui
 {
 	public class InGameUiRoot : MonoBehaviour
 	{
-		public Dialoger Dialoger { get { return dialoger; }}
+		public DialogController DialogController { get; private set; }
 
 		[SerializeField]
 		InGamePlayerHealthBar playerHealthbar;
@@ -18,6 +18,13 @@ namespace Ui
 
 		[SerializeField]
 		Dialoger dialoger;
+
+
+
+		void Awake()
+		{
+			DialogController = new DialogController(dialoger);
+		}
 
 		public void OnPlayerHealthChanged(float actual, float maxHealth)
 		{

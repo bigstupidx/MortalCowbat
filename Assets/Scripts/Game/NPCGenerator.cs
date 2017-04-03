@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using Vis;
 
 
-public class NPCGenerator : MonoBehaviour, IResetable
+public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 {
+	public int WaveIndex { get { return waveIndex; }}
+
 	public Action AllWavesFinishedAction;
+	public Action<int, int>  WaveFinishedAction;
 	public Action<int, int>  NextWaveAction;
 	public Action<int> NPCLeftChagedAction;
 	public Action<Character> CharacterGenerated;
@@ -26,11 +29,14 @@ public class NPCGenerator : MonoBehaviour, IResetable
 
 	float generateTime = 0;
 	float startTime;
+	float timer;
 
 	int generatedNPCCount;
 	int killedNPCs;
 	int waveIndex;
 	bool running;
+	bool paused;
+
 
 	Context context;
 
@@ -65,6 +71,7 @@ public class NPCGenerator : MonoBehaviour, IResetable
 
 		killedNPCs++;
 		if (killedNPCs == waves.EnemiesInWave[waveIndex]) {
+			WaveFinishedAction(waveIndex, waves.EnemiesInWave.Count);
 			killedNPCs = 0;
 			generatedNPCCount = 0;
 			waveIndex = Math.Min(waveIndex + 1, waves.EnemiesInWave.Count);
@@ -82,11 +89,15 @@ public class NPCGenerator : MonoBehaviour, IResetable
 	void Update()
 	{
 		if (running) {
-			if (Time.time > generateTime) {
+			if (timer > generateTime) {
 				GenerateRandomNPC();
 				float delay = GetSpawnDelay(Time.time - startTime);
-				generateTime = Time.time + delay;
+				generateTime = timer + delay;
 			}	
+		}
+
+		if (!paused) {
+			timer += Time.deltaTime;
 		}
 	}
 
@@ -125,6 +136,16 @@ public class NPCGenerator : MonoBehaviour, IResetable
 	int GetEnemiesLeft()
 	{
 		return waves.EnemiesInWave[waveIndex] - killedNPCs;
+	}
+
+	public void Pause ()
+	{
+		paused = true;
+	}
+
+	public void Resume ()
+	{
+		paused = false;
 	}
 }
 
