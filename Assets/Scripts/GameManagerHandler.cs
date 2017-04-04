@@ -30,7 +30,7 @@ public partial class GameManager
 			if (events.PlayerDied != null) {
 				events.PlayerDied(level, npcGenerator.WaveIndex);
 			}
-			Restart();
+			Restart(true);
 		}
 	}
 

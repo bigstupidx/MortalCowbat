@@ -14,7 +14,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	public Action<int> NPCLeftChagedAction;
 	public Action<Character> CharacterGenerated;
 	public AnimationCurve spawnCurve;
-
+	public bool Running { get { return running; } set { running = value; }}
 	public class Context
 	{
 		public LevelFrame LevelFrame;
@@ -55,6 +55,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		AllWavesFinishedAction = null;
 		NextWaveAction = null;
 		NPCLeftChagedAction = null;
+		WaveFinishedAction = null;
 		CharacterGenerated = null;
 		waveIndex = 0;
 		generateTime = 0;

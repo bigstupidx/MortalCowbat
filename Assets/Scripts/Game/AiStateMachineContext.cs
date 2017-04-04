@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Ai
 {
 	public class AiStateMachineContext
 	{
-		public Func<List<Character>> Characters;
+		public List<Character> CharacterList;
 	}
 }
 

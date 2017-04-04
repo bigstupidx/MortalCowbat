@@ -213,6 +213,8 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void Resume()
 	{
 		animator.speed = animatorSpeed;
+		animator.speed = 1.0f;
+
 		paused = false;
 	}
 
@@ -481,4 +483,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		var value =  chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
 		return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
 	}
+
+	void OnDestroy()
+	{
+		Debug.Log (string.Format ("Character.OnDestroy(){0}", name));
+	}	
 }

@@ -29,7 +29,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	List<Character> characters = new List<Character>();
 	List<IResetable> resetables;
 
-	Character player;
+	Character player { get { return characters.Find(x=>x.Type == Defs.CharacterType.Player); }}
 	CharacterContext characterContext;
 	AiStateMachineContext aiContext;
 	Limits limits;
@@ -43,6 +43,16 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void Awake()
 	{
 		events = new GameEvents();
+
+		aiContext = new AiStateMachineContext { 
+			CharacterList = characters
+		};
+
+		resetables = new List<IResetable>() {
+			npcGenerator,
+			events,
+			this
+		};
 	}
 
 
@@ -76,14 +86,17 @@ public partial class GameManager : MonoBehaviour, IResetable
 	#region IResetable implementation
 	public void Reset()
 	{
-		//characters.For(x=>Destroy(x.gameObject));
+		//characters.ForEach(x=>Destroy(x.gameObject));
 		//characters.Clear();
 	}
 	#endregion
 
-	public void Restart()
+	public void Restart(bool killNPC)
 	{
 		resetables.ForEach(x=>x.Reset());	
+		if (killNPC) {
+			KillNPCs();
+		}
 		MainInit();
 	}
 
@@ -101,7 +114,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		yield return 0;
 
-		Restart();
+		Restart(false);
 
 		yield return StartCoroutine(gameCamera.Follower.AllignWithLimit());
 
@@ -120,6 +133,16 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		characters.ForEach(x=>x.Resume());	
 		npcGenerator.Resume();
+	}
+
+	void KillNPCs ()
+	{
+		for (int i = 0; i < characters.Count; ++i) {
+			if (characters[i].Type == Defs.CharacterType.NPC) {
+				Destroy(characters[i].gameObject);
+			}
+		}		
+		characters.RemoveAll(x=>x.Type == Defs.CharacterType.NPC);
 	}
 
 	IEnumerator CheckForPlayerOnRightSide()
@@ -193,32 +216,19 @@ public partial class GameManager : MonoBehaviour, IResetable
 			LevelFrame = levelFrame,
 			GameCamera = gameCamera
 		});
-	
-		aiContext = new AiStateMachineContext { 
-			Characters = Characters
-		};
-
-		resetables = new List<IResetable>() {
-			npcGenerator,
-			this
-		};
 	}
 
 	void GatherCharacters()
 	{
-		characters = new List<Character>();
-
 		if (player == null) {
-			player = PlacePlayer();
+			PlacePlayer();
 			gameCamera.Follower.Target = player.transform;
 		}
-		characters.Add(player);
 	}
 
 	void InitializeCharacter(Character character)
 	{
 		if (character.Type == Defs.CharacterType.Player) {
-			player = character;
 			player.HealthChangedAction += ui.OnPlayerHealthChanged;
 			player.SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
 		} else {
@@ -243,9 +253,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		var aiStateMachine = character.GetComponent<AiStateMachine>();
 		if (aiStateMachine != null) {
-			if (aiContext == null) {
-				aiContext = new AiStateMachineContext() { Characters = Characters };
-			}
 			aiStateMachine.Init(aiContext);
 		}
 	}
@@ -288,11 +295,11 @@ public partial class GameManager : MonoBehaviour, IResetable
 	}
 
 
-	Character PlacePlayer()
+	void PlacePlayer()
 	{
 		var player = Instantiate(playerPrefab);
 		player.transform.position = Vector3.zero;
-		return player.GetComponent<Character>();
+		characters.Add(player.GetComponent<Character>());
 	}
 
 	Limits GetLimits()
