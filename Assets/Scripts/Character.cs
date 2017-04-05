@@ -148,7 +148,6 @@ public partial class Character : MonoBehaviour, ICharacter
 			if (jumping) {
 				jumpAttacking = true;
 				StartAttack(jumpAttack);
-				//JumpAttackAction(this, jumpAttack);
 				jumpId++;
 			} else {
 				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
@@ -176,7 +175,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		if (Charging()) {
 			chargedDuration = Time.time - chargedAttackStartTime;
-			chargedAttackStartTime = -1;
+			SetChargedAttackStartTime(-1);
 		} else {
 			chargedDuration = 0;
 		}
@@ -325,7 +324,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			}
 
 			bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
-			chargedAttackStartTime = -1;
+			SetChargedAttackStartTime(-1);
 
 			if (alive) {
 				attacking = false;
@@ -401,8 +400,8 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
-				animator.speed = 0;
-				chargedAttackStartTime = Time.time;
+				//animator.speed = 0;
+				SetChargedAttackStartTime(Time.time);
 			}
 		}
 	}
@@ -458,6 +457,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			if (Charging()) {
 				chargedDuration = Time.time - chargedAttackStartTime;
 				float normalizedMultiplicator = Mathf.Min(chargedDuration / maxTime, 1.0f);
+
 				if (normalizedMultiplicator > 0.2f) {
 					chargingBar.gameObject.SetActive(true);
 					chargingBar.SetValue(normalizedMultiplicator);
@@ -473,6 +473,11 @@ public partial class Character : MonoBehaviour, ICharacter
 	void ForceJumpKickFrame()
 	{
 		spriteRen.sprite = jumpKick;
+	}
+
+	void UpdateChargingMoment()
+	{
+		
 	}
 
 	void TrimPositionToLimits()
@@ -518,4 +523,11 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		Debug.Log (string.Format ("Character.OnDestroy(){0}", name));
 	}	
+
+	void SetChargedAttackStartTime(float time)
+	{
+		chargedAttackStartTime = time;
+		animator.SetFloat("chargedattackastarttime", time);
+	}
+
 }
