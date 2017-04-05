@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using Ai;
-using System.Collections;
 using System.Collections.Generic;
 using Vis;
 
@@ -290,7 +289,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		if (attackId !=-1 && lastAttackHitHId != attackId) {
+		if (attackId ==-1 || lastAttackHitHId != attackId) {
 			lastAttackHitHId = attackId;
 
 			if (attack.ShiftHitEnemy) {
