@@ -8,6 +8,13 @@ public partial class GameManager
 		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), 1.0f, false));
 	}
 
+	void OnCharacterJumpAttack(Character attackingCharacter, Attack attack, int attackId)
+	{
+		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), 1.0f, false, attackId));
+	}
+
+
 	void OnCharacterHeavyAttack(Character attackingCharacter, Attack attack, float multiplier, bool maxed)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);

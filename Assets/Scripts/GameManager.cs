@@ -240,7 +240,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		character.SpecialAttackAction = OnCharacterSpecialAttack;
 		character.HeavyAttackAction = OnCharacterHeavyAttack;
 		character.DeathAction = OnCharacterDeath;
-		character.JumpAttackAction = OnCharacterAttack;
+		character.JumpAttackAction = OnCharacterJumpAttack;
 	}
 
 
@@ -305,6 +305,16 @@ public partial class GameManager : MonoBehaviour, IResetable
 	Limits GetLimits()
 	{
 		return limits;
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.P)) {
+			Pause();
+		}
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Resume();
+		}
 	}
 
 }

@@ -11,7 +11,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Action<Character, Attack, float, bool> HeavyAttackAction;
 	public Action<Character, Attack> AttackAction;
 	public Action<Character, Attack, bool> SpecialAttackAction;
-	public Action<Character, Attack> JumpAttackAction;
+	public Action<Character, Attack, int> JumpAttackAction;
 
 	public Action<float, float> HealthChangedAction;
 
@@ -76,12 +76,14 @@ public partial class Character : MonoBehaviour, ICharacter
 	bool dying;
 	int actualHealth;
 	int fastAttackCounter;
+	int lastAttackHitHId;
 	float speedX;
 	float speedY;
 	float jumpSpeedX;
 	bool jumping;
 	bool attacking;
 	bool jumpAttacking;
+	int jumpId;
 
 	bool chargedAttackReleased;
 	float chargedAttackStartTime;
@@ -102,6 +104,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
+		this.lastAttackHitHId = -1;
 		SetHealth(settings.Health);
 	}
 
@@ -145,7 +148,8 @@ public partial class Character : MonoBehaviour, ICharacter
 			if (jumping) {
 				jumpAttacking = true;
 				StartAttack(jumpAttack);
-				JumpAttackAction(this, specialAttack);
+				//JumpAttackAction(this, jumpAttack);
+				jumpId++;
 			} else {
 				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 				animator.SetTrigger(trigger);
@@ -199,7 +203,6 @@ public partial class Character : MonoBehaviour, ICharacter
 			jumping = true;
 			jumpSpeedX = Math.Sign(speedX) * settings.JumpingSpeed;
 			animator.SetTrigger("jump");
-			StartCoroutine(JumpMove());
 		}
 	}
 
@@ -263,6 +266,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			}
 			UpdateSortingOrder();
 			UpdateCharging();
+			UpdateJump();
 		}
 	}
 
@@ -270,69 +274,73 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (jumpAttacking) {
 			ForceJumpKickFrame();
+			JumpAttackAction(this, jumpAttack, jumpId);
 		}
 	}
 
-	IEnumerator JumpMove()
+
+	void UpdateJump()
 	{
-		while(jumping)
-		{
+		if (jumping) {
 			var pos = transform.position;
 			pos.x += jumpSpeedX * Time.deltaTime;
 			transform.position = pos;
-			yield return 0;
 		}
 	}
 
-	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed)
+	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		if (attack.ShiftHitEnemy) {
-			transform.AddPositionX((int)dir * 1.0f);
-		}
-		audioSource.clip = settings.HitSfx;
-		audioSource.PlayOneShot(audioSource.clip);
+		if (attackId !=-1 && lastAttackHitHId != attackId) {
+			lastAttackHitHId = attackId;
 
-		context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
-
-		for (int i = 0; i < attack.HitEffects.Count; ++i) {
-			var effectDescr = attack.HitEffects[i];
-			if (effectDescr.Effect != null) {
-
-				Transform poi = 
-					effectDescr.CustomData.Contains ("OnAttacker") ?
-					attackingCharacter.GetPoi (effectDescr.Container) : 
-					GetPoi (effectDescr.Container);
-
-				context.EffectManager.CreateEffect(effectDescr,
-					poi,
-					gameObject
-				)
-					.Run(gameObject);
+			if (attack.ShiftHitEnemy) {
+				transform.AddPositionX((int)dir * 1.0f);
 			}
-		}
+			audioSource.clip = settings.HitSfx;
+			audioSource.PlayOneShot(audioSource.clip);
 
-		if (maxed) {
-			context.EffectManager.CreateEffect(shake.gameObject);
-		}
+			context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
-		bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
-		chargedAttackStartTime = -1;
+			for (int i = 0; i < attack.HitEffects.Count; ++i) {
+				var effectDescr = attack.HitEffects[i];
+				if (effectDescr.Effect != null) {
 
-		if (alive) {
-			attacking = false;
-			jumpAttacking = false;
-			if (!jumping) {
+					Transform poi = 
+						effectDescr.CustomData.Contains ("OnAttacker") ?
+						attackingCharacter.GetPoi (effectDescr.Container) : 
+						GetPoi (effectDescr.Container);
+
+					context.EffectManager.CreateEffect(effectDescr,
+						poi,
+						gameObject
+					)
+						.Run(gameObject);
+				}
+			}
+
+			if (maxed) {
+				context.EffectManager.CreateEffect(shake.gameObject);
+			}
+
+			bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
+			chargedAttackStartTime = -1;
+
+			if (alive) {
+				attacking = false;
+				jumpAttacking = false;
+				if (!jumping) {
+					Stop();
+					animator.SetTrigger("hit");
+				}
+			} else {
+				dying = true;
 				Stop();
-				animator.SetTrigger("hit");
-			}
-		} else {
-			dying = true;
-			Stop();
-			jumpSpeedX = 0.0f;
-			PlayAnimation(Defs.Animations.Die);
-			Destroy(GetComponent<AiStateMachine>());
-			if (DeathAction != null) {
-				DeathAction(this);
+				jumpSpeedX = 0.0f;
+				PlayAnimation(Defs.Animations.Die);
+				Destroy(GetComponent<AiStateMachine>());
+				if (DeathAction != null) {
+					DeathAction(this);
+				}
 			}
 		}
 	}
