@@ -6,6 +6,7 @@ public class Attack : MonoBehaviour
 {
 	public bool Ranged { get { return ranged; }}
 	public bool ShiftHitEnemy { get { return shiftHitEnemy; }}
+	public bool EnemyFalls { get { return enemyFalls; }}
 
 	public int AttackPoints { get { return attackPoints; }}
 	public AudioClip Sfx { get { return attackSfx; }}
@@ -21,6 +22,9 @@ public class Attack : MonoBehaviour
 
 	[SerializeField]
 	bool shiftHitEnemy;
+
+	[SerializeField]
+	bool enemyFalls;
 
 	[SerializeField]
 	int attackPoints;

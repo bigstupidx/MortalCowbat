@@ -82,6 +82,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	bool jumping;
 	bool attacking;
 	bool jumpAttacking;
+	bool falling;
 	int jumpId;
 
 	bool chargedAttackReleased;
@@ -289,12 +290,14 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		if (attackId ==-1 || lastAttackHitHId != attackId) {
+		if (CanBeHit(attackId)) {
 			lastAttackHitHId = attackId;
 
 			if (attack.ShiftHitEnemy) {
 				transform.AddPositionX((int)dir * 1.0f);
 			}
+		
+
 			audioSource.clip = settings.HitSfx;
 			audioSource.PlayOneShot(audioSource.clip);
 
@@ -329,7 +332,13 @@ public partial class Character : MonoBehaviour, ICharacter
 				jumpAttacking = false;
 				if (!jumping) {
 					Stop();
-					animator.SetTrigger("hit");
+
+					if (attack.EnemyFalls) {
+						Fall ();
+					}
+					else {
+						animator.SetTrigger(Defs.Animations.Hit);
+					}
 				}
 			} else {
 				dying = true;
@@ -386,6 +395,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		else if (name.Equals(Defs.Events.JumpFinished)) {
 			jumping = false;
 			jumpAttacking = false;
+		}
+		else if (name.Equals(Defs.Events.FallFinished)) {
+			falling = false;
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
@@ -483,12 +495,23 @@ public partial class Character : MonoBehaviour, ICharacter
 		return chargedAttackStartTime > 0;
 	}
 
+	bool CanBeHit(int attackId)
+	{
+		return 
+			(attackId ==-1 || lastAttackHitHId != attackId) && !falling;
+	}
 
 	static KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
 	{
 		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime, 1.0f);
 		var value =  chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
 		return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
+	}
+
+	void Fall ()
+	{
+		PlayAnimation (Defs.Animations.Fall);
+		falling = true;
 	}
 
 	void OnDestroy()

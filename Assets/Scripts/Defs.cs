@@ -19,6 +19,7 @@ public static class Defs
 		public static string Die = "die";
 		public static string Hit = "hit";
 		public static string Jump = "jump";
+		public static string Fall = "fall";
 	}
 
 	public static class Events
@@ -30,6 +31,7 @@ public static class Defs
 		public const string AttackFinished = "attackfinished";
 		public const string DieFinished = "diefinished";
 		public const string JumpFinished = "jumpfinished";
+		public const string FallFinished = "fallfinished";
 		public const string AttackCharged = "attackcharged";
 	}
 
