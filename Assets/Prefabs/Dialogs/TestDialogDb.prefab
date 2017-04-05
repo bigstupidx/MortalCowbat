@@ -62,10 +62,11 @@ MonoBehaviour:
       Title: STR_PIG_LEBOWSKI
       Text: STR_PIG_LEBOWSKI_DIALOG1
       Position: left
-    Condition: 1
+    Condition: 0
     Parameters:
     - Key: 0
-      Value: 1
+      Value: 2
+    Delay: 0
   - Name: test
     Sentences:
     - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
@@ -80,3 +81,4 @@ MonoBehaviour:
     Parameters:
     - Key: 1
       Value: 1
+    Delay: 2

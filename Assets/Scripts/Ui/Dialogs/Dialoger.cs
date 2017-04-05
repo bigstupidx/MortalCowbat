@@ -13,14 +13,13 @@ namespace Ui
 
 		public IEnumerator ShowDialog(string name, Action onStartAction, Action onFinishAction)
 		{
-			onStartAction();
-
 			var dialog = dialogDb.Dialogs.Find(x=>x.Name.Equals(name));		
 			if (dialog != null) {
+				yield return new WaitForSeconds(dialog.Delay);
+				onStartAction();
 				yield return StartCoroutine(ShowDialog(dialog));
+				onFinishAction();
 			}
-
-			onFinishAction();
 		}
 
 		SentenceView CreateSentenceView(Dialog.Sentence sentence)

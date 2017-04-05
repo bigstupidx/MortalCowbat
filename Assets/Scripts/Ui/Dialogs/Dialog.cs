@@ -26,6 +26,7 @@ namespace Ui
 		public List<Sentence> Sentences;
 		public DialogCondition Condition;
 		public List<Parameter> Parameters;
+		public float Delay;
 	}
 }
 
