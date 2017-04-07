@@ -22,6 +22,12 @@ namespace Battle.Comp
 			return speedY;
 		}
 
+		public void SetSpeed(float speedX, float speedY)
+		{
+			SetSpeedX(speedX);
+			SetSpeedY(speedY);
+		}
+
 		public void SetSpeedX(float speed)
 		{
 			speedX = speed;

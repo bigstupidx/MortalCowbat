@@ -74,9 +74,10 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void AiMove(Vector2 dir)
 	{
 		var normDir = dir.normalized;
-
-		GetComp<Moving>().SetSpeedX(normDir.x * settings.MovingSpeed);
-		GetComp<Moving>().SetSpeedY(normDir.y * settings.MovingSpeed);
+		GetComp<Moving>().SetSpeed(
+			normDir.x * settings.MovingSpeed, 
+			normDir.y * settings.MovingSpeed
+		);
 		GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
 	}
 
