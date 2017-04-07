@@ -118,6 +118,11 @@ GameObject:
   - component: {fileID: 114600560532852356}
   - component: {fileID: 114759696856425784}
   - component: {fileID: 114944756800234506}
+  - component: {fileID: 114103992939279188}
+  - component: {fileID: 114304885466471200}
+  - component: {fileID: 114555010026911224}
+  - component: {fileID: 114618182391527330}
+  - component: {fileID: 114842451498159924}
   m_Layer: 0
   m_Name: PigLebowskiNPC
   m_TagString: Untagged
@@ -468,6 +473,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114103992939279188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114304885466471200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114423742534173956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -479,6 +506,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51efa4edc1cc42f49bc7dd50ebefc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114555010026911224
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5d550fec0574a3db74af60d545da12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpingSpeed: 0
 --- !u!114 &114565483941095976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -494,6 +533,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 0
   shiftHitEnemy: 0
+  enemyFalls: 0
   attackPoints: 10
   attackSfx: {fileID: 0}
   effects: []
@@ -522,6 +562,22 @@ MonoBehaviour:
   JumpingSpeed: 3
   Health: 30
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
+--- !u!114 &114618182391527330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cf12335dd1c4683987877e749ad0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 114103992939279188}
+  - {fileID: 114304885466471200}
+  - {fileID: 114555010026911224}
+  - {fileID: 114842451498159924}
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -556,6 +612,17 @@ MonoBehaviour:
   settings: {fileID: 114944756800234506}
   character: {fileID: 114844989902213830}
   DetectionRange: 500
+--- !u!114 &114842451498159924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e01aa99e21f042c4b1b639530234118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114844989902213830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -568,6 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
+  componentHolder: {fileID: 114618182391527330}
   shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
   chargingBar: {fileID: 0}
   specialAttack: {fileID: 114962683884621062}
@@ -613,6 +681,7 @@ MonoBehaviour:
   - {fileID: 61643189715867430}
   ranged: 1
   shiftHitEnemy: 0
+  enemyFalls: 0
   attackPoints: 30
   attackSfx: {fileID: 0}
   effects:

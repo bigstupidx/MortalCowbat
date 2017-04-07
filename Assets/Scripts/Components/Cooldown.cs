@@ -2,7 +2,7 @@
 using System;
 
 
-public class Cooldown : MonoBehaviour
+public class Cooldown : CharacterComponent
 {
 	public Action<float> OnProgress;
 

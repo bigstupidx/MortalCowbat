@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Vis;
 
 
+
 public partial class Character : MonoBehaviour, ICharacter
 {
 	public Action<Character, Attack, float, bool> HeavyAttackAction;
@@ -27,6 +28,10 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
+
+
+	[SerializeField]
+	ComponentHolder componentHolder;
 
 	[SerializeField]
 	CameraShake shake;
@@ -76,11 +81,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	int actualHealth;
 	int fastAttackCounter;
 	int lastAttackHitHId;
-	float speedX;
-	float speedY;
-	float jumpSpeedX;
-	bool jumping;
-	bool attacking;
+
 	bool jumpAttacking;
 	bool falling;
 	int jumpId;
@@ -99,6 +100,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	void Awake()
 	{
 		CheckLimits = true;
+		componentHolder.components.ForEach(x=>x.Init(componentHolder));
 	}
 
 	public void Init(CharacterContext context)
@@ -111,30 +113,30 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void AiMove(Vector2 dir)
 	{
 		var normDir = dir.normalized;
-		SetSpeedX(normDir.x * settings.MovingSpeed);
-		SetSpeedY(normDir.y * settings.MovingSpeed);
+
+		GetComp<Moving>().SetSpeedX(normDir.x * settings.MovingSpeed);
+		GetComp<Moving>().SetSpeedY(normDir.y * settings.MovingSpeed);
 		Flip(dir.x > 0 ?  1 : -1);
 	}
 
 	public void MoveH(int dir)
 	{
-		if (!attacking && !jumping) {
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
 			Flip(dir);
-			SetSpeedX(dir * settings.MovingSpeed);
+			GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
 		}
 	}
 
 	public void MoveV(int dir)
 	{
-		if (!attacking && !jumping) {
-			SetSpeedY(dir * settings.MovingSpeed);
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+			GetComp<Moving>().SetSpeedY(dir * settings.MovingSpeed);
 		}
 	}
 
 	public void Stop()
 	{
-		SetSpeedX(0);
-		SetSpeedY(0);
+		GetComp<Moving>().Stop();
 	}
 
 	public int GetFlip()
@@ -144,8 +146,8 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void FastAttack()
 	{
-		if (!attacking) {
-			if (jumping) {
+		if (!GetComp<Attacking>().IsAttacking()) {
+			if (GetComp<Jumping>().IsJumping()) {
 				jumpAttacking = true;
 				StartAttack(jumpAttack);
 				jumpId++;
@@ -153,15 +155,15 @@ public partial class Character : MonoBehaviour, ICharacter
 				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
 				animator.SetTrigger(trigger);
 				StartAttack(baseAttack);
-				attacking = true;
+				GetComp<Attacking>().Perform();
 			}
 		}
 	}
 
 	public void HeavyAttack()
 	{
-		if (!attacking) {
-			attacking = true;
+		if (!GetComp<Attacking>().IsAttacking()) {
+			GetComp<Attacking>().Perform();
 			chargedAttackReleased = false;
 			animator.SetTrigger(Defs.Animations.HeavyAttack);
 			StartAttack(baseAttack);
@@ -183,8 +185,8 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void AttackSpecial()
 	{
-		if (!attacking && specialAttackCooldown.IsReady()) {
-			attacking = true;
+		if (!GetComp<Attacking>().IsAttacking() && specialAttackCooldown.IsReady()) {
+			GetComp<Attacking>().Perform();
 			animator.SetTrigger("specialattack");
 			specialAttackCooldown.Restart();
 			StartAttack(specialAttack);
@@ -198,11 +200,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Jump()
 	{
-		if (!jumping && !attacking) {
-			jumping = true;
-			jumpSpeedX = Math.Sign(speedX) * settings.JumpingSpeed;
-			animator.SetTrigger("jump");
-		}
+		GetComp<Jumping>().Perform();
 	}
 
 	public void Pause()
@@ -227,45 +225,21 @@ public partial class Character : MonoBehaviour, ICharacter
 		transform.localScale = scale;
 	}
 
-	void OldAttack()
-	{
-		if (!attacking) {
-			attacking = true;
-			animator.SetTrigger("attack");
-			StartAttack(baseAttack);
-			AttackAction(this, baseAttack);
-		}
-	}
-
-	void SetSpeedX(float speed)
-	{
-		speedX = speed;
-	}
-
-	void SetSpeedY(float speed)
-	{
-		speedY = speed;
-	}
 
 	void Update () 
 	{
 		if (!paused) {
-			var pos = transform.position;
-			pos.x += speedX * Time.deltaTime;
-			pos.y += speedY * Time.deltaTime;
-			transform.position = pos;
 
-			animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
-
-			speedX = 0;
-			speedY = 0;
+			GetComp<Moving>().UpdateMe();
+			GetComp<Animating>().UpdateMe();
+			GetComp<Moving>().Stop();
+			GetComp<Jumping>().UpdateMe();
 
 			if (CheckLimits) {
 				TrimPositionToLimits();
 			}
 			UpdateSortingOrder();
 			UpdateCharging();
-			UpdateJump();
 		}
 	}
 
@@ -277,15 +251,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-
-	void UpdateJump()
-	{
-		if (jumping) {
-			var pos = transform.position;
-			pos.x += jumpSpeedX * Time.deltaTime;
-			transform.position = pos;
-		}
-	}
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
@@ -327,9 +292,9 @@ public partial class Character : MonoBehaviour, ICharacter
 			SetChargedAttackStartTime(-1);
 
 			if (alive) {
-				attacking = false;
+				GetComp<Attacking>().Stop();
 				jumpAttacking = false;
-				if (!jumping) {
+				if (!GetComp<Jumping>().IsJumping()) {
 					Stop();
 
 					if (attack.EnemyFalls) {
@@ -342,8 +307,8 @@ public partial class Character : MonoBehaviour, ICharacter
 			} else {
 				dying = true;
 				Stop();
-				jumpSpeedX = 0.0f;
-				PlayAnimation(Defs.Animations.Die);
+				GetComp<Jumping>().SetSpeedX(0.0f);
+				GetComp<Animating>().SetTrigger(Defs.Animations.Die);
 				Destroy(GetComponent<AiStateMachine>());
 				if (DeathAction != null) {
 					DeathAction(this);
@@ -359,23 +324,19 @@ public partial class Character : MonoBehaviour, ICharacter
 		return (box.size.x * 0.5f + box.offset.x) * Math.Abs(transform.localScale.x);
 	}
 
-	void PlayAnimation(string animName)
-	{
-		animator.SetTrigger(animName);
-	}
 
 	bool IsMoving()
 	{
-		return speedX > 0 || speedY > 0;
+		return GetComp<Moving>().IsMoving();
 	}
 
 	void AnimationEvent(string name)
 	{
 		if (name.Equals(Defs.Events.AttackFinished)) {
-			attacking = false;
+			GetComp<Attacking>().Stop();
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackFinished)) {
-			attacking = false;
+			GetComp<Attacking>().Stop();
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
 			SpecialAttackAction(this, specialAttack, false);
@@ -392,7 +353,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			Destroy(gameObject);
 		}
 		else if (name.Equals(Defs.Events.JumpFinished)) {
-			jumping = false;
+			GetComp<Jumping>().Stop();
 			jumpAttacking = false;
 		}
 		else if (name.Equals(Defs.Events.FallFinished)) {
@@ -400,7 +361,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
-				//animator.speed = 0;
 				SetChargedAttackStartTime(Time.time);
 			}
 		}
@@ -515,7 +475,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	void Fall ()
 	{
-		PlayAnimation (Defs.Animations.Fall);
+		GetComp<Animating>().SetTrigger(Defs.Animations.Fall);
 		falling = true;
 	}
 
@@ -528,6 +488,12 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		chargedAttackStartTime = time;
 		animator.SetFloat("chargedattackastarttime", time);
+	}
+
+
+	T GetComp<T>() where T: CharacterComponent
+	{
+		return componentHolder.Get<T>();
 	}
 
 }

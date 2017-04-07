@@ -140,6 +140,11 @@ GameObject:
   - component: {fileID: 114753656847734008}
   - component: {fileID: 114669130076354188}
   - component: {fileID: 114362437923186032}
+  - component: {fileID: 114398005432257414}
+  - component: {fileID: 114848146015908024}
+  - component: {fileID: 114455986797711716}
+  - component: {fileID: 114348033678046398}
+  - component: {fileID: 114264434793550642}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -646,6 +651,28 @@ MonoBehaviour:
   fromColor: {r: 0.2827586, g: 1, b: 0, a: 1}
   toColor: {r: 1, g: 0, b: 0, a: 1}
   fill: {fileID: 212754598349069500}
+--- !u!114 &114264434793550642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e01aa99e21f042c4b1b639530234118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114348033678046398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114351736271625434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -682,6 +709,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 4
+--- !u!114 &114398005432257414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cf12335dd1c4683987877e749ad0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 114848146015908024}
+  - {fileID: 114455986797711716}
+  - {fileID: 114348033678046398}
+  - {fileID: 114264434793550642}
+--- !u!114 &114455986797711716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5d550fec0574a3db74af60d545da12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpingSpeed: 5
 --- !u!114 &114549759214523460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -769,6 +824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
+  componentHolder: {fileID: 114398005432257414}
   shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
   chargingBar: {fileID: 114109011872003456}
   specialAttack: {fileID: 114351736271625434}
@@ -786,6 +842,17 @@ MonoBehaviour:
   - {fileID: 4080270058744970}
   specialAttackCooldown: {fileID: 114362437923186032}
   jumpKick: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+--- !u!114 &114848146015908024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1
