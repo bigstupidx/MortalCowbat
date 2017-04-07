@@ -143,8 +143,10 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Moving>().FinishFall();
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
-
 			GetComp<Attacking>().StartAttackCharging();
+		}
+		else if (name.Equals(Defs.Events.JumpStarted)) {
+			GetComp<Jumping>().JumpStarted();
 		}
 	}
 

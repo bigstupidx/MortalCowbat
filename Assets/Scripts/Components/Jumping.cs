@@ -13,12 +13,7 @@ namespace Battle.Comp
 
 		float jumpSpeedX;
 		bool jumping;
-
-		List<Type> requiredComponents = new List<Type> {
-			typeof(Attacking),
-			typeof(Moving),
-			typeof(Animating)
-		};
+		bool jumpStarted;
 
 		public void Perform()
 		{
@@ -32,6 +27,17 @@ namespace Battle.Comp
 		public void Stop()
 		{
 			jumping = false;
+			jumpStarted = false;
+		}
+
+		public bool HasJumpStarted()
+		{
+			return jumpStarted;
+		}
+
+		public void JumpStarted()
+		{
+			jumpStarted = true;
 		}
 
 		public bool IsJumping()
@@ -46,7 +52,7 @@ namespace Battle.Comp
 
 		public override void UpdateMe()
 		{
-			if (jumping) {
+			if (jumping && jumpStarted) {
 				var pos = transform.position;
 				pos.x += jumpSpeedX * Time.deltaTime;
 				transform.position = pos;

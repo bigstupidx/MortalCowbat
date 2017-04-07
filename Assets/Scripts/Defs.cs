@@ -33,6 +33,7 @@ public static class Defs
 		public const string JumpFinished = "jumpfinished";
 		public const string FallFinished = "fallfinished";
 		public const string AttackCharged = "attackcharged";
+		public const string JumpStarted = "jumpstarted";
 	}
 
 	public static class Pois
