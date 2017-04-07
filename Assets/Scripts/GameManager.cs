@@ -126,13 +126,13 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	public void Pause()
 	{
-		characters.ForEach(x=>x.Pause());	
+		characters.ForEach(x=>x.GetComp<Pause>().Perform());	
 		npcGenerator.Pause();
 	}
 
 	public void Resume()
 	{
-		characters.ForEach(x=>x.Resume());	
+		characters.ForEach(x=>x.GetComp<Pause>().Cancel());	
 		npcGenerator.Resume();
 	}
 

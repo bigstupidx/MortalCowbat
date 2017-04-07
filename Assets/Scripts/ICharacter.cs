@@ -5,8 +5,5 @@ public interface ICharacter
 	void MoveV(int dir);
 	void FastAttack();
 	void HeavyAttack();
-
-	void Pause();
-	void Resume();
 }
 

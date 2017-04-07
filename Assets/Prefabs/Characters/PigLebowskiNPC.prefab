@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 114432556727310690}
   - component: {fileID: 114933959907280262}
   - component: {fileID: 114179355335923278}
+  - component: {fileID: 114546283586643256}
   - component: {fileID: 114618182391527330}
   m_Layer: 0
   m_Name: PigLebowskiNPC
@@ -533,6 +534,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 82604774091576890}
+--- !u!114 &114546283586643256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e4147d933c444bcae36fa5bd9a0393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pois:
+  - {fileID: 4028084892607608}
+  - {fileID: 4254645799878262}
+  - {fileID: 4749859258491930}
 --- !u!114 &114555010026911224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,6 +624,7 @@ MonoBehaviour:
   - {fileID: 114432556727310690}
   - {fileID: 114933959907280262}
   - {fileID: 114179355335923278}
+  - {fileID: 114546283586643256}
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -677,10 +694,6 @@ MonoBehaviour:
   spriteRen: {fileID: 212621288551795596}
   animator: {fileID: 95620492397566638}
   shadow: {fileID: 0}
-  pois:
-  - {fileID: 4028084892607608}
-  - {fileID: 4254645799878262}
-  - {fileID: 4749859258491930}
   specialAttackCooldown: {fileID: 0}
   jumpKick: {fileID: 0}
 --- !u!114 &114933959907280262

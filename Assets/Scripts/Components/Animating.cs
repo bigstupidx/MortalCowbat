@@ -23,6 +23,16 @@ namespace Battle.Comp
 			var speedY = GetComp<Moving>().SpeedY();
 			animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
 		}
+
+		public float GetAnimatorSpeed()
+		{
+			return animator.speed;
+		}
+
+		public void SetAnimatorSpeed(float speed)
+		{
+			animator.speed = speed;
+		}
 	}
 }
 

@@ -66,9 +66,6 @@ public partial class Character : MonoBehaviour, ICharacter
 	GameObject shadow;
 
 	[SerializeField]
-	List<Transform> pois;
-
-	[SerializeField]
 	Cooldown specialAttackCooldown;
 
 	[SerializeField]
@@ -88,14 +85,12 @@ public partial class Character : MonoBehaviour, ICharacter
 	const float maxTime = 1.0f;
 	const float maxMultiplication = 3.0f;
 
-	bool paused;
-
 	float animatorSpeed;
 
 	void Awake()
 	{
 		CheckLimits = true;
-		componentHolder.components.ForEach(x=>x.Init(componentHolder));
+		InitComponents();
 	}
 
 	public void Init(CharacterContext context)
@@ -189,26 +184,10 @@ public partial class Character : MonoBehaviour, ICharacter
 		GetComp<Jumping>().Perform();
 	}
 
-	public void Pause()
-	{
-		animatorSpeed = animator.speed;
-		animator.speed = 0.0f;
-		paused = true;
-	}
-
-	public void Resume()
-	{
-		animator.speed = animatorSpeed;
-		animator.speed = 1.0f;
-
-		paused = false;
-	}
-
 
 	void Update () 
 	{
-		if (!paused) {
-
+		if (!GetComp<Pause>().Paused) {
 			GetComp<Moving>().UpdateMe();
 			GetComp<Animating>().UpdateMe();
 			GetComp<Moving>().Stop();
@@ -250,8 +229,8 @@ public partial class Character : MonoBehaviour, ICharacter
 
 					Transform poi = 
 						effectDescr.CustomData.Contains ("OnAttacker") ?
-						attackingCharacter.GetPoi (effectDescr.Container) : 
-						GetPoi (effectDescr.Container);
+						attackingCharacter.GetComp<Visual>().GetPoi(effectDescr.Container) : 
+						GetComp<Visual>().GetPoi (effectDescr.Container);
 
 					context.EffectManager.CreateEffect(effectDescr,
 						poi,
@@ -401,11 +380,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	Transform GetPoi(string name)
-	{
-		return pois.Find(x=>x.name.Equals(name));
-	}
-
 	bool Charging()
 	{
 		return chargedAttackStartTime > 0;
@@ -430,5 +404,12 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		chargedAttackStartTime = time;
 		animator.SetFloat("chargedattackastarttime", time);
+	}
+
+	void InitComponents()
+	{
+		componentHolder.components.Add(gameObject.AddComponent<Pause>());
+
+		componentHolder.components.ForEach(x=>x.Init(componentHolder));
 	}
 }

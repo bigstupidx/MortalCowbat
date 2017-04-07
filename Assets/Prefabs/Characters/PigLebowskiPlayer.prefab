@@ -148,6 +148,8 @@ GameObject:
   - component: {fileID: 114236046212018036}
   - component: {fileID: 114393866855512044}
   - component: {fileID: 114650108615467732}
+  - component: {fileID: 114020216503709226}
+  - component: {fileID: 114426680989769678}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -610,6 +612,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114020216503709226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbc18f9d742144c9e8a7910d323934a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114053792649777356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -754,6 +767,22 @@ MonoBehaviour:
   - {fileID: 114236046212018036}
   - {fileID: 114393866855512044}
   - {fileID: 114650108615467732}
+  - {fileID: 114426680989769678}
+--- !u!114 &114426680989769678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e4147d933c444bcae36fa5bd9a0393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pois:
+  - {fileID: 4896245416441908}
+  - {fileID: 4128893259724038}
+  - {fileID: 4080270058744970}
 --- !u!114 &114455986797711716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -877,10 +906,6 @@ MonoBehaviour:
   spriteRen: {fileID: 212198513470007222}
   animator: {fileID: 95620492397566638}
   shadow: {fileID: 0}
-  pois:
-  - {fileID: 4896245416441908}
-  - {fileID: 4128893259724038}
-  - {fileID: 4080270058744970}
   specialAttackCooldown: {fileID: 114362437923186032}
   jumpKick: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
 --- !u!114 &114848146015908024
