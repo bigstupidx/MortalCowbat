@@ -14,7 +14,7 @@ public static class BattleUtils
 	{
 		var charactersInRange = new List<Character>();
 		for (int i = 0; i < characters.Count; ++i) {
-			if (IsPointInside(characters[i].Position, colliders)) {
+			if (IsPointInside(characters[i].GetPosition(), colliders)) {
 				charactersInRange.Add(characters[i]);
 			}
 		}
@@ -32,8 +32,8 @@ public static class BattleUtils
 
 		copy.Sort((a, b) =>  {
 
-			var sqrDistA = (a.Position - position).sqrMagnitude;
-			var sqrDistB = (b.Position - position).sqrMagnitude;
+			var sqrDistA = (a.GetPosition() - position).sqrMagnitude;
+			var sqrDistB = (b.GetPosition() - position).sqrMagnitude;
 
 			return sqrDistA.CompareTo(sqrDistB);
 		});

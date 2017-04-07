@@ -25,12 +25,12 @@ namespace Ai
 				}
 			}	
 			if (chasedCharacter != null) {
-				var dstPosition = chasedCharacter.Position;
-				var direction = (dstPosition - context.Character.Position);
+				var dstPosition = chasedCharacter.GetPosition();
+				var direction = (dstPosition - context.Character.GetPosition());
 				var normDir = direction.normalized;
 				context.Character.AiMove(normDir);
 
-				var sqrDist = (context.Character.Position - chasedCharacter.Position).sqrMagnitude;
+				var sqrDist = (context.Character.GetPosition() - chasedCharacter.GetPosition()).sqrMagnitude;
 
 				var sqrRangeDist = context.Character.GetComp<Attacking>().GetBasicAttackRange() * 0.9f;
 				sqrRangeDist *= sqrRangeDist;

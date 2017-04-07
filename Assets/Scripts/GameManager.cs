@@ -153,7 +153,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		nextLevelArrow.SetActive(true);
 		nextLevelArrow.transform.SetPositionX(dstMinPosX);
 	
-		while (player.Position.x < dstMinPosX)
+		while (player.GetPosition().x < dstMinPosX)
 			yield return 0;
 	
 		nextLevelArrow.SetActive(false);
@@ -163,7 +163,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		var dstPosX = limits.XMax + 4.0f; // TODO
 
-		while (player.Position.x < dstPosX) {
+		while (player.GetPosition().x < dstPosX) {
 			player.MoveH(1);
 			yield return 0;
 		}
@@ -173,7 +173,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	IEnumerator MoveCameraToTheNextLevel()
 	{
 		var startCamPosX = gameCamera.GetPosition().x;
-		var dstCamPosX = player.Position.x;
+		var dstCamPosX = player.GetPosition().x;
 		yield return StartCoroutine(Utils.LerpWithEase (startCamPosX, 
 			dstCamPosX, 
 			2.0f, 
@@ -276,7 +276,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 				new List<Character>() { 
 					BattleUtils.SortCharactersByDistanceTo(
 					charactersInRange,
-					attackingCharacter.Position)[0]
+					attackingCharacter.GetPosition())[0]
 			};
 		}
 	}

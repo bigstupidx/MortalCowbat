@@ -54,10 +54,10 @@ namespace Ai
 			var players = context.CharacterList.FindAll(
 				x=>x != character && 
 				x.Type == Defs.CharacterType.Player &&
-				BattleUtils.IsPointInRange(x.Position, character.Position, range)
+				BattleUtils.IsPointInRange(x.GetPosition(), character.GetPosition(), range)
 			);
 
-			var sortTargets = BattleUtils.SortCharactersByDistanceTo(players, character.Position);
+			var sortTargets = BattleUtils.SortCharactersByDistanceTo(players, character.GetPosition());
 			return sortTargets;
 		}
 	}

@@ -12,11 +12,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Cooldown SpecialAttackCooldown { get { return specialAttackCooldown; }}
 
 	public bool CheckLimits { get; set;}
-
-
 	public CharacterSettings Settings { get { return settings; }}
-	public Vector3 Position { get { return transform.position; }}
-
 
 	[SerializeField]
 	ComponentHolder componentHolder;
@@ -99,6 +95,10 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
+	public Vector3 GetPosition()
+	{
+		return GetComp<Visual>().Position;
+	}
 
 	public void FastAttack()
 	{
