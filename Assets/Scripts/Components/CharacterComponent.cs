@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 namespace Battle.Comp
 {
@@ -6,6 +8,8 @@ namespace Battle.Comp
 	{
 		ComponentHolder componentHolder;
 		Character character;
+
+		List<Type> requiredComponents = new List<Type>();
 
 		public void Init(Character character, ComponentHolder componentHolder)
 		{
@@ -24,6 +28,9 @@ namespace Battle.Comp
 		}
 
 		public virtual void UpdateMe()
+		{}
+
+		public virtual void LateUpdateMe()
 		{}
 	}
 }

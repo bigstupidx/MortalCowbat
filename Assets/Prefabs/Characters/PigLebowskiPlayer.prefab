@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 114393866855512044}
   - component: {fileID: 114650108615467732}
   - component: {fileID: 114020216503709226}
+  - component: {fileID: 114886124752029074}
   - component: {fileID: 114426680989769678}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
@@ -768,6 +769,7 @@ MonoBehaviour:
   - {fileID: 114393866855512044}
   - {fileID: 114650108615467732}
   - {fileID: 114426680989769678}
+  - {fileID: 114886124752029074}
 --- !u!114 &114426680989769678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -783,6 +785,7 @@ MonoBehaviour:
   - {fileID: 4896245416441908}
   - {fileID: 4128893259724038}
   - {fileID: 4080270058744970}
+  ChargingBar: {fileID: 114109011872003456}
   Ren: {fileID: 212198513470007222}
   sortingOrder: 0
 --- !u!114 &114455986797711716
@@ -848,7 +851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9226498b3ac1748b580229935c12f7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
 --- !u!114 &114669130076354188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -897,14 +899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   componentHolder: {fileID: 114398005432257414}
-  shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
-  chargingBar: {fileID: 114109011872003456}
-  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
   settings: {fileID: 114669130076354188}
-  spriteRen: {fileID: 212198513470007222}
-  shadow: {fileID: 0}
-  specialAttackCooldown: {fileID: 114362437923186032}
-  jumpKick: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
 --- !u!114 &114848146015908024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -916,9 +911,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kickAttackSprite: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+  specialAttackCooldown: {fileID: 114362437923186032}
   BasicAttack: {fileID: 114053792649777356}
   SpecialAttack: {fileID: 114351736271625434}
   JumpAttack: {fileID: 114611607432357674}
+--- !u!114 &114886124752029074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9474f298d13584d0296cefd278b6b4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShakeEffect: {fileID: 1057847988162944, guid: 2537a3d021c834664aad743157ae89f4,
+    type: 2}
+  HitBlink: {fileID: 1597827885535164, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -1,14 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 namespace Battle.Comp
 {
 	public class Hit : CharacterComponent
 	{
-		[SerializeField]
-		HitBlink hitBlink;
-
 		int lastAttackHitHId;
 
 		void Awake()
@@ -21,9 +17,60 @@ namespace Battle.Comp
 			return (attackId ==-1 || lastAttackHitHId != attackId) && !GetComp<Moving>().Falling;
 		}
 
-		public void Perform(int attackId)
+
+		public void Perform(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 		{
-			lastAttackHitHId = attackId;
+			if (CanBeHit(attackId)) {
+				lastAttackHitHId = attackId;
+
+				if (attack.ShiftHitEnemy) {
+					transform.AddPositionX((int)dir * 1.0f);
+				}
+
+				//GetComp<Sound>().Play(settings.HitSfx);
+				GetComp<Effects>().EffectManager.CreateEffect(GetComp<Effects>().HitBlink).Run(gameObject);
+
+				for (int i = 0; i < attack.HitEffects.Count; ++i) {
+					var effectDescr = attack.HitEffects[i];
+					if (effectDescr.Effect != null) {
+
+						Transform poi = 
+							effectDescr.CustomData.Contains ("OnAttacker") ?
+							attackingCharacter.GetComp<Visual>().GetPoi(effectDescr.Container) : 
+							GetComp<Visual>().GetPoi (effectDescr.Container);
+
+						GetComp<Effects>().EffectManager.CreateEffect(effectDescr,
+							poi,
+							gameObject
+						)
+							.Run(gameObject);
+					}
+				}
+
+				if (maxed) {
+					GetComp<Effects>().EffectManager.CreateEffect(GetComp<Effects>().ShakeEffect);
+				}
+
+				bool alive = GetComp<Health>().ReduceHealth(attack.AttackPoints * multiplicator);
+				GetComp<Attacking>().SetChargedAttackStartTime(-1);
+
+				if (alive) {
+					GetComp<Attacking>().Stop();
+					if (!GetComp<Jumping>().IsJumping()) {
+						GetComp<Moving>().Stop();
+
+						if (attack.EnemyFalls) {
+							GetComp<Moving>().Fall();
+						}
+						else {
+							GetComp<Animating>().SetTrigger(Defs.Animations.Hit);
+						}
+					}
+				} else {
+					GetComp<Death>().Perform();
+				}
+			}
 		}
+
 	}
 }

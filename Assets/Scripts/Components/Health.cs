@@ -29,7 +29,7 @@ namespace Battle.Comp
 
 		public bool ReduceHealth(float amount)
 		{
-			return GetComp<Health>().SetHealth(actualHealth - amount);
+			return SetHealth(actualHealth - amount);
 		}
 	}
 }

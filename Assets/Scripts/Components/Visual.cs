@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using System.ComponentModel;
+using Vis;
 
 namespace Battle.Comp
 {
@@ -9,6 +10,9 @@ namespace Battle.Comp
 	{
 		[SerializeField]
 		List<Transform> pois;
+
+
+		public ChargingBar ChargingBar;
 
 		public SpriteRenderer Ren;
 		public Vector3 Position { get { return transform.position; }}

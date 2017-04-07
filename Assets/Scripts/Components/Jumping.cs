@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 
 namespace Battle.Comp
@@ -12,6 +13,12 @@ namespace Battle.Comp
 
 		float jumpSpeedX;
 		bool jumping;
+
+		List<Type> requiredComponents = new List<Type> {
+			typeof(Attacking),
+			typeof(Moving),
+			typeof(Animating)
+		};
 
 		public void Perform()
 		{

@@ -231,7 +231,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		if (character.Type == Defs.CharacterType.Player) {
 			player.GetComp<Health>().HealthChangedAction += ui.OnPlayerHealthChanged;
-			player.SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
+			player.GetComp<Attacking>().SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
 		} else {
 			SetNpcStateMachine(character, aiContext);
 		}

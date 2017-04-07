@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 114933959907280262}
   - component: {fileID: 114179355335923278}
   - component: {fileID: 114546283586643256}
+  - component: {fileID: 114462673705686376}
   - component: {fileID: 114618182391527330}
   m_Layer: 0
   m_Name: PigLebowskiNPC
@@ -499,7 +500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9226498b3ac1748b580229935c12f7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
 --- !u!114 &114304885466471200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -511,6 +511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kickAttackSprite: {fileID: 0}
+  specialAttackCooldown: {fileID: 0}
   BasicAttack: {fileID: 114565483941095976}
   SpecialAttack: {fileID: 114962683884621062}
   JumpAttack: {fileID: 0}
@@ -537,6 +539,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 82604774091576890}
+--- !u!114 &114462673705686376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9474f298d13584d0296cefd278b6b4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShakeEffect: {fileID: 1057847988162944, guid: 2537a3d021c834664aad743157ae89f4,
+    type: 2}
+  HitBlink: {fileID: 1597827885535164, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
 --- !u!114 &114546283586643256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -552,6 +568,7 @@ MonoBehaviour:
   - {fileID: 4028084892607608}
   - {fileID: 4254645799878262}
   - {fileID: 4749859258491930}
+  ChargingBar: {fileID: 0}
   Ren: {fileID: 212621288551795596}
   sortingOrder: 0
 --- !u!114 &114555010026911224
@@ -630,6 +647,7 @@ MonoBehaviour:
   - {fileID: 114933959907280262}
   - {fileID: 114179355335923278}
   - {fileID: 114546283586643256}
+  - {fileID: 114462673705686376}
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -688,14 +706,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 1
   componentHolder: {fileID: 114618182391527330}
-  shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
-  chargingBar: {fileID: 0}
-  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
   settings: {fileID: 114600560532852356}
-  spriteRen: {fileID: 212621288551795596}
-  shadow: {fileID: 0}
-  specialAttackCooldown: {fileID: 0}
-  jumpKick: {fileID: 0}
 --- !u!114 &114933959907280262
 MonoBehaviour:
   m_ObjectHideFlags: 1

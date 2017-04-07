@@ -1,16 +1,11 @@
 ﻿using UnityEngine;
 using System;
-using Ai;
-using System.Collections.Generic;
-using Vis;
 using Battle.Comp;
 
 
 public partial class Character : MonoBehaviour, ICharacter
 {
 	public Defs.CharacterType Type;
-	public Cooldown SpecialAttackCooldown { get { return specialAttackCooldown; }}
-
 	public bool CheckLimits { get; set;}
 	public CharacterSettings Settings { get { return settings; }}
 
@@ -18,41 +13,9 @@ public partial class Character : MonoBehaviour, ICharacter
 	ComponentHolder componentHolder;
 
 	[SerializeField]
-	CameraShake shake;
-
-	[SerializeField]
-	ChargingBar chargingBar;
-
-	[SerializeField]
-	HitBlink hitBlink;
-
-	[SerializeField]
 	CharacterSettings settings;
 
-	[SerializeField]
-	GameObject shadow;
-
-	[SerializeField]
-	Cooldown specialAttackCooldown;
-
-	[SerializeField]
-	Sprite jumpKick;
-
 	CharacterContext context;
-
-	int fastAttackCounter;
-
-	bool jumpAttacking;
-	int jumpId;
-
-	bool chargedAttackReleased;
-	float chargedAttackStartTime;
-	float chargedDuration;
-
-	const float maxTime = 1.0f;
-	const float maxMultiplication = 3.0f;
-
-	float animatorSpeed;
 
 	void Awake()
 	{
@@ -74,10 +37,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void AiMove(Vector2 dir)
 	{
 		var normDir = dir.normalized;
-		GetComp<Moving>().SetSpeed(
-			normDir.x * settings.MovingSpeed, 
-			normDir.y * settings.MovingSpeed
-		);
+		GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
 		GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
 	}
 
@@ -103,57 +63,28 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void FastAttack()
 	{
-		if (!GetComp<Attacking>().IsAttacking()) {
-			if (GetComp<Jumping>().IsJumping()) {
-				jumpAttacking = true;
-				GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().JumpAttack);
-				jumpId++;
-			} else {
-				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
-				GetComp<Animating>().SetTrigger(trigger);
-				GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().BasicAttack);
-				GetComp<Attacking>().Perform();
-			}
-		}
+		GetComp<Attacking>().StartFastAttack();
 	}
 
 	public void HeavyAttack()
 	{
-		if (!GetComp<Attacking>().IsAttacking()) {
-			GetComp<Attacking>().Perform();
-			chargedAttackReleased = false;
-			GetComp<Animating>().SetTrigger(Defs.Animations.HeavyAttack);
-			GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().BasicAttack);
-		}
+		GetComp<Attacking>().StartHeavyAttack();
 	}
 
 	public void ChargedAttackReleased()
 	{
-		chargedAttackReleased = true;
-		if (Charging()) {
-			chargedDuration = Time.time - chargedAttackStartTime;
-			SetChargedAttackStartTime(-1);
-		} else {
-			chargedDuration = 0;
-		}
+		GetComp<Attacking>().ChargedAttackReleased();
 	}
 
 	public void AttackSpecial()
 	{
-		if (!GetComp<Attacking>().IsAttacking() && specialAttackCooldown.IsReady()) {
-			GetComp<Attacking>().Perform();
-			GetComp<Animating>().SetTrigger(Defs.Animations.SpecialAttack);
-			specialAttackCooldown.Restart();
-			GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().SpecialAttack);
-		}
+		GetComp<Attacking>().StartSpecialAttack();
 	}
-
 
 	public void Jump()
 	{
 		GetComp<Jumping>().Perform();
 	}
-
 
 	void Update () 
 	{
@@ -167,78 +98,21 @@ public partial class Character : MonoBehaviour, ICharacter
 			if (CheckLimits) {
 				TrimPositionToLimits();
 			}
-			UpdateCharging();
+			GetComp<Attacking>().UpdateMe();
 			GetComp<Visual>().UpdateMe();
 		}
 	}
 
 	void LateUpdate()
 	{
-		if (jumpAttacking) {
-			ForceJumpKickFrame();
-			GetComp<Attacking>().JumpAttackAction(this, GetComp<Attacking>().JumpAttack, jumpId);
-		}
+		GetComp<Attacking>().LateUpdateMe();
 	}
 
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		if (GetComp<Hit>().CanBeHit(attackId)) {
-			GetComp<Hit>().Perform(attackId);
-
-			if (attack.ShiftHitEnemy) {
-				transform.AddPositionX((int)dir * 1.0f);
-			}
-		
-			GetComp<Sound>().Play(settings.HitSfx);
-
-			context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
-
-			for (int i = 0; i < attack.HitEffects.Count; ++i) {
-				var effectDescr = attack.HitEffects[i];
-				if (effectDescr.Effect != null) {
-
-					Transform poi = 
-						effectDescr.CustomData.Contains ("OnAttacker") ?
-						attackingCharacter.GetComp<Visual>().GetPoi(effectDescr.Container) : 
-						GetComp<Visual>().GetPoi (effectDescr.Container);
-
-					context.EffectManager.CreateEffect(effectDescr,
-						poi,
-						gameObject
-					)
-						.Run(gameObject);
-				}
-			}
-
-			if (maxed) {
-				context.EffectManager.CreateEffect(shake.gameObject);
-			}
-
-
-			bool alive = GetComp<Health>().ReduceHealth(attack.AttackPoints * multiplicator);
-			SetChargedAttackStartTime(-1);
-
-			if (alive) {
-				GetComp<Attacking>().Stop();
-				jumpAttacking = false;
-				if (!GetComp<Jumping>().IsJumping()) {
-					GetComp<Moving>().Stop();
-
-					if (attack.EnemyFalls) {
-						GetComp<Moving>().Fall();
-					}
-					else {
-						GetComp<Animating>().SetTrigger(Defs.Animations.Hit);
-					}
-				}
-			} else {
-				GetComp<Death>().Perform();
-			}
-		}
+		GetComp<Hit>().Perform(attack, attackingCharacter, dir,multiplicator, maxed, attackId);
 	}
-
-
 
 
 	void AnimationEvent(string name)
@@ -256,56 +130,24 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Attacking>().AttackAction(this,  GetComp<Attacking>().BasicAttack);
 		}
 		else if (name.Equals(Defs.Events.HeavyAttackHit)) {
-			chargedAttackStartTime = -1;
-			var chargedState = AttackMultiplicator(chargedDuration);
-			GetComp<Attacking>().HeavyAttackAction(this,  GetComp<Attacking>().BasicAttack, chargedState.Key, chargedState.Value);
+			GetComp<Attacking>().HeavyAttackHit();
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
 		}
 		else if (name.Equals(Defs.Events.JumpFinished)) {
 			GetComp<Jumping>().Stop();
-			jumpAttacking = false;
+			GetComp<Attacking>().Stop();
 		}
 		else if (name.Equals(Defs.Events.FallFinished)) {
 			GetComp<Moving>().FinishFall();
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
-			if (!IsChargedAttackReleased()) {
-				SetChargedAttackStartTime(Time.time);
-			}
+
+			GetComp<Attacking>().StartAttackCharging();
 		}
 	}
 
-	bool IsChargedAttackReleased()
-	{
-		return Type == Defs.CharacterType.NPC || chargedAttackReleased;
-	}
-
-
-	void UpdateCharging()
-	{
-		if (Type == Defs.CharacterType.Player) {
-			if (Charging()) {
-				chargedDuration = Time.time - chargedAttackStartTime;
-				float normalizedMultiplicator = Mathf.Min(chargedDuration / maxTime, 1.0f);
-
-				if (normalizedMultiplicator > 0.2f) {
-					chargingBar.gameObject.SetActive(true);
-					chargingBar.SetValue(normalizedMultiplicator);
-				}else {
-					chargingBar.gameObject.SetActive(false);
-				}
-			} else {
-				chargingBar.gameObject.SetActive(false);
-			}
-		}
-	}
-
-	void ForceJumpKickFrame()
-	{
-		GetComp<Visual>().Ren.sprite = jumpKick;
-	}
 
 	void TrimPositionToLimits()
 	{
@@ -317,36 +159,14 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	bool Charging()
-	{
-		return chargedAttackStartTime > 0;
-	}
-
-
-	static KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
-	{
-		float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime, 1.0f);
-		var value =  chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
-		return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
-	}
-
-
-
 	void OnDestroy()
 	{
 		Debug.Log (string.Format ("Character.OnDestroy(){0}", name));
 	}	
 
-	void SetChargedAttackStartTime(float time)
-	{
-		chargedAttackStartTime = time;
-		GetComp<Animating>().SetFloat("chargedattackastarttime", time);
-	}
-
 	void InitComponents()
 	{
 		componentHolder.components.Add(gameObject.AddComponent<Pause>());
-		componentHolder.components.Add(gameObject.AddComponent<Effects>());
 		componentHolder.components.Add(gameObject.AddComponent<Death>());
 		componentHolder.components.ForEach(x=>x.Init(this, componentHolder));
 	}
