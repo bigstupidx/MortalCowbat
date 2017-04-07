@@ -10,6 +10,7 @@ public class Effect : MonoBehaviour
 
 	GameObject runOn;
 
+
 	public virtual void Run(GameObject go)
 	{
 		runOn = go;
@@ -24,6 +25,5 @@ public class Effect : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
-
 }
 

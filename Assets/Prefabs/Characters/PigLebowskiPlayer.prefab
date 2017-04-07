@@ -468,7 +468,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1667888083518180}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: -1.88, z: 0}
+  m_LocalPosition: {x: -0.91, y: -1.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4066104247787474}
@@ -785,6 +785,7 @@ MonoBehaviour:
   - {fileID: 4896245416441908}
   - {fileID: 4128893259724038}
   - {fileID: 4080270058744970}
+  - {fileID: 4957256672009704}
   ChargingBar: {fileID: 114109011872003456}
   Ren: {fileID: 212198513470007222}
   sortingOrder: 0

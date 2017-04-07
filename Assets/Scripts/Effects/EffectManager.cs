@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EffectManager : MonoBehaviour
 {
@@ -8,8 +7,8 @@ public class EffectManager : MonoBehaviour
 		var effectGo = Instantiate(prefab);
 		effectGo.transform.localPosition = Vector3.zero;
 		effectGo.transform.localScale = Vector3.one;
-
-		return effectGo.GetComponent<Effect>();
+		var effect = effectGo.GetComponent<Effect>();
+		return effect;
 	}
 
 	public Effect CreateEffect(EffectDescriptor descr, Transform container, GameObject onWhat)
@@ -32,7 +31,8 @@ public class EffectManager : MonoBehaviour
 		}
 		Utils.OffsetSortingOrder(effectGo, offset);
 
-		return effectGo.GetComponent<Effect>();
+		var effect = effectGo.GetComponent<Effect>();
+		return effect;
 	}
 }
 

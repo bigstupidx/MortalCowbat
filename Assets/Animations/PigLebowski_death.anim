@@ -193,6 +193,14 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_IsEmpty: 0
   m_Events:
+  - time: 0.33333334
+    functionName: OnEffectEvent
+    data: Pivot
+    objectReferenceParameter: {fileID: 1105864478140340, guid: a13a3c1dacf43488d9894ce9a41511f3,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.73333335
     functionName: AnimationEvent
     data: diefinished
