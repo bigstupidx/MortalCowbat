@@ -17,6 +17,11 @@ namespace Battle.Comp
 			animator.SetTrigger(trigger);
 		}
 
+		public void SetFloat(string name, float value)
+		{
+			animator.SetFloat(name, value);
+		}
+
 		public override void UpdateMe()
 		{
 			var speedX = GetComp<Moving>().SpeedX();

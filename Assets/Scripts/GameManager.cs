@@ -237,11 +237,11 @@ public partial class GameManager : MonoBehaviour, IResetable
 		}
 	
 		character.Init(characterContext);
-		character.AttackAction = OnCharacterAttack;
-		character.SpecialAttackAction = OnCharacterSpecialAttack;
-		character.HeavyAttackAction = OnCharacterHeavyAttack;
+		character.GetComp<Attacking>().AttackAction = OnCharacterAttack;
+		character.GetComp<Attacking>().SpecialAttackAction = OnCharacterSpecialAttack;
+		character.GetComp<Attacking>().HeavyAttackAction = OnCharacterHeavyAttack;
+		character.GetComp<Attacking>().JumpAttackAction = OnCharacterJumpAttack;
 		character.DeathAction = OnCharacterDeath;
-		character.JumpAttackAction = OnCharacterJumpAttack;
 	}
 
 

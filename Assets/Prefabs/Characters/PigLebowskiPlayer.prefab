@@ -919,6 +919,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BasicAttack: {fileID: 114053792649777356}
+  SpecialAttack: {fileID: 114351736271625434}
+  JumpAttack: {fileID: 114611607432357674}
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ namespace Ai
 		{
 			if (Time.time > nextAttack) {
 
-				var targets = context.Sm.FindTargets(context.Character.GetBasicAttackRange() * 0.9f);
+				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * 0.9f);
 				if (targets.Count > 0) {
 					context.Character.GetComp<Moving>().FaceTo(targets[0].Position);
 					context.Character.FastAttack();

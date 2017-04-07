@@ -511,6 +511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BasicAttack: {fileID: 114565483941095976}
+  SpecialAttack: {fileID: 114962683884621062}
+  JumpAttack: {fileID: 0}
 --- !u!114 &114423742534173956
 MonoBehaviour:
   m_ObjectHideFlags: 1

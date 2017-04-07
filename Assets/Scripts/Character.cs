@@ -8,12 +8,6 @@ using Battle.Comp;
 
 public partial class Character : MonoBehaviour, ICharacter
 {
-	public Action<Character, Attack, float, bool> HeavyAttackAction;
-	public Action<Character, Attack> AttackAction;
-	public Action<Character, Attack, bool> SpecialAttackAction;
-	public Action<Character, Attack, int> JumpAttackAction;
-
-
 	public Action<Character> DeathAction;
 
 	public Defs.CharacterType Type;
@@ -21,9 +15,6 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public bool CheckLimits { get; set;}
 
-	public Attack BasicAttack { get { return baseAttack; }}
-	public Attack SpecialAttack { get { return specialAttack; }}
-	public Attack JumpAttack { get { return jumpAttack; }}
 
 	public CharacterSettings Settings { get { return settings; }}
 	public Vector3 Position { get { return transform.position; }}
@@ -39,28 +30,13 @@ public partial class Character : MonoBehaviour, ICharacter
 	ChargingBar chargingBar;
 
 	[SerializeField]
-	Attack specialAttack;
-
-	[SerializeField]
-	Attack baseAttack;
-
-	[SerializeField]
-	Attack jumpAttack;
-
-	[SerializeField]
 	HitBlink hitBlink;
-
-	[SerializeField]
-	AudioSource audioSource;
 
 	[SerializeField]
 	CharacterSettings settings;
 
 	[SerializeField]
 	SpriteRenderer spriteRen;
-
-	[SerializeField]
-	Animator animator;
 
 	[SerializeField]
 	GameObject shadow;
@@ -134,12 +110,12 @@ public partial class Character : MonoBehaviour, ICharacter
 		if (!GetComp<Attacking>().IsAttacking()) {
 			if (GetComp<Jumping>().IsJumping()) {
 				jumpAttacking = true;
-				StartAttack(jumpAttack);
+				GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().JumpAttack);
 				jumpId++;
 			} else {
 				var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
-				animator.SetTrigger(trigger);
-				StartAttack(baseAttack);
+				GetComp<Animating>().SetTrigger(trigger);
+				GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().BasicAttack);
 				GetComp<Attacking>().Perform();
 			}
 		}
@@ -150,16 +126,14 @@ public partial class Character : MonoBehaviour, ICharacter
 		if (!GetComp<Attacking>().IsAttacking()) {
 			GetComp<Attacking>().Perform();
 			chargedAttackReleased = false;
-			animator.SetTrigger(Defs.Animations.HeavyAttack);
-			StartAttack(baseAttack);
+			GetComp<Animating>().SetTrigger(Defs.Animations.HeavyAttack);
+			GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().BasicAttack);
 		}
 	}
 
 	public void ChargedAttackReleased()
 	{
 		chargedAttackReleased = true;
-		animator.speed = 1.0f;
-
 		if (Charging()) {
 			chargedDuration = Time.time - chargedAttackStartTime;
 			SetChargedAttackStartTime(-1);
@@ -172,9 +146,9 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (!GetComp<Attacking>().IsAttacking() && specialAttackCooldown.IsReady()) {
 			GetComp<Attacking>().Perform();
-			animator.SetTrigger("specialattack");
+			GetComp<Animating>().SetTrigger(Defs.Animations.SpecialAttack);
 			specialAttackCooldown.Restart();
-			StartAttack(specialAttack);
+			GetComp<Attacking>().StartAttackEffects(GetComp<Attacking>().SpecialAttack);
 		}
 	}
 
@@ -205,7 +179,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (jumpAttacking) {
 			ForceJumpKickFrame();
-			JumpAttackAction(this, jumpAttack, jumpId);
+			GetComp<Attacking>().JumpAttackAction(this, GetComp<Attacking>().JumpAttack, jumpId);
 		}
 	}
 
@@ -258,7 +232,7 @@ public partial class Character : MonoBehaviour, ICharacter
 						GetComp<Moving>().Fall();
 					}
 					else {
-						animator.SetTrigger(Defs.Animations.Hit);
+						GetComp<Animating>().SetTrigger(Defs.Animations.Hit);
 					}
 				}
 			} else {
@@ -274,11 +248,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	}
 
 
-	public float GetBasicAttackRange()
-	{
-		var box =  baseAttack.Colliders.Find(x=> x is BoxCollider2D) as BoxCollider2D;
-		return (box.size.x * 0.5f + box.offset.x) * Math.Abs(transform.localScale.x);
-	}
+
 
 	void AnimationEvent(string name)
 	{
@@ -289,15 +259,15 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Attacking>().Stop();
 		}
 		else if (name.Equals(Defs.Events.SpecialAttackHit)) {
-			SpecialAttackAction(this, specialAttack, false);
+			GetComp<Attacking>().SpecialAttackAction(this, GetComp<Attacking>().SpecialAttack, false);
 		}
 		else if (name.Equals(Defs.Events.FastAttackHit)) {
-			AttackAction(this, baseAttack);
+			GetComp<Attacking>().AttackAction(this,  GetComp<Attacking>().BasicAttack);
 		}
 		else if (name.Equals(Defs.Events.HeavyAttackHit)) {
 			chargedAttackStartTime = -1;
 			var chargedState = AttackMultiplicator(chargedDuration);
-			HeavyAttackAction(this, baseAttack, chargedState.Key, chargedState.Value);
+			GetComp<Attacking>().HeavyAttackAction(this,  GetComp<Attacking>().BasicAttack, chargedState.Key, chargedState.Value);
 		}
 		else if (name.Equals(Defs.Events.DieFinished)) {
 			Destroy(gameObject);
@@ -320,20 +290,6 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		return Type == Defs.CharacterType.NPC || chargedAttackReleased;
 	}
-
-	void StartAttack(Attack attack)
-	{
-		audioSource.clip = attack.Sfx;
-		audioSource.Play();
-
-		for (int i = 0; i < attack.Effects.Count; ++i) {
-			context.EffectManager.CreateEffect(
-				attack.Effects[i],
-				transform.Find("Root/" + attack.Effects[i].Container),
-				gameObject);
-		}
-	}
-
 
 	void UpdateSortingOrder()
 	{
@@ -403,13 +359,13 @@ public partial class Character : MonoBehaviour, ICharacter
 	void SetChargedAttackStartTime(float time)
 	{
 		chargedAttackStartTime = time;
-		animator.SetFloat("chargedattackastarttime", time);
+		GetComp<Animating>().SetFloat("chargedattackastarttime", time);
 	}
 
 	void InitComponents()
 	{
 		componentHolder.components.Add(gameObject.AddComponent<Pause>());
-
+		componentHolder.components.Add(gameObject.AddComponent<Effects>());
 		componentHolder.components.ForEach(x=>x.Init(componentHolder));
 	}
 }
