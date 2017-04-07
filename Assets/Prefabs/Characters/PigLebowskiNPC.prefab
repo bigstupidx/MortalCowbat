@@ -552,6 +552,8 @@ MonoBehaviour:
   - {fileID: 4028084892607608}
   - {fileID: 4254645799878262}
   - {fileID: 4749859258491930}
+  Ren: {fileID: 212621288551795596}
+  sortingOrder: 0
 --- !u!114 &114555010026911224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -688,14 +690,9 @@ MonoBehaviour:
   componentHolder: {fileID: 114618182391527330}
   shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
   chargingBar: {fileID: 0}
-  specialAttack: {fileID: 114962683884621062}
-  baseAttack: {fileID: 114565483941095976}
-  jumpAttack: {fileID: 0}
   hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
-  audioSource: {fileID: 82604774091576890}
   settings: {fileID: 114600560532852356}
   spriteRen: {fileID: 212621288551795596}
-  animator: {fileID: 95620492397566638}
   shadow: {fileID: 0}
   specialAttackCooldown: {fileID: 0}
   jumpKick: {fileID: 0}

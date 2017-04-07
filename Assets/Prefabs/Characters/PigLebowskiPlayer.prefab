@@ -783,6 +783,8 @@ MonoBehaviour:
   - {fileID: 4896245416441908}
   - {fileID: 4128893259724038}
   - {fileID: 4080270058744970}
+  Ren: {fileID: 212198513470007222}
+  sortingOrder: 0
 --- !u!114 &114455986797711716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -897,14 +899,9 @@ MonoBehaviour:
   componentHolder: {fileID: 114398005432257414}
   shake: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
   chargingBar: {fileID: 114109011872003456}
-  specialAttack: {fileID: 114351736271625434}
-  baseAttack: {fileID: 114053792649777356}
-  jumpAttack: {fileID: 114611607432357674}
   hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
-  audioSource: {fileID: 82464175507182106}
   settings: {fileID: 114669130076354188}
   spriteRen: {fileID: 212198513470007222}
-  animator: {fileID: 95620492397566638}
   shadow: {fileID: 0}
   specialAttackCooldown: {fileID: 114362437923186032}
   jumpKick: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
@@ -987,7 +984,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 67
   m_Sprite: {fileID: 21300000, guid: 864d04ceff5ae470691d1c17b311c5b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

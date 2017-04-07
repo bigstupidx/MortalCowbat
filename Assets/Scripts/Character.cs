@@ -166,12 +166,13 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Animating>().UpdateMe();
 			GetComp<Moving>().Stop();
 			GetComp<Jumping>().UpdateMe();
+		
 
 			if (CheckLimits) {
 				TrimPositionToLimits();
 			}
-			UpdateSortingOrder();
 			UpdateCharging();
+			GetComp<Visual>().UpdateMe();
 		}
 	}
 
@@ -291,16 +292,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		return Type == Defs.CharacterType.NPC || chargedAttackReleased;
 	}
 
-	void UpdateSortingOrder()
-	{
-		const float maxY = 10;
-		const float minY = -10;
-		const int minSortingOrder = 10;
-		const int maxSortingOrder = 100;
-
-		float c = (Position.y - minY) / (maxY - minY);
-		spriteRen.sortingOrder = minSortingOrder + (int)((maxSortingOrder - minSortingOrder) * (1 - c));
-	}
 
 	void UpdateCharging()
 	{
