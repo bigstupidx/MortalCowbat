@@ -1,43 +1,44 @@
 ﻿using UnityEngine;
 using System;
 
-
-public class Cooldown : CharacterComponent
+namespace Battle.Comp
 {
-	public Action<float> OnProgress;
-
-	[SerializeField]
-	float time;
-
-	float startTime;
-
-	void Awake()
+	public class Cooldown : CharacterComponent
 	{
-		Restart();
-	}
+		public Action<float> OnProgress;
 
-	public void Restart()
-	{
-		startTime = Time.time;	
-	}
+		[SerializeField]
+		float time;
 
-	public bool IsReady()
-	{
-		return float.Equals(GetProgress(), 1.0f);
-	}
+		float startTime;
 
-	void Update()
-	{
-		float progress = GetProgress();
+		void Awake()
+		{
+			Restart();
+		}
 
-		if (OnProgress != null) {
-			OnProgress(progress);		
+		public void Restart()
+		{
+			startTime = Time.time;	
+		}
+
+		public bool IsReady()
+		{
+			return float.Equals(GetProgress(), 1.0f);
+		}
+
+		void Update()
+		{
+			float progress = GetProgress();
+
+			if (OnProgress != null) {
+				OnProgress(progress);		
+			}
+		}
+
+		float GetProgress()
+		{
+			return Mathf.Min(1.0f, (Time.time - startTime) / time);
 		}
 	}
-
-	float GetProgress()
-	{
-		return Mathf.Min(1.0f, (Time.time - startTime) / time);
-	}
 }
-

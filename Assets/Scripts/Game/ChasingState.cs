@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Battle.Comp;
 
 namespace Ai
 {
@@ -35,11 +36,11 @@ namespace Ai
 				sqrRangeDist *= sqrRangeDist;
 
 				if (sqrDist < sqrRangeDist) {
-					context.Character.Stop();
+					context.Character.GetComp<Moving>().Stop();
 					context.Sm.SetState(new AttackState(context));
 				}
 			}else {
-				context.Character.Stop();				
+				context.Character.GetComp<Moving>().Stop();				
 			}
 		}
 	}

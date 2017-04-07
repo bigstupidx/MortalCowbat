@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 
-
-public class CharacterComponent : MonoBehaviour
+namespace Battle.Comp
 {
-	ComponentHolder componentHolder;
-
-	public void Init(ComponentHolder componentHolder)
+	public class CharacterComponent : MonoBehaviour
 	{
-		this.componentHolder = componentHolder;
-	}
+		ComponentHolder componentHolder;
 
-	protected T GetComp<T>() where T : CharacterComponent
-	{
-		return componentHolder.Get<T>();
-	}
+		public void Init(ComponentHolder componentHolder)
+		{
+			this.componentHolder = componentHolder;
+		}
 
-	public virtual void UpdateMe()
-	{}
+		protected T GetComp<T>() where T : CharacterComponent
+		{
+			return componentHolder.Get<T>();
+		}
+
+		public virtual void UpdateMe()
+		{}
+	}
 }
 

@@ -1,30 +1,31 @@
 ﻿using System;
+using Battle.Comp;
 
 public partial class GameManager
 {
 	void OnCharacterAttack(Character attackingCharacter, Attack attack)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), 1.0f, false));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetComp<Moving>().GetFlip(), 1.0f, false));
 	}
 
 	void OnCharacterJumpAttack(Character attackingCharacter, Attack attack, int attackId)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), 1.0f, false, attackId));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetComp<Moving>().GetFlip(), 1.0f, false, attackId));
 	}
 
 
 	void OnCharacterHeavyAttack(Character attackingCharacter, Attack attack, float multiplier, bool maxed)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), multiplier, maxed));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetComp<Moving>().GetFlip(), multiplier, maxed));
 	}
 
 	void OnCharacterSpecialAttack(Character attackingCharacter, Attack attack, bool maxed)
 	{
 		var hitCharacters = GetHitCharacters(attackingCharacter, attack);
-		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetFlip(), 1.0f, maxed));
+		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetComp<Moving>().GetFlip(), 1.0f, maxed));
 	}
 
 	void OnCharacterDeath(Character character)

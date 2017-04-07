@@ -1,21 +1,22 @@
-﻿
-public class Attacking : CharacterComponent
+﻿namespace Battle.Comp
 {
-	bool attacking;
-
-	public void Perform()
+	public class Attacking : CharacterComponent
 	{
-		attacking = true;
-	}
+		bool attacking;
 
-	public bool IsAttacking()
-	{
-		return attacking;
-	}
+		public void Perform()
+		{
+			attacking = true;
+		}
 
-	public void Stop()
-	{
-		attacking = false;
+		public bool IsAttacking()
+		{
+			return attacking;
+		}
+
+		public void Stop()
+		{
+			attacking = false;
+		}
 	}
 }
-

@@ -121,8 +121,11 @@ GameObject:
   - component: {fileID: 114103992939279188}
   - component: {fileID: 114304885466471200}
   - component: {fileID: 114555010026911224}
-  - component: {fileID: 114618182391527330}
   - component: {fileID: 114842451498159924}
+  - component: {fileID: 114432556727310690}
+  - component: {fileID: 114933959907280262}
+  - component: {fileID: 114179355335923278}
+  - component: {fileID: 114618182391527330}
   m_Layer: 0
   m_Name: PigLebowskiNPC
   m_TagString: Untagged
@@ -484,6 +487,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114179355335923278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9226498b3ac1748b580229935c12f7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBlink: {fileID: 114380519910105140, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
 --- !u!114 &114304885466471200
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -506,6 +521,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51efa4edc1cc42f49bc7dd50ebefc39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114432556727310690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49bf64e380a2d44988a1ee48b4060fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 82604774091576890}
 --- !u!114 &114555010026911224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -578,6 +605,9 @@ MonoBehaviour:
   - {fileID: 114304885466471200}
   - {fileID: 114555010026911224}
   - {fileID: 114842451498159924}
+  - {fileID: 114432556727310690}
+  - {fileID: 114933959907280262}
+  - {fileID: 114179355335923278}
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -653,6 +683,17 @@ MonoBehaviour:
   - {fileID: 4749859258491930}
   specialAttackCooldown: {fileID: 0}
   jumpKick: {fileID: 0}
+--- !u!114 &114933959907280262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2941de57049e43588a060d9becd67c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114944756800234506
 MonoBehaviour:
   m_ObjectHideFlags: 1

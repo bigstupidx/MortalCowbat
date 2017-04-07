@@ -3,7 +3,7 @@ using System;
 using Ai;
 using System.Collections.Generic;
 using Vis;
-
+using Battle.Comp;
 
 
 public partial class Character : MonoBehaviour, ICharacter
@@ -13,7 +13,6 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Action<Character, Attack, bool> SpecialAttackAction;
 	public Action<Character, Attack, int> JumpAttackAction;
 
-	public Action<float, float> HealthChangedAction;
 
 	public Action<Character> DeathAction;
 
@@ -77,13 +76,9 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	CharacterContext context;
 
-	bool dying;
-	int actualHealth;
 	int fastAttackCounter;
-	int lastAttackHitHId;
 
 	bool jumpAttacking;
-	bool falling;
 	int jumpId;
 
 	bool chargedAttackReleased;
@@ -106,8 +101,12 @@ public partial class Character : MonoBehaviour, ICharacter
 	public void Init(CharacterContext context)
 	{
 		this.context = context;
-		this.lastAttackHitHId = -1;
-		SetHealth(settings.Health);
+		GetComp<Health>().Init(settings.Health, settings.Health);
+	}
+
+	public T GetComp<T>() where T: CharacterComponent
+	{
+		return componentHolder.Get<T>();
 	}
 
 	public void AiMove(Vector2 dir)
@@ -116,13 +115,13 @@ public partial class Character : MonoBehaviour, ICharacter
 
 		GetComp<Moving>().SetSpeedX(normDir.x * settings.MovingSpeed);
 		GetComp<Moving>().SetSpeedY(normDir.y * settings.MovingSpeed);
-		Flip(dir.x > 0 ?  1 : -1);
+		GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
 	}
 
 	public void MoveH(int dir)
 	{
 		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
-			Flip(dir);
+			GetComp<Moving>().Flip(dir);
 			GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
 		}
 	}
@@ -134,15 +133,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	public void Stop()
-	{
-		GetComp<Moving>().Stop();
-	}
-
-	public int GetFlip()
-	{
-		return transform.localScale.x > 0 ? 1 : -1;
-	}
 
 	public void FastAttack()
 	{
@@ -193,10 +183,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	public void FaceTo (Vector3 position)
-	{
-		Flip(position.x > transform.position.x ? 1  : -1);
-	}
 
 	public void Jump()
 	{
@@ -216,13 +202,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		animator.speed = 1.0f;
 
 		paused = false;
-	}
-
-	void Flip(int dir)
-	{
-		var scale = transform.localScale;
-		scale.x = dir * Math.Abs(scale.x);
-		transform.localScale = scale;
 	}
 
 
@@ -254,16 +233,14 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		if (CanBeHit(attackId)) {
-			lastAttackHitHId = attackId;
+		if (GetComp<Hit>().CanBeHit(attackId)) {
+			GetComp<Hit>().Perform(attackId);
 
 			if (attack.ShiftHitEnemy) {
 				transform.AddPositionX((int)dir * 1.0f);
 			}
 		
-
-			audioSource.clip = settings.HitSfx;
-			audioSource.PlayOneShot(audioSource.clip);
+			GetComp<Sound>().Play(settings.HitSfx);
 
 			context.EffectManager.CreateEffect(hitBlink.gameObject).Run(gameObject);
 
@@ -288,25 +265,25 @@ public partial class Character : MonoBehaviour, ICharacter
 				context.EffectManager.CreateEffect(shake.gameObject);
 			}
 
-			bool alive = SetHealth(actualHealth - (int)(attack.AttackPoints * multiplicator));
+
+			bool alive = GetComp<Health>().ReduceHealth(attack.AttackPoints * multiplicator);
 			SetChargedAttackStartTime(-1);
 
 			if (alive) {
 				GetComp<Attacking>().Stop();
 				jumpAttacking = false;
 				if (!GetComp<Jumping>().IsJumping()) {
-					Stop();
+					GetComp<Moving>().Stop();
 
 					if (attack.EnemyFalls) {
-						Fall ();
+						GetComp<Moving>().Fall();
 					}
 					else {
 						animator.SetTrigger(Defs.Animations.Hit);
 					}
 				}
 			} else {
-				dying = true;
-				Stop();
+				GetComp<Moving>().Stop();
 				GetComp<Jumping>().SetSpeedX(0.0f);
 				GetComp<Animating>().SetTrigger(Defs.Animations.Die);
 				Destroy(GetComponent<AiStateMachine>());
@@ -322,12 +299,6 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		var box =  baseAttack.Colliders.Find(x=> x is BoxCollider2D) as BoxCollider2D;
 		return (box.size.x * 0.5f + box.offset.x) * Math.Abs(transform.localScale.x);
-	}
-
-
-	bool IsMoving()
-	{
-		return GetComp<Moving>().IsMoving();
 	}
 
 	void AnimationEvent(string name)
@@ -357,7 +328,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			jumpAttacking = false;
 		}
 		else if (name.Equals(Defs.Events.FallFinished)) {
-			falling = false;
+			GetComp<Moving>().FinishFall();
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			if (!IsChargedAttackReleased()) {
@@ -384,21 +355,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 	}
 
-	bool SetHealth(int health)
-	{
-		actualHealth = Math.Max(0, health);
-		if (HealthChangedAction != null) {
-			HealthChangedAction(actualHealth, settings.Health);
-		}
-
-		return actualHealth > 0;
-	}
-
-
-	bool IsDying()
-	{
-		return dying;
-	}
 
 	void UpdateSortingOrder()
 	{
@@ -435,11 +391,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		spriteRen.sprite = jumpKick;
 	}
 
-	void UpdateChargingMoment()
-	{
-		
-	}
-
 	void TrimPositionToLimits()
 	{
 		if (context != null) {
@@ -460,11 +411,6 @@ public partial class Character : MonoBehaviour, ICharacter
 		return chargedAttackStartTime > 0;
 	}
 
-	bool CanBeHit(int attackId)
-	{
-		return 
-			(attackId ==-1 || lastAttackHitHId != attackId) && !falling;
-	}
 
 	static KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
 	{
@@ -473,11 +419,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
 	}
 
-	void Fall ()
-	{
-		GetComp<Animating>().SetTrigger(Defs.Animations.Fall);
-		falling = true;
-	}
+
 
 	void OnDestroy()
 	{
@@ -489,11 +431,4 @@ public partial class Character : MonoBehaviour, ICharacter
 		chargedAttackStartTime = time;
 		animator.SetFloat("chargedattackastarttime", time);
 	}
-
-
-	T GetComp<T>() where T: CharacterComponent
-	{
-		return componentHolder.Get<T>();
-	}
-
 }

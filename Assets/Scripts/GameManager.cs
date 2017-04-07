@@ -5,6 +5,7 @@ using Ai;
 using Vis;
 using System.Collections;
 using System;
+using Battle.Comp;
 
 public partial class GameManager : MonoBehaviour, IResetable
 {
@@ -229,7 +230,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void InitializeCharacter(Character character)
 	{
 		if (character.Type == Defs.CharacterType.Player) {
-			player.HealthChangedAction += ui.OnPlayerHealthChanged;
+			player.GetComp<Health>().HealthChangedAction += ui.OnPlayerHealthChanged;
 			player.SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
 		} else {
 			SetNpcStateMachine(character, aiContext);
@@ -282,7 +283,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	bool IsCharacterInFronOfCharacter(Character who, Character from)
 	{
-		if (from.GetFlip() == -1) {
+		if (from.GetComp<Moving>().GetFlip() == -1) {
 			return who.transform.position.x < from.transform.position.x;
 		} else {
 			return who.transform.position.x > from.transform.position.x;

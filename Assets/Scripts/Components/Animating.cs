@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
 using System;
 
-
-public class Animating : CharacterComponent
+namespace Battle.Comp
 {
-	Animator animator;
-
-	void Awake()
+	public class Animating : CharacterComponent
 	{
-		animator = GetComponent<Animator>();
-	}
+		Animator animator;
 
-	public void SetTrigger(String trigger)
-	{
-		animator.SetTrigger(trigger);
-	}
+		void Awake()
+		{
+			animator = GetComponent<Animator>();
+		}
 
-	public override void UpdateMe()
-	{
-		var speedX = GetComp<Moving>().SpeedX();
-		var speedY = GetComp<Moving>().SpeedY();
-		animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
+		public void SetTrigger(String trigger)
+		{
+			animator.SetTrigger(trigger);
+		}
+
+		public override void UpdateMe()
+		{
+			var speedX = GetComp<Moving>().SpeedX();
+			var speedY = GetComp<Moving>().SpeedY();
+			animator.SetFloat("speed", (float)Math.Sqrt(speedX * speedX + speedY * speedY));
+		}
 	}
 }
 
