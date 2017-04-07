@@ -8,8 +8,6 @@ using Battle.Comp;
 
 public partial class Character : MonoBehaviour, ICharacter
 {
-	public Action<Character> DeathAction;
-
 	public Defs.CharacterType Type;
 	public Cooldown SpecialAttackCooldown { get { return specialAttackCooldown; }}
 
@@ -34,9 +32,6 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	[SerializeField]
 	CharacterSettings settings;
-
-	[SerializeField]
-	SpriteRenderer spriteRen;
 
 	[SerializeField]
 	GameObject shadow;
@@ -237,13 +232,7 @@ public partial class Character : MonoBehaviour, ICharacter
 					}
 				}
 			} else {
-				GetComp<Moving>().Stop();
-				GetComp<Jumping>().SetSpeedX(0.0f);
-				GetComp<Animating>().SetTrigger(Defs.Animations.Die);
-				Destroy(GetComponent<AiStateMachine>());
-				if (DeathAction != null) {
-					DeathAction(this);
-				}
+				GetComp<Death>().Perform();
 			}
 		}
 	}
@@ -314,7 +303,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	void ForceJumpKickFrame()
 	{
-		spriteRen.sprite = jumpKick;
+		GetComp<Visual>().Ren.sprite = jumpKick;
 	}
 
 	void TrimPositionToLimits()
@@ -357,6 +346,7 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		componentHolder.components.Add(gameObject.AddComponent<Pause>());
 		componentHolder.components.Add(gameObject.AddComponent<Effects>());
-		componentHolder.components.ForEach(x=>x.Init(componentHolder));
+		componentHolder.components.Add(gameObject.AddComponent<Death>());
+		componentHolder.components.ForEach(x=>x.Init(this, componentHolder));
 	}
 }
