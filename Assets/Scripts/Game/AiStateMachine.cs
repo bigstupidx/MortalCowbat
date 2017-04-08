@@ -1,16 +1,14 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 namespace Ai
 {
 	public class AiStateMachine : MonoBehaviour
 	{
-		public AiSettings Settings { get { return settings; }}
+		public AiPreset Preset { get { return aiPreset; }}
 
 		[SerializeField]
-		AiSettings settings;
+		AiPreset aiPreset;
 
 		[SerializeField]
 		Character character;

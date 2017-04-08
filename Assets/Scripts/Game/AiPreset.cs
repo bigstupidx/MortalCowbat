@@ -1,12 +1,24 @@
 ﻿using System;
+using UnityEngine;
 
-namespace AssemblyCSharp
+namespace Ai
 {
-	public class AiPreset
+	[CreateAssetMenu(menuName = "Ai/Preset"), Serializable]
+	public class AiPreset : ScriptableObject
 	{
-		public AiPreset ()
-		{
-		}
+		public float FirstAttackDelay;
+		public float AttackInterval;
+
+		[Range (0.0f, 1.0f)]
+		public float AttackRangeCoeficient;
+		[Range (0.0f, 1.0f)]
+		public float FastAttackProbability;
+		[Range (0.0f, 1.0f)]
+		public float HeavyAttackProbability;
+
+		[Range (0.0f, 1.0f)]
+		public float HeavyAttackMinCharge;
+		[Range (0.0f, 1.0f)]
+		public float HeavyAttackMaxCharge;
 	}
 }
-

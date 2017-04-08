@@ -114,7 +114,6 @@ GameObject:
   - component: {fileID: 4066104247787474}
   - component: {fileID: 95620492397566638}
   - component: {fileID: 114844989902213830}
-  - component: {fileID: 114753656847734008}
   - component: {fileID: 114600560532852356}
   - component: {fileID: 114759696856425784}
   - component: {fileID: 114944756800234506}
@@ -616,6 +615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHeavyAttackChargedTime: 1
+  MaxHeavyAttackMultiplication: 3
   kickAttackSprite: {fileID: 0}
   specialAttackCooldown: {fileID: 0}
   BasicAttack: {fileID: 114565483941095976}
@@ -754,26 +755,6 @@ MonoBehaviour:
   - {fileID: 114179355335923278}
   - {fileID: 114546283586643256}
   - {fileID: 114462673705686376}
---- !u!114 &114753656847734008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1493431373868202}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa0ad13757834474482b1476f5150329, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  left: 97
-  right: 100
-  up: 119
-  down: 115
-  specialAttack: 120
-  fastAtack: 0
-  heavyAttack: 0
-  jump: 0
-  character: {fileID: 114844989902213830}
 --- !u!114 &114759696856425784
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -785,7 +766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569f7d8bf65cc400dab813f3afd25151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 114944756800234506}
+  aiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
   character: {fileID: 114844989902213830}
   DetectionRange: 500
 --- !u!114 &114842451498159924

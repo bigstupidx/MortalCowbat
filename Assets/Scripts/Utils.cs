@@ -35,7 +35,6 @@ public static class Utils
 		Array.ForEach(renderers, x=>x.color = color);
 	}
 
-
 	public static bool GetRandomBool()
 	{
 		return UnityEngine.Random.Range(0,2) == 0;

@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using Battle.Comp;
 
 namespace Ai
@@ -14,20 +13,20 @@ namespace Ai
 		public AttackState(AiStateContext context)
 		{
 			this.context = context;
-			nextAttack = Time.time + context.Sm.Settings.FirstAttackDelay;
+			nextAttack = Time.time + context.Sm.Preset.FirstAttackDelay;
 		}
 
 		public void Update()
 		{
 			if (Time.time > nextAttack) {
 
-				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * 0.9f);
+				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient);
 				if (targets.Count > 0) {
 					context.Character.GetComp<Moving>().FaceTo(targets[0].GetPosition());
 
 					PerformRandomAttack();
 							
-					nextAttack = Time.time + context.Sm.Settings.AttackInterval;
+					nextAttack = Time.time + context.Sm.Preset.AttackInterval;
 				} else {
 					context.Character.GetComp<Attacking>().Stop();
 					context.Sm.SetState(new ChasingState(context));
@@ -37,12 +36,15 @@ namespace Ai
 
 		void PerformRandomAttack()
 		{
-			if (Utils.GetRandomBool()) {
-				var duration = UnityEngine.Random.Range(0,context.Character.GetComp<Attacking>().MaxHeavyAttackChargedTime);
-				context.Character.HeavyAttack(duration);
-			}
-			else {
+			var aiPreset = context.Sm.Preset;
+			// fast x heavy first
+			var rnd = UnityEngine.Random.Range(0.0f, 1.0f);
+
+			if (rnd < aiPreset.FastAttackProbability) {
 				context.Character.FastAttack();
+			} else {
+				var chargeDuration = UnityEngine.Random.Range(aiPreset.HeavyAttackMinCharge, aiPreset.HeavyAttackMaxCharge);
+				context.Character.HeavyAttack(chargeDuration);
 			}
 		}
 	}
