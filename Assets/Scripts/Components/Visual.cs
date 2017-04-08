@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
 using System.ComponentModel;
 using Vis;
 
@@ -17,7 +16,8 @@ namespace Battle.Comp
 		public SpriteRenderer Ren;
 		public Vector3 Position { get { return transform.position; }}
 
-		[ SerializeField ][ReadOnlyAttribute(true)]
+		[SerializeField]
+		[ReadOnlyAttribute(true)]
 		int sortingOrder;
 
 		public Transform GetPoi(string name)

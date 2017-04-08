@@ -24,7 +24,12 @@ namespace Ai
 				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * 0.9f);
 				if (targets.Count > 0) {
 					context.Character.GetComp<Moving>().FaceTo(targets[0].GetPosition());
-					context.Character.FastAttack();
+
+					if (Utils.GetRandomBool())
+						context.Character.HeavyAttack();
+					else 
+						context.Character.FastAttack();
+							
 					nextAttack = Time.time + context.Sm.Settings.AttackInterval;
 				} else {
 					context.Sm.SetState(new ChasingState(context));
