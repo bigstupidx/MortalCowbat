@@ -79,10 +79,12 @@ namespace Battle.Comp
 
 		public override void UpdateMe()
 		{
-			var pos = transform.position;
-			pos.x += speedX * Time.deltaTime;
-			pos.y += speedY * Time.deltaTime;
-			transform.position = pos;
+			if (!falling) {
+				var pos = transform.position;
+				pos.x += speedX * Time.deltaTime;
+				pos.y += speedY * Time.deltaTime;
+				transform.position = pos;
+			}
 		}
 	}
 }

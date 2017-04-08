@@ -42,10 +42,19 @@ namespace Ai
 
 			if (rnd < aiPreset.FastAttackProbability) {
 				context.Character.FastAttack();
-			} else {
+			} else if (rnd < (aiPreset.FastAttackProbability + aiPreset.HeavyAttackProbability)) {
 				var chargeDuration = UnityEngine.Random.Range(aiPreset.HeavyAttackMinCharge, aiPreset.HeavyAttackMaxCharge);
 				context.Character.HeavyAttack(chargeDuration);
+			} else {
+				PerformKickAttack();
 			}
+		}
+
+		void PerformKickAttack()
+		{
+			context.Character.GetComp<Moving>().SetSpeedX(context.Character.GetComp<Moving>().GetFlip());
+			context.Character.Jump();
+			context.Character.FastAttack();
 		}
 	}
 }

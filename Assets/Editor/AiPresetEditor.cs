@@ -13,6 +13,8 @@ public class AiPresetEditor : Editor
 	SerializedProperty attackRangeCoeficient;
 	SerializedProperty heavyAttackProbability;
 	SerializedProperty fastAttackProbability;
+	SerializedProperty kickAttackProbability;
+
 
 	SerializedProperty heavyAttackMinCharge;
 	SerializedProperty heavyAttackMaxCharge;
@@ -22,6 +24,7 @@ public class AiPresetEditor : Editor
 		attackRangeCoeficient = serializedObject.FindProperty("AttackRangeCoeficient");
 		heavyAttackProbability = serializedObject.FindProperty("HeavyAttackProbability");
 		fastAttackProbability = serializedObject.FindProperty("FastAttackProbability");
+		kickAttackProbability = serializedObject.FindProperty("KickAttackProbability");
 		heavyAttackMinCharge = serializedObject.FindProperty("HeavyAttackMinCharge");
 		heavyAttackMaxCharge = serializedObject.FindProperty("HeavyAttackMaxCharge");
 		firstAttackDelay = serializedObject.FindProperty("FirstAttackDelay");
@@ -34,17 +37,30 @@ public class AiPresetEditor : Editor
 
 		EditorGUILayout.PropertyField(firstAttackDelay);
 		EditorGUILayout.PropertyField(attackInterval);
+		EditorGUILayout.PropertyField(attackRangeCoeficient);
+
+		EditorGUILayout.Space();
+
+		EditorGUILayout.LabelField("Fast Attack:", fastAttackProbability.floatValue.ToString("F2"));
+		EditorGUILayout.LabelField("Heavy Attack:", heavyAttackProbability.floatValue.ToString("F2"));
+		EditorGUILayout.LabelField("Kick Attack:", kickAttackProbability.floatValue.ToString("F2"));
 
 
-		EditorGUILayout.Slider(attackRangeCoeficient, 0.0f, 1.0f);
-		EditorGUILayout.Slider(fastAttackProbability, 0.0f, 1.0f);
-		if(GUI.changed) {
-			heavyAttackProbability.floatValue = 1 - fastAttackProbability.floatValue;
+		if ( (fastAttackProbability.floatValue + heavyAttackProbability.floatValue + kickAttackProbability.floatValue) > 1.01f) {
+			fastAttackProbability.floatValue = 0.33f;
+			heavyAttackProbability.floatValue = 0.33f;
+			kickAttackProbability.floatValue = 0.33f;
 		}
 
-		EditorGUILayout.Slider(heavyAttackProbability, 0.0f, 1.0f);
+		float fastAttack = fastAttackProbability.floatValue;
+		float heavyAttack = heavyAttackProbability.floatValue + fastAttack;
+
+		EditorGUILayout.MinMaxSlider("Attacks", ref fastAttack, ref heavyAttack, 0.0f, 1.0f);
+
 		if(GUI.changed) {
-			fastAttackProbability.floatValue = 1 - heavyAttackProbability.floatValue;
+			fastAttackProbability.floatValue = fastAttack;
+			heavyAttackProbability.floatValue = heavyAttack - fastAttack;
+			kickAttackProbability.floatValue = 1 - (heavyAttackProbability.floatValue + fastAttackProbability.floatValue);
 		}
 
 		EditorGUILayout.Space();

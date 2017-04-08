@@ -15,6 +15,8 @@ namespace Ai
 		public float FastAttackProbability;
 		[Range (0.0f, 1.0f)]
 		public float HeavyAttackProbability;
+		[Range (0.0f, 1.0f)]
+		public float KickAttackProbability;
 
 		[Range (0.0f, 1.0f)]
 		public float HeavyAttackMinCharge;
