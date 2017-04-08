@@ -25,17 +25,25 @@ namespace Ai
 				if (targets.Count > 0) {
 					context.Character.GetComp<Moving>().FaceTo(targets[0].GetPosition());
 
-					if (Utils.GetRandomBool())
-						context.Character.HeavyAttack();
-					else 
-						context.Character.FastAttack();
+					PerformRandomAttack();
 							
 					nextAttack = Time.time + context.Sm.Settings.AttackInterval;
 				} else {
+					context.Character.GetComp<Attacking>().Stop();
 					context.Sm.SetState(new ChasingState(context));
 				}
 			}
+		}
 
+		void PerformRandomAttack()
+		{
+			if (Utils.GetRandomBool()) {
+				var duration = UnityEngine.Random.Range(0,context.Character.GetComp<Attacking>().MaxHeavyAttackChargedTime);
+				context.Character.HeavyAttack(duration);
+			}
+			else {
+				context.Character.FastAttack();
+			}
 		}
 	}
 }

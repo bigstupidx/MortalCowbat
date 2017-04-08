@@ -66,9 +66,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		GetComp<Attacking>().StartFastAttack();
 	}
 
-	public void HeavyAttack()
+	public void HeavyAttack(float chargeDuration = -1)
 	{
-		GetComp<Attacking>().StartHeavyAttack();
+		GetComp<Attacking>().StartHeavyAttack(chargeDuration);
 	}
 
 	public void ChargedAttackReleased()

@@ -12,6 +12,9 @@ namespace Battle.Comp
 		public Action<Character, Attack, int> JumpAttackAction;
 		public Action<Character, Attack> AttackAction;
 
+		public float MaxHeavyAttackChargedTime = 1.0f;
+		public float MaxHeavyAttackMultiplication = 3.0f;
+
 		[SerializeField]
 		Sprite kickAttackSprite;
 
@@ -30,9 +33,6 @@ namespace Battle.Comp
 
 		float chargedAttackStartTime;
 		float chargedDuration;
-
-		const float maxTime = 1.0f;
-		const float maxMultiplication = 3.0f;
 
 		public void Perform()
 		{
@@ -60,13 +60,17 @@ namespace Battle.Comp
 			}
 		}
 
-		public void StartHeavyAttack()
+		public void StartHeavyAttack(float duration = -1)
 		{
 			if (!IsAttacking()) {
 				attacking = true;
 				chargedAttackReleased = false;
 				GetComp<Animating>().SetTrigger(Defs.Animations.HeavyAttack);
 				StartAttackEffects(BasicAttack);
+				// automatic chargin release
+				if (duration > 0) {
+					Invoke("ChargedAttackReleased", duration);			
+				} 
 			}
 		}
 
@@ -92,6 +96,7 @@ namespace Battle.Comp
 		{
 			attacking = false;
 			jumpAttacking = false;
+			ChargedAttackReleased();
 		}
 		public float GetBasicAttackRange()
 		{
@@ -161,33 +166,31 @@ namespace Battle.Comp
 
 		bool IsChargedAttackReleased()
 		{
-			return GetCharacter().Type == Defs.CharacterType.NPC || chargedAttackReleased;
+			return chargedAttackReleased;
 		}
 			
 		void UpdateCharging()
 		{
-			if (GetCharacter().Type == Defs.CharacterType.Player) {
-				var chargingBar = GetComp<Visual>().ChargingBar;
-				if (Charging()) {
-					chargedDuration = Time.time - chargedAttackStartTime;
-					float normalizedMultiplicator = Mathf.Min(chargedDuration / maxTime, 1.0f);
+			var chargingBar = GetComp<Visual>().ChargingBar;
+			if (Charging()) {
+				chargedDuration = Time.time - chargedAttackStartTime;
+				float normalizedMultiplicator = Mathf.Min(chargedDuration / MaxHeavyAttackChargedTime, 1.0f);
 
-					if (normalizedMultiplicator > 0.2f) {
-						chargingBar.gameObject.SetActive(true);
-						chargingBar.SetValue(normalizedMultiplicator);
-					} else {
-						chargingBar.gameObject.SetActive(false);
-					}
+				if (normalizedMultiplicator > 0.2f) {
+					chargingBar.gameObject.SetActive(true);
+					chargingBar.SetValue(normalizedMultiplicator);
 				} else {
 					chargingBar.gameObject.SetActive(false);
 				}
+			} else {
+				chargingBar.gameObject.SetActive(false);
 			}
 		}
 
 		public KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
 		{
-			float normalizedMultiplicator = Mathf.Min(chargedTime / maxTime, 1.0f);
-			var value =  chargedTime < 0.05f ? 1 : 1 + maxMultiplication * normalizedMultiplicator;
+			float normalizedMultiplicator = Mathf.Min(chargedTime / MaxHeavyAttackChargedTime, 1.0f);
+			var value =  chargedTime < 0.05f ? 1 : 1 + MaxHeavyAttackMultiplication * normalizedMultiplicator;
 			return new KeyValuePair<float, bool>(value, normalizedMultiplicator > 0.5f);
 		}
 	}
