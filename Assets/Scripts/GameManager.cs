@@ -6,6 +6,7 @@ using Vis;
 using System.Collections;
 using System;
 using Battle.Comp;
+using UnityEngine.SceneManagement;
 
 public partial class GameManager : MonoBehaviour, IResetable
 {
@@ -37,7 +38,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	LevelFrame levelFrame;
 
 	GameEvents events;
-
+	const int LevelCount = 4;
 
 	int level;
 
@@ -110,6 +111,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
 		level++;
+
+		if (level > LevelCount) {
+			SceneManager.LoadScene(0);
+		}
 
 		OnLevelStarted(level);
 
