@@ -54,10 +54,6 @@ MonoBehaviour:
   Dialogs:
   - Name: intro
     Sentences:
-    - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
-      Title: STR_TONY
-      Text: STR_TONY_DIALOG1
-      Position: right
     - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
       Title: STR_PIG_LEBOWSKI
       Text: STR_PIG_LEBOWSKI_DIALOG1
@@ -66,19 +62,4 @@ MonoBehaviour:
     Parameters:
     - Key: 0
       Value: 2
-    Delay: 0
-  - Name: test
-    Sentences:
-    - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
-      Title: STR_TONY
-      Text: STR_TONY_DIALOG1
-      Position: right
-    - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
-      Title: STR_PIG_LEBOWSKI
-      Text: STR_PIG_LEBOWSKI_DIALOG1
-      Position: left
-    Condition: 4
-    Parameters:
-    - Key: 1
-      Value: 1
-    Delay: 2
+    Delay: 1
