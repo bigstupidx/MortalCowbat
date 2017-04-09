@@ -115,7 +115,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	{
 		var npc = Instantiate(evt.NPCPrefab);
 
-		npc.transform.position = GetRandomPositionOutsideScreen();
+		npc.transform.position = GetRandomPositionOutsideScreen(evt.Dir);
 
 		if (CharacterGenerated != null) {
 			CharacterGenerated(npc.GetComponent<Character>());
@@ -125,14 +125,17 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		aliveNpcCount++;
 	}
 
-	Vector3 GetRandomPositionOutsideScreen()
+	Vector3 GetRandomPositionOutsideScreen(int side)
 	{
+		if (side == 0)
+			side = Utils.GetRandomBool() ? -1 : 1;
+
 		float camWidh = context.GameCamera.GetWidth();
 
 		float rndY = UnityEngine.Random.Range(
 			context.LevelFrame.GetMinY(),
 			context.LevelFrame.GetMaxY());
-		float rndX = context.GameCamera.GetPosition().x + camWidh * (Utils.GetRandomBool() ? -1 : 1);
+		float rndX = context.GameCamera.GetPosition().x + camWidh * side;
 		return new Vector3(rndX, rndY, 0);
 	}
 
