@@ -80,10 +80,13 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 			killedNPCs = 0;
 			generatedNPCCount = 0;
 			aliveNpcCount = 0;
-			waveIndex = Math.Min(waveIndex + 1, WavesInCurrentLevel() - 1);
-			wavesFinished = waveIndex == WavesInCurrentLevel() - 1;
+			waveIndex = Math.Min(waveIndex + 1, WavesInCurrentLevel());
+			wavesFinished = waveIndex == WavesInCurrentLevel();
 			if (!wavesFinished)
 				currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
+			else
+				waveIndex--;
+			
 			NextWaveAction(waveIndex, WavesInCurrentLevel());
 		}
 
