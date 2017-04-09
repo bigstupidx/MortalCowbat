@@ -13,11 +13,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Time: 4
-    NPCPrefab: {fileID: 1493431373868202, guid: e6f576b589a8c4a03b990baf6cce0f26,
+    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
     Dir: 1
-  - Time: 8
+  - Time: 5
+    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    Dir: -1
+  - Time: 6
     NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
       type: 2}
     AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
