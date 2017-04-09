@@ -52,12 +52,25 @@ namespace Battle.Comp
 					StartAttackEffects(JumpAttack);
 					jumpId++;
 				} else {
-					var trigger = fastAttackCounter++ % 2 == 0 ? "fastpunch01" : "fastpunch02";
+					var trigger = GetFastAttack();
 					GetComp<Animating>().SetTrigger(trigger);
 					StartAttackEffects(BasicAttack);
 					attacking = true;
 				}
 			}
+		}
+
+		string GetFastAttack()
+		{
+			fastAttackCounter++;
+			int mod = fastAttackCounter % 3;
+			switch(mod)
+			{
+				case 0: return "fastpunch01";
+				case 1: return "fastpunch02";
+				case 2: return "kick";
+			}
+			return "";
 		}
 
 		public void StartHeavyAttack(float duration = -1)

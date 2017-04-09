@@ -13,6 +13,7 @@ public static class Defs
 		public static string Walk = "walk";
 		public static string Idle = "idle";
 		public static string Attack = "attack";
+		public static string Kick = "kick";
 		public static string SpecialAttack = "specialattack";
 		public static string HeavyAttack = "heavyattack";
 		public static string Play = "play";
