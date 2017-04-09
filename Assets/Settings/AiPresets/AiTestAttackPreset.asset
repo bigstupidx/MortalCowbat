@@ -9,12 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5843b065c4c34088b64c00dbfffe499, type: 3}
-  m_Name: AiTestAttackPresetBOSS
+  m_Name: AiTestAttackPreset
   m_EditorClassIdentifier: 
-  FirstAttackDelay: 0.1
-  AttackInterval: 1
+  FirstAttackDelay: 0
+  AttackInterval: 0
   AttackRangeCoeficient: 0.941
-  FastAttackProbability: 0.25800002
-  HeavyAttackProbability: 0.742
-  HeavyAttackMinCharge: 0.59616613
+  FastAttackProbability: 0.4925344
+  HeavyAttackProbability: 0.5074656
+  KickAttackProbability: 0
+  HeavyAttackMinCharge: 0.79456705
   HeavyAttackMaxCharge: 1

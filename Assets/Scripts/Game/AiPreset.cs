@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Ai
 {
-	[CreateAssetMenu(menuName = "Ai/Preset"), Serializable]
+	[CreateAssetMenu(menuName = "NPC/Preset"), Serializable]
 	public class AiPreset : ScriptableObject
 	{
 		public float FirstAttackDelay;

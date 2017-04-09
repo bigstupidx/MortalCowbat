@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
 using Vis;
 
 
 public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 {
+	[SerializeField]
+	GameLevels levels;
+
 	public int WaveIndex { get { return waveIndex; }}
 
 	public Action AllWavesFinishedAction;
@@ -13,38 +15,38 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	public Action<int, int>  NextWaveAction;
 	public Action<int> NPCLeftChagedAction;
 	public Action<Character> CharacterGenerated;
-	public AnimationCurve spawnCurve;
-	public bool Running { get { return running; } set { running = value; }}
+
+	public bool Running { get; set; }
 	public class Context
 	{
 		public LevelFrame LevelFrame;
 		public InGameCamera GameCamera;
 	}
 
-	[SerializeField]
-	WaveSettings waves;
-
-	[SerializeField]
-	List<GameObject> NpcPrefabs;
-
-	float generateTime = 0;
-	float startTime;
 	float timer;
 
 	int generatedNPCCount;
 	int killedNPCs;
 	int waveIndex;
-	bool running;
+	int aliveNpcCount;
 	bool paused;
 
 
 	Context context;
+	Level levelDef;
+	Wave currentWave;
 
-	public void Init(Context context)
+	public void Init(Context context, int level)
 	{
+		this.levelDef = levels.Levels[level - 1];
 		this.context = context;
-		running = true;
-		NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
+		Running = true;
+		waveIndex = 0;
+		currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
+		timer = 0;
+
+		// call actions
+		NextWaveAction(waveIndex, levelDef.Waves.Count); // X/Y waves
 		NPCLeftChagedAction(GetEnemiesLeft());
 	}
 
@@ -52,16 +54,16 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	#region IResetable implementation
 	public void Reset ()
 	{
-		AllWavesFinishedAction = null;
-		NextWaveAction = null;
-		NPCLeftChagedAction = null;
-		WaveFinishedAction = null;
-		CharacterGenerated = null;
+		//AllWavesFinishedAction = null;
+		//NextWaveAction = null;
+		//NPCLeftChagedAction = null;
+		//WaveFinishedAction = null;
+		//CharacterGenerated = null;
 		waveIndex = 0;
-		generateTime = 0;
 		killedNPCs = 0;
 		generatedNPCCount = 0;
-		startTime = 0;
+		aliveNpcCount = 0;
+		timer = 0;
 	}
 	#endregion
 
@@ -71,30 +73,37 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		bool wavesFinished = false;
 
 		killedNPCs++;
-		if (killedNPCs == waves.EnemiesInWave[waveIndex]) {
-			WaveFinishedAction(waveIndex, waves.EnemiesInWave.Count);
+		aliveNpcCount--;
+		// all NPCs from wave killed
+		if (currentWave.Events.Count == 0 && aliveNpcCount == 0) {
+			WaveFinishedAction(waveIndex, WavesInCurrentLevel());
 			killedNPCs = 0;
 			generatedNPCCount = 0;
-			waveIndex = Math.Min(waveIndex + 1, waves.EnemiesInWave.Count);
-			NextWaveAction(waveIndex + 1, waves.EnemiesInWave.Count);
-			wavesFinished = waveIndex == waves.EnemiesInWave.Count;
+			aliveNpcCount = 0;
+			waveIndex = Math.Min(waveIndex + 1, WavesInCurrentLevel() - 1);
+			wavesFinished = waveIndex == WavesInCurrentLevel() - 1;
+			if (!wavesFinished)
+				currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
+			NextWaveAction(waveIndex, WavesInCurrentLevel());
 		}
+
+		NPCLeftChagedAction(GetEnemiesLeft());
+
 		if (wavesFinished) {
-			running = false;
+			Running = false;
 			AllWavesFinishedAction();
-		} else  {
-			NPCLeftChagedAction(GetEnemiesLeft());
 		}
 	}
 
 	void Update()
 	{
-		if (running) {
-			if (timer > generateTime) {
-				GenerateRandomNPC();
-				float delay = GetSpawnDelay(Time.time - startTime);
-				generateTime = timer + delay;
-			}	
+		if (Running) {
+			var passedEvent = currentWave.Events.Find(x=>x.Time < timer);
+
+			if (passedEvent != null) {
+				GenerateNPCFromEvent(passedEvent);
+				currentWave.Events.Remove(passedEvent);
+			}
 		}
 
 		if (!paused) {
@@ -102,20 +111,18 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		}
 	}
 
-	void GenerateRandomNPC()
+	void GenerateNPCFromEvent(Wave.TimeEvent evt)
 	{
-		if (generatedNPCCount < waves.EnemiesInWave[waveIndex]) {
-			var prefab = NpcPrefabs[UnityEngine.Random.Range(0, NpcPrefabs.Count)];
-			var npc = Instantiate(prefab);
+		var npc = Instantiate(evt.NPCPrefab);
 
-			npc.transform.position = GetRandomPositionOutsideScreen();
+		npc.transform.position = GetRandomPositionOutsideScreen();
 
-			if (CharacterGenerated != null) {
-				CharacterGenerated(npc.GetComponent<Character>());
-			}
-
-			generatedNPCCount++;
+		if (CharacterGenerated != null) {
+			CharacterGenerated(npc.GetComponent<Character>());
 		}
+
+		generatedNPCCount++;
+		aliveNpcCount++;
 	}
 
 	Vector3 GetRandomPositionOutsideScreen()
@@ -129,14 +136,14 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		return new Vector3(rndX, rndY, 0);
 	}
 
-	float GetSpawnDelay(float elapsedTime)
-	{
-		return spawnCurve.Evaluate(Time.time - startTime);
-	}
-
 	int GetEnemiesLeft()
 	{
-		return waves.EnemiesInWave[waveIndex] - killedNPCs;
+		return currentWave.Events.Count + aliveNpcCount;
+	}
+
+	int WavesInCurrentLevel()
+	{
+		return levelDef.Waves.Count;
 	}
 
 	public void Pause ()

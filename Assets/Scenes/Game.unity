@@ -2554,7 +2554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 507341309}
   m_Layer: 0
-  m_Name: Level
+  m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10267,27 +10267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ef8024688a64ea4a8a2e9877ef61dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: -0.49930134
-      value: 3.0452974
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-    - serializedVersion: 2
-      time: 79.6984
-      value: 1.0467081
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  waves: {fileID: 2119016614}
-  NpcPrefabs:
-  - {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8, type: 2}
+  levels: {fileID: 11400000, guid: 5d0dde8c1759b4dcc875d28543199499, type: 2}
 --- !u!114 &2119016614
 MonoBehaviour:
   m_ObjectHideFlags: 0

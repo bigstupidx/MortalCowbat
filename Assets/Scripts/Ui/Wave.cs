@@ -13,7 +13,7 @@ namespace Ui
 
 		public void SetWave(int actual, int from)
 		{
-			wave.text = string.Format("Wave {0}/{1}", actual, from);
+			wave.text = string.Format("Wave {0}/{1}", actual + 1, from);
 		}
 
 		public void SetLeft(int value)

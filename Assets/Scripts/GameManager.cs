@@ -40,7 +40,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 	GameEvents events;
 	const int LevelCount = 4;
 
-	int level;
+	int level {
+		get;
+		set;
+	}
 
 	void Awake()
 	{
@@ -65,19 +68,18 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		nextLevelArrow.SetActive(false);
 		level = 1;
-	
 		characterContext = CreateCharacterContext();
-		MainInit();
-	
-		OnLevelStarted(level);
+		InitCallbacks();
+		InitLevel();
+		CallLevelStarted(level);
 	}
 
-	void MainInit()
+	void InitLevel()
 	{
-		InitializeLevelFrame (level);
-		Initialize();
-		GatherCharacters();
-		InitializeCharacters();
+		InitLevelFrame ();
+		InitNPCGenerator ();
+		InitPlayer();
+		InitCharacters();
 	}
 
 	public List<Character> Characters()
@@ -99,7 +101,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		if (killNPC) {
 			KillNPCs();
 		}
-		MainInit();
+		InitLevel();
 	}
 
 	public IEnumerator SetNextLevel()
@@ -116,7 +118,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 			SceneManager.LoadScene(0);
 		}
 
-		OnLevelStarted(level);
+		CallLevelStarted(level);
 
 		yield return 0;
 
@@ -187,7 +189,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	}
 
-	void InitializeLevelFrame (int level)
+	void InitLevelFrame ()
 	{
 		levelFrame = GameObject.Find (string.Format ("LevelFrame{0}", level)).GetComponent<LevelFrame> ();
 		gameCamera.Follower.LevelFrame = levelFrame;
@@ -200,7 +202,15 @@ public partial class GameManager : MonoBehaviour, IResetable
 		};
 	}
 
-	void Initialize()
+	void InitNPCGenerator ()
+	{
+		npcGenerator.Init (new NPCGenerator.Context {
+			LevelFrame = levelFrame,
+			GameCamera = gameCamera,
+		}, level);
+	}
+
+	void InitCallbacks()
 	{
 		npcGenerator.CharacterGenerated += OnCharacterGenerate;
 		npcGenerator.AllWavesFinishedAction += OnAllWavesFinished;
@@ -214,17 +224,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 		events.AllWavesFinished += ui.DialogController.OnAllWavesFinished;
 		events.LevelStarted += ui.DialogController.OnLevelStarted;
 
-	
 		events.NPCLeftChanged += ui.OnLeft;
-	
-
-		npcGenerator.Init(new NPCGenerator.Context {
-			LevelFrame = levelFrame,
-			GameCamera = gameCamera
-		});
 	}
 
-	void GatherCharacters()
+	void InitPlayer()
 	{
 		if (player == null) {
 			PlacePlayer();
@@ -250,7 +253,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	}
 
 
-	void InitializeCharacters()
+	void InitCharacters()
 	{
 		characters.ForEach(InitializeCharacter);
 	}

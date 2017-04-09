@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29e169ee2b8c346e8af058c32c82fea7, type: 3}
+  m_Name: Wave1
+  m_EditorClassIdentifier: 
+  Events:
+  - Time: 0
+    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    Dir: 0
+  - Time: 1
+    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    Dir: 0
+  - Time: 10
+    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    Dir: 0

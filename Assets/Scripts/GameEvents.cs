@@ -14,12 +14,12 @@ public class GameEvents : IResetable
 
 	public void Reset ()
 	{
-		LevelStarted = null;
-		WaveStarted = null;
-		WaveFinished = null;
-		PlayerDied = null;
-		AllWavesFinished = null;
-		NPCLeftChanged = null;
+		//LevelStarted = null;
+		//WaveStarted = null;
+		//WaveFinished = null;
+		//PlayerDied = null;
+		//AllWavesFinished = null;
+		//NPCLeftChanged = null;
 	}
 
 	#endregion

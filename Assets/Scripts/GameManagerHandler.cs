@@ -77,7 +77,7 @@ public partial class GameManager
 		}
 	}
 
-	void OnLevelStarted(int level)
+	void CallLevelStarted(int level)
 	{
 		if (events.LevelStarted != null) {
 			events.LevelStarted(level);

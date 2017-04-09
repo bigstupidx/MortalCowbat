@@ -15,7 +15,6 @@ public class AiPresetEditor : Editor
 	SerializedProperty fastAttackProbability;
 	SerializedProperty kickAttackProbability;
 
-
 	SerializedProperty heavyAttackMinCharge;
 	SerializedProperty heavyAttackMaxCharge;
 
