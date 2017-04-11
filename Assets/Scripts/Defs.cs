@@ -2,6 +2,8 @@
 
 public static class Defs
 {
+	public const float AnimationSpeed = 15.0f;
+
 	public enum CharacterType
 	{
 		Player,

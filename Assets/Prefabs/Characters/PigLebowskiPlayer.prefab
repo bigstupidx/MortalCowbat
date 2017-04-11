@@ -912,7 +912,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d7b1fccd8b44e3b8989dd56c5d3bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kickAttackSprite: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+  MaxHeavyAttackChargedTime: 1
+  MaxHeavyAttackMultiplication: 3
+  kickAttackSprites:
+  - {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+  - {fileID: 21300000, guid: acd2113b3b8a446268d2421de87026d3, type: 3}
   specialAttackCooldown: {fileID: 114362437923186032}
   BasicAttack: {fileID: 114053792649777356}
   SpecialAttack: {fileID: 114351736271625434}

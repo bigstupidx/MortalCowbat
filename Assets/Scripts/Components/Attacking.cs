@@ -16,7 +16,7 @@ namespace Battle.Comp
 		public float MaxHeavyAttackMultiplication = 3.0f;
 
 		[SerializeField]
-		Sprite kickAttackSprite;
+		List<Sprite> kickAttackSprites;
 
 		[SerializeField]
 		Cooldown specialAttackCooldown;
@@ -30,6 +30,8 @@ namespace Battle.Comp
 		bool jumpAttacking;
 		int jumpId;
 		int fastAttackCounter;
+		int kickAttackFrame;
+		float kickAttackTimer;
 
 		float chargedAttackStartTime;
 		float chargedDuration;
@@ -49,6 +51,8 @@ namespace Battle.Comp
 			if (!IsAttacking()) {
 				if (GetComp<Jumping>().IsJumping()) {
 					jumpAttacking = true;
+					kickAttackFrame = 0;
+					kickAttackTimer = Time.time + 0.1f;
 					StartAttackEffects(JumpAttack);
 					jumpId++;
 				} else {
@@ -169,7 +173,10 @@ namespace Battle.Comp
 
 		void ForceJumpKickFrame()
 		{
-			GetComp<Visual>().Ren.sprite = kickAttackSprite;
+			GetComp<Visual>().Ren.sprite = kickAttackSprites[kickAttackFrame];
+			if (Time.time > kickAttackTimer) {
+				kickAttackFrame = Math.Min(kickAttackFrame + 1, kickAttackSprites.Count - 1);
+			}
 		}
 
 		bool Charging()

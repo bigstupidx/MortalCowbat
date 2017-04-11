@@ -691,7 +691,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHeavyAttackChargedTime: 1
   MaxHeavyAttackMultiplication: 3
-  kickAttackSprite: {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+  kickAttackSprites:
+  - {fileID: 21300000, guid: f8ada5b982be44449b568af372fd1fac, type: 3}
+  - {fileID: 21300000, guid: acd2113b3b8a446268d2421de87026d3, type: 3}
   specialAttackCooldown: {fileID: 0}
   BasicAttack: {fileID: 114565483941095976}
   SpecialAttack: {fileID: 114962683884621062}
