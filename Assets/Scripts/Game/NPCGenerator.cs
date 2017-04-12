@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using Vis;
+using Ai;
+using Battle.Comp;
 
 
 public class NPCGenerator : MonoBehaviour, IResetable, IPausable
@@ -119,6 +121,9 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		var npc = Instantiate(evt.NPCPrefab);
 
 		npc.transform.position = GetRandomPositionOutsideScreen(evt.Dir);
+		npc.GetComponent<AiStateMachine>().Preset = evt.AiPreset;
+		npc.GetComponent<CharacterSettings>().MovingSpeed = evt.Speed;
+		npc.GetComponent<CharacterSettings>().Health = evt.HP;
 
 		if (CharacterGenerated != null) {
 			CharacterGenerated(npc.GetComponent<Character>());

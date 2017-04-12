@@ -30,6 +30,7 @@ class WaveWindow : EditorWindow
 	{
 		DrawAddNewEvent();
 
+	
 		scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 		for (int i = 0; i < wave.Events.Count; ++i) {
 			bool removed = DrawWaveEvent(wave.Events[i]);
@@ -51,19 +52,21 @@ class WaveWindow : EditorWindow
 
 	bool DrawWaveEvent(Wave.TimeEvent evt)
 	{
+		float labelWidth = EditorGUIUtility.labelWidth;
+		EditorGUIUtility.labelWidth = 40;
 		bool removed = false;
-
 		EditorGUILayout.BeginHorizontal();
 		evt.Time = EditorGUILayout.FloatField(evt.Time,  GUILayout.Width(30));
 
 		if (GUI.changed) {
 			Sort();
 		}
-
 		evt.NPCPrefab = EditorGUILayout.ObjectField(evt.NPCPrefab, typeof(GameObject), false) as GameObject;
 		evt.AiPreset = EditorGUILayout.ObjectField(evt.AiPreset, typeof(AiPreset), false) as AiPreset;
-		evt.Dir = EditorGUILayout.IntField(evt.Dir, GUILayout.Width(25));
-
+		evt.HP = EditorGUILayout.IntField("HP", evt.HP, GUILayout.Width(80));
+		evt.Speed = EditorGUILayout.IntField("Speed",evt.Speed, GUILayout.Width(80));
+		evt.Dir = EditorGUILayout.IntField("Side", evt.Dir, GUILayout.Width(80));
+	
 
 		GUI.color = Color.red;
 		if (GUILayout.Button("X")) {
@@ -73,6 +76,7 @@ class WaveWindow : EditorWindow
 		DrawDuplicateEvent(evt);
 
 		EditorGUILayout.EndHorizontal();
+		EditorGUIUtility.labelWidth = labelWidth;
 		return removed;
 	}
 

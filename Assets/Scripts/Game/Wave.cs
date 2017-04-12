@@ -24,6 +24,8 @@ public class Wave : ScriptableObject
 		public GameObject NPCPrefab;
 		public AiPreset AiPreset;
 		public int Dir;
+		public int HP;
+		public int Speed;
 	}
 
 	public List<TimeEvent> Events;

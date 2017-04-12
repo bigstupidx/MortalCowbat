@@ -5,7 +5,7 @@ namespace Ai
 {
 	public class AiStateMachine : MonoBehaviour
 	{
-		public AiPreset Preset { get { return aiPreset; }}
+		public AiPreset Preset { get { return aiPreset; } set { aiPreset = value; }}
 
 		[SerializeField]
 		AiPreset aiPreset;

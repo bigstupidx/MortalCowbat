@@ -17,3 +17,5 @@ MonoBehaviour:
       type: 2}
     AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
     Dir: 0
+    HP: 10
+    Speed: 5
