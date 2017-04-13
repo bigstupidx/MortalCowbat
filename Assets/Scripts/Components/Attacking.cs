@@ -19,6 +19,9 @@ namespace Battle.Comp
 		List<Sprite> kickAttackSprites;
 
 		[SerializeField]
+		List<string> fastAttacksTriggers;
+
+		[SerializeField]
 		Cooldown specialAttackCooldown;
 
 		public Attack BasicAttack;
@@ -67,14 +70,8 @@ namespace Battle.Comp
 		string GetFastAttack()
 		{
 			fastAttackCounter++;
-			int mod = fastAttackCounter % 3;
-			switch(mod)
-			{
-				case 0: return "fastpunch01";
-				case 1: return "fastpunch02";
-				case 2: return "kick";
-			}
-			return "";
+			int mod = fastAttackCounter % fastAttacksTriggers.Count;
+			return fastAttacksTriggers[mod];
 		}
 
 		public void StartHeavyAttack(float duration = -1)
