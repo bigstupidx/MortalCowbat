@@ -6,9 +6,12 @@ using System.Collections.Generic;
 class GameLevelsWindow : EditorWindow 
 {
 	Vector2 scrollPos;
-
-
 	GameLevels gameLevels;
+
+	List<Color> Colors = new List<Color>() {
+		new Color(1.0f,0.8f,0.8f,1.0f),
+		new Color(1.0f,1.0f,1.0f,1.0f)
+	};
 
 	public static void Open(GameLevels gameLevels) 
 	{
@@ -27,9 +30,9 @@ class GameLevelsWindow : EditorWindow
 		DrawLevels();
 	}
 
-
 	void DrawLevels()
 	{
+
 		scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 		EditorGUILayout.BeginHorizontal();
 		bool levelsModified = false;
@@ -61,10 +64,10 @@ class GameLevelsWindow : EditorWindow
 		}
 
 		levelsModified |= DrawAddLevelButton(gameLevels.Levels);
-
+		EditorGUILayout.Space();
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.EndScrollView();
-
+	
 		if (GUI.changed || levelsModified) {
 			EditorUtility.SetDirty(gameLevels);
 		}
@@ -76,6 +79,9 @@ class GameLevelsWindow : EditorWindow
 			EditorGUILayout.BeginHorizontal();
 			waves[i] = (Wave)EditorGUILayout.ObjectField (waves [i], typeof(Wave), false, GUILayout.Width (150));
 			bool modified = false;
+
+			DrawOpenWaveButton(waves, i);
+
 			if (DrawRemoveWaveButton(waves, i))
 				modified = true;
 			EditorGUILayout.EndHorizontal();
@@ -108,6 +114,16 @@ class GameLevelsWindow : EditorWindow
 		}
 		GUI.color = color;
 		return modified;
+	}
+
+	void DrawOpenWaveButton(List<Wave> waves, int index)
+	{	var color = GUI.color;
+		GUI.color = Color.white;
+
+		if (GUILayout.Button("O", GUILayout.Width(50))) {
+			WaveWindow.Open(waves[index]);
+		}
+		GUI.color = color;
 	}
 
 	bool DrawRemoveLevelButton(List<Level> levels, int index)
