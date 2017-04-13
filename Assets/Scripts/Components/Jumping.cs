@@ -19,6 +19,7 @@ namespace Battle.Comp
 		{
 			if (!jumping && !GetComp<Attacking>().IsAttacking()) {
 				jumping = true;
+				Debug.Log("Jumping: movingSpeedX " + GetComp<Moving>().SpeedX());
 				jumpSpeedX = Math.Sign(GetComp<Moving>().SpeedX()) * jumpingSpeed;
 				GetComp<Animating>().SetTrigger(Defs.Animations.Jump);
 			}

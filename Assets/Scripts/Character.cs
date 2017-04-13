@@ -36,9 +36,11 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void AiMove(Vector2 dir)
 	{
-		var normDir = dir.normalized;
-		GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
-		GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+			var normDir = dir.normalized;
+			GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
+			GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
+		}
 	}
 
 	public void MoveH(int dir)
@@ -91,9 +93,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		if (!GetComp<Pause>().Paused) {
 			GetComp<Moving>().UpdateMe();
 			GetComp<Animating>().UpdateMe();
-			GetComp<Moving>().Stop();
 			GetComp<Jumping>().UpdateMe();
-		
+			GetComp<Moving>().Stop();
+
 
 			if (CheckLimits) {
 				TrimPositionToLimits();

@@ -308,7 +308,9 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		var player = Instantiate(playerPrefab);
 		player.transform.position = Vector3.zero;
-		characters.Add(player.GetComponent<Character>());
+		var playerScript = player.GetComponent<Character>();
+		characters.Add(playerScript);
+		ui.VirtualKeyboardController.AttachCharacter(playerScript);
 	}
 
 	Limits GetLimits()

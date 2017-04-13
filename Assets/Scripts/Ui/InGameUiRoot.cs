@@ -5,12 +5,17 @@ namespace Ui
 	public class InGameUiRoot : MonoBehaviour
 	{
 		public DialogController DialogController { get; private set; }
+		public VirtualKeyboardController VirtualKeyboardController { get { return virtualKeyboardController; } }
+
 
 		[SerializeField]
 		InGamePlayerHealthBar playerHealthbar;
 
 		[SerializeField]
 		InGamePlayerSpecialAttackBar playerSpecialAttackBar;
+
+		[SerializeField]
+		VirtualKeyboardController virtualKeyboardController;
 
 
 		[SerializeField]
