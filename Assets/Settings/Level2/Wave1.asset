@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Name: Wave1
   m_EditorClassIdentifier: 
   Events:
-  - Time: 3
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+  - Time: 2
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
     AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
     Dir: -1
-    HP: 20
-    Speed: 5
+    HP: 50
+    Speed: 4
+  - Time: 2
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    Dir: 1
+    HP: 50
+    Speed: 4
