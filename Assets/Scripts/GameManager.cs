@@ -300,7 +300,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	CharacterContext CreateCharacterContext()
 	{
-		return new CharacterContext(effectManager, GetLimits);
+		return new CharacterContext(effectManager, GetLimits, Characters());
 	}
 
 

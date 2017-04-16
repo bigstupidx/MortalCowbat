@@ -5,12 +5,21 @@ namespace Battle.Comp
 {
 	public class Moving : CharacterComponent
 	{
+		[SerializeField]
+		bool blockIntersections;
+
 		public bool Paused { get; set; }
 		public bool Falling { get { return falling; }}
+		public Collider2D Collider { get; private set; }
 
 		float speedX;
 		float speedY;
 		bool falling;
+
+		void Awake()
+		{
+			Collider = GetComponent<BoxCollider2D>();
+		}
 
 		public float SpeedX()
 		{
@@ -83,8 +92,26 @@ namespace Battle.Comp
 				var pos = transform.position;
 				pos.x += speedX * Time.deltaTime;
 				pos.y += speedY * Time.deltaTime;
-				transform.position = pos;
+
+				bool canMove = !blockIntersections || CanMoveToPosition (pos);
+
+				if (canMove) {
+					transform.position = pos;
+				}
 			}
+		}
+
+		bool CanMoveToPosition (Vector3 pos)
+		{
+			bool canMove = true;
+			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
+				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
+					bool isTooClose = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude < 0.5f;
+					if (isTooClose)
+						canMove = false;
+				}
+			}
+			return canMove;
 		}
 	}
 }

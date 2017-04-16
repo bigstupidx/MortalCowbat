@@ -8,14 +8,13 @@ public partial class Character : MonoBehaviour, ICharacter
 	public Defs.CharacterType Type;
 	public bool CheckLimits { get; set;}
 	public CharacterSettings Settings { get { return settings; }}
+	public CharacterContext Context { get; private set; }
 
 	[SerializeField]
 	ComponentHolder componentHolder;
 
 	[SerializeField]
 	CharacterSettings settings;
-
-	CharacterContext context;
 
 	void Awake()
 	{
@@ -25,7 +24,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Init(CharacterContext context)
 	{
-		this.context = context;
+		this.Context = context;
 		GetComp<Health>().Init(settings.Health, settings.Health);
 	}
 
@@ -155,10 +154,10 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	void TrimPositionToLimits()
 	{
-		if (context != null) {
+		if (Context != null) {
 		var pos = transform.position;
-			pos.y = Math.Max(Math.Min(context.Limits().YMax, pos.y), context.Limits().YMin);
-			pos.x = Math.Max(Math.Min(context.Limits().XMax, pos.x), context.Limits().XMin);
+			pos.y = Math.Max(Math.Min(Context.Limits().YMax, pos.y), Context.Limits().YMin);
+			pos.x = Math.Max(Math.Min(Context.Limits().XMax, pos.x), Context.Limits().XMin);
 			transform.position = pos;
 		}
 	}
