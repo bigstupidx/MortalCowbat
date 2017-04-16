@@ -8,6 +8,10 @@ namespace Battle.Comp
 		[SerializeField]
 		bool blockIntersections;
 
+		[SerializeField]
+		float blockIntersectionsDistance = 0.5f;
+
+
 		public bool Paused { get; set; }
 		public bool Falling { get { return falling; }}
 		public Collider2D Collider { get; private set; }
@@ -106,7 +110,7 @@ namespace Battle.Comp
 			bool canMove = true;
 			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
 				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
-					bool isTooClose = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude < 0.5f;
+					bool isTooClose = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude < blockIntersectionsDistance;
 					if (isTooClose)
 						canMove = false;
 				}
