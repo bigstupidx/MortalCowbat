@@ -307,7 +307,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 	void PlacePlayer()
 	{
 		var player = Instantiate(playerPrefab);
-		player.transform.position = Vector3.zero;
+
+		player.transform.position = new Vector3(gameCamera.GetPosition().x - 4, -2.0f,0);
 		var playerScript = player.GetComponent<Character>();
 		characters.Add(playerScript);
 		ui.VirtualKeyboardController.AttachCharacter(playerScript);

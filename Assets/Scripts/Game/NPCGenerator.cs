@@ -38,6 +38,9 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	Level levelDef;
 	Wave currentWave;
 
+	float waveEndCheckTimer;
+	const float WaveEndCheckInterval = 1.0f;
+
 	public void Init(Context context, int level)
 	{
 		this.levelDef = levels.Levels[level - 1];
@@ -46,7 +49,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		waveIndex = 0;
 		currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
 		timer = 0;
-
+		waveEndCheckTimer = Time.time + WaveEndCheckInterval;
 		// call actions
 		NextWaveAction(waveIndex, levelDef.Waves.Count); // X/Y waves
 		NPCLeftChagedAction(GetEnemiesLeft());
@@ -72,25 +75,10 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 
 	public void OnNPCDeath()
 	{
-		bool wavesFinished = false;
-
 		killedNPCs++;
 		aliveNpcCount--;
 		// all NPCs from wave killed
-		if (currentWave.Events.Count == 0 && aliveNpcCount == 0) {
-			WaveFinishedAction(waveIndex, WavesInCurrentLevel());
-			killedNPCs = 0;
-			generatedNPCCount = 0;
-			aliveNpcCount = 0;
-			waveIndex = Math.Min(waveIndex + 1, WavesInCurrentLevel());
-			wavesFinished = waveIndex == WavesInCurrentLevel();
-			if (!wavesFinished)
-				currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
-			else
-				waveIndex--;
-			
-			NextWaveAction(waveIndex, WavesInCurrentLevel());
-		}
+		bool wavesFinished = IsWaveFinished ();
 
 		NPCLeftChagedAction(GetEnemiesLeft());
 
@@ -108,6 +96,15 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 			if (passedEvent != null) {
 				GenerateNPCFromEvent(passedEvent);
 				currentWave.Events.Remove(passedEvent);
+			}
+		
+			if (Time.time > waveEndCheckTimer) {
+				waveEndCheckTimer = Time.time + WaveEndCheckInterval;
+				bool wavesFinished = IsWaveFinished ();
+				if (wavesFinished) {
+					Running = false;
+					AllWavesFinishedAction();
+				}
 			}
 		}
 
@@ -145,6 +142,25 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 			context.LevelFrame.GetMaxY());
 		float rndX = context.GameCamera.GetPosition().x + camWidh * side;
 		return new Vector3(rndX, rndY, 0);
+	}
+
+	bool IsWaveFinished ()
+	{
+		bool wavesFinished = false;
+		if (currentWave.Events.Count == 0 && aliveNpcCount == 0) {
+			WaveFinishedAction (waveIndex, WavesInCurrentLevel ());
+			killedNPCs = 0;
+			generatedNPCCount = 0;
+			aliveNpcCount = 0;
+			waveIndex = Math.Min (waveIndex + 1, WavesInCurrentLevel ());
+			wavesFinished = waveIndex == WavesInCurrentLevel ();
+			if (!wavesFinished)
+				currentWave = GameObject.Instantiate (levelDef.Waves [waveIndex]);
+			else
+				waveIndex--;
+			NextWaveAction (waveIndex, WavesInCurrentLevel ());
+		}
+		return wavesFinished;
 	}
 
 	int GetEnemiesLeft()
