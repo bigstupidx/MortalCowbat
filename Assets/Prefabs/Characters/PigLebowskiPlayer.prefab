@@ -703,6 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockIntersections: 1
+  blockIntersectionsDistance: 1.1
 --- !u!114 &114351736271625434
 MonoBehaviour:
   m_ObjectHideFlags: 1
