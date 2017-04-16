@@ -640,7 +640,7 @@ MonoBehaviour:
   ranged: 0
   shiftHitEnemy: 0
   enemyFalls: 0
-  attackPoints: 10
+  attackPoints: 20
   attackSfx: {fileID: 0}
   effects: []
   hitEffects:
@@ -702,6 +702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockIntersections: 1
 --- !u!114 &114351736271625434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -865,7 +866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovingSpeed: 6
   JumpingSpeed: 9
-  Health: 100
+  Health: 200
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114753656847734008
 MonoBehaviour:

@@ -12,43 +12,31 @@ MonoBehaviour:
   m_Name: Wave2
   m_EditorClassIdentifier: 
   Events:
+  - Time: 1
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+      type: 2}
+    AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
+    Dir: 1
+    HP: 70
+    Speed: 4
   - Time: 2
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: 1
+    AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
+    Dir: -1
+    HP: 70
+    Speed: 4
   - Time: 3
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: -1
+    AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
+    Dir: 1
+    HP: 70
+    Speed: 4
   - Time: 4
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: 1
-  - Time: 5
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
+    AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
     Dir: -1
-  - Time: 6
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: 1
-  - Time: 7
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: -1
-  - Time: 8
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: 1
-  - Time: 9
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: 87c3884146dff4817bfd908435945c54, type: 2}
-    Dir: -1
+    HP: 70
+    Speed: 4

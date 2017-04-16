@@ -12,18 +12,24 @@ MonoBehaviour:
   m_Name: Wave1
   m_EditorClassIdentifier: 
   Events:
-  - Time: 4
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+  - Time: 3
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    AiPreset: {fileID: 11400000, guid: c109e82a9a6344d46bae429d3c84cc6a, type: 2}
     Dir: 1
+    HP: 80
+    Speed: 3
   - Time: 5
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+    AiPreset: {fileID: 11400000, guid: 35af003212ea148e5994dd26262cb941, type: 2}
     Dir: -1
-  - Time: 6
-    NPCPrefab: {fileID: 1493431373868202, guid: cc893e09625c341b49f016ad03285ce8,
+    HP: 150
+    Speed: 2
+  - Time: 7
+    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
-    AiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
-    Dir: -1
+    AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
+    Dir: 1
+    HP: 70
+    Speed: 5

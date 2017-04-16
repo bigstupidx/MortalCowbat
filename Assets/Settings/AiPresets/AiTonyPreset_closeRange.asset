@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5843b065c4c34088b64c00dbfffe499, type: 3}
-  m_Name: AiTonyPreset
+  m_Name: AiTonyPreset_closeRange
   m_EditorClassIdentifier: 
   FirstAttackDelay: 0.5
-  AttackInterval: 1
-  AttackRangeCoeficient: 0.93
+  AttackInterval: 0.5
+  AttackRangeCoeficient: 0.454
   FastAttackProbability: 0.99999994
   HeavyAttackProbability: 0
   KickAttackProbability: 0.000000059604645
