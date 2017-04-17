@@ -25,6 +25,8 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		public InGameCamera GameCamera;
 	}
 
+	NPCSpawnPositionGenerator spawnPositionGenerator;
+
 	float timer;
 
 	int generatedNPCCount;
@@ -53,6 +55,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		// call actions
 		NextWaveAction(waveIndex, levelDef.Waves.Count); // X/Y waves
 		NPCLeftChagedAction(GetEnemiesLeft());
+		spawnPositionGenerator = new NPCSpawnPositionGenerator(5, context.LevelFrame, context.GameCamera);
 	}
 
 
@@ -134,14 +137,14 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	{
 		if (side == 0)
 			side = Utils.GetRandomBool() ? -1 : 1;
-
-		float camWidh = context.GameCamera.GetWidth();
-
-		float rndY = UnityEngine.Random.Range(
-			context.LevelFrame.GetMinY(),
-			context.LevelFrame.GetMaxY());
-		float rndX = context.GameCamera.GetPosition().x + camWidh * side;
-		return new Vector3(rndX, rndY, 0);
+		return spawnPositionGenerator.Get(side);
+//		float camWidh = context.GameCamera.GetWidth();
+//
+//		float rndY = UnityEngine.Random.Range(
+//			context.LevelFrame.GetMinY(),
+//			context.LevelFrame.GetMaxY());
+//		float rndX = context.GameCamera.GetPosition().x + camWidh * side;
+//		return new Vector3(rndX, rndY, 0);
 	}
 
 	bool IsWaveFinished ()
