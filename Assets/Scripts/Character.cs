@@ -170,7 +170,6 @@ public partial class Character : MonoBehaviour, ICharacter
 	void InitComponents()
 	{
 		componentHolder.components.Add(gameObject.AddComponent<Pause>());
-		componentHolder.components.Add(gameObject.AddComponent<Death>());
 		componentHolder.components.ForEach(x=>x.Init(this, componentHolder));
 	}
 }

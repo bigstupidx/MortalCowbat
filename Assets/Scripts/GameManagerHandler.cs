@@ -28,18 +28,28 @@ public partial class GameManager
 		hitCharacters.ForEach(x=>x.Hit(attack, attackingCharacter, attackingCharacter.GetComp<Moving>().GetFlip(), 1.0f, maxed));
 	}
 
-	void OnCharacterDeath(Character character)
+	void OnCharacterDeathStarted(Character character)
 	{
-		characters.Remove(character);
-	
+		characters.Remove(character);	
+	}
+
+	void OnCharacterDeathFinished(Character character)
+	{
 		if (character.Type == Defs.CharacterType.NPC) {
 			npcGenerator.OnNPCDeath();
 		} else {
 			if (events.PlayerDied != null) {
 				events.PlayerDied(level, npcGenerator.WaveIndex);
 			}
-			Restart(true);
+
+
+			Invoke("RestartAndKillNpcs", 3.0f);
 		}
+	}
+
+	void RestartAndKillNpcs()
+	{
+		Restart(true);
 	}
 
 	void OnCharacterGenerate(Character character) {

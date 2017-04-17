@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 114020216503709226}
   - component: {fileID: 114886124752029074}
   - component: {fileID: 114426680989769678}
+  - component: {fileID: 114843900391655216}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -772,6 +773,7 @@ MonoBehaviour:
   - {fileID: 114650108615467732}
   - {fileID: 114426680989769678}
   - {fileID: 114886124752029074}
+  - {fileID: 114843900391655216}
 --- !u!114 &114426680989769678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -890,6 +892,18 @@ MonoBehaviour:
   heavyAttack: 115
   jump: 32
   character: {fileID: 114844989902213830}
+--- !u!114 &114843900391655216
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a2b739d1afa46dbaef9f55e1e7b6bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Effect: {fileID: 1712054577559734, guid: 3a28348cb9152441aa842d54565d3aa6, type: 2}
 --- !u!114 &114844989902213830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -942,6 +956,8 @@ MonoBehaviour:
   ShakeEffect: {fileID: 1057847988162944, guid: 2537a3d021c834664aad743157ae89f4,
     type: 2}
   HitBlink: {fileID: 1597827885535164, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
+  KilledBlink: {fileID: 1597827885535164, guid: c814e67ca6f4a4c1b83cfab79322347a,
+    type: 2}
 --- !u!212 &212109857875351130
 SpriteRenderer:
   m_ObjectHideFlags: 1

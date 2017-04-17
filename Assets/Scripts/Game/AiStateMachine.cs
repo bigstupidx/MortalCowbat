@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Battle.Comp;
 
 namespace Ai
 {
@@ -55,6 +56,7 @@ namespace Ai
 				BattleUtils.IsPointInRange(x.GetPosition(), character.GetPosition(), range)
 			);
 
+			players.RemoveAll(x=>x.GetComp<Death>().IsDying);
 			var sortTargets = BattleUtils.SortCharactersByDistanceTo(players, character.GetPosition());
 			return sortTargets;
 		}

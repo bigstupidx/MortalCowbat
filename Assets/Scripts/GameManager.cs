@@ -120,8 +120,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		CallLevelStarted(level);
 
-		yield return 0;
-
 		Restart(false);
 
 		yield return StartCoroutine(gameCamera.Follower.AllignWithLimit());
@@ -249,7 +247,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 		character.GetComp<Attacking>().SpecialAttackAction = OnCharacterSpecialAttack;
 		character.GetComp<Attacking>().HeavyAttackAction = OnCharacterHeavyAttack;
 		character.GetComp<Attacking>().JumpAttackAction = OnCharacterJumpAttack;
-		character.GetComp<Death>().DeathAction = OnCharacterDeath;
+		character.GetComp<Death>().DeathFinishedAction = OnCharacterDeathFinished;
+		character.GetComp<Death>().DeathStartedAction = OnCharacterDeathStarted;
 	}
 
 

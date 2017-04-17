@@ -1,23 +1,46 @@
 ﻿using System;
-
 using Ai;
+using UnityEngine;
+using System.Collections;
 
 
 namespace Battle.Comp
 {
 	public class Death : CharacterComponent
 	{
-		public Action<Character> DeathAction;
+		public GameObject Effect;
+		public Action<Character> DeathFinishedAction;
+		public Action<Character> DeathStartedAction;
+
+
+		public bool IsDying { get; private set; }
 
 		public void Perform()
 		{
+			IsDying = true;
 			GetComp<Moving>().Stop();
 			GetComp<Jumping>().SetSpeedX(0.0f);
 			GetComp<Animating>().SetTrigger(Defs.Animations.Die);
-			//GetComp<Effects>().EffectManager.CreateEffect(GetComp<Effects>().KilledBlink).Run(gameObject);
+
+			if (Effect != null)
+				GetComp<Effects>().EffectManager.CreateEffect(Effect).Run(gameObject);
 			Destroy(gameObject.GetComponent<AiStateMachine>()); // TODO
-			if (DeathAction != null) {
-				DeathAction(GetCharacter());
+
+			CallDeathStartedAction();
+			CallDeathFinishedAction();
+		}
+
+		void CallDeathStartedAction()
+		{
+			if (DeathStartedAction != null) {
+				DeathStartedAction(GetCharacter());
+			}
+		}
+
+		void CallDeathFinishedAction()
+		{
+			if (DeathFinishedAction != null) {
+				DeathFinishedAction(GetCharacter());
 			}
 		}
 	}
