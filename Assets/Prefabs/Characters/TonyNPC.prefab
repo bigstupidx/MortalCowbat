@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 114555992711135210}
   - component: {fileID: 114091898601145780}
   - component: {fileID: 114178351733055632}
+  - component: {fileID: 61536057244216672}
   m_Layer: 0
   m_Name: TonyNPC
   m_TagString: Untagged
@@ -501,6 +502,20 @@ BoxCollider2D:
   m_Offset: {x: 0.7886808, y: -0.689568}
   serializedVersion: 2
   m_Size: {x: 4.5592713, y: 4.439137}
+--- !u!61 &61536057244216672
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1634333760155082}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: -1.6257212}
+  serializedVersion: 2
+  m_Size: {x: 1.5638351, y: 0.41736773}
 --- !u!61 &61608633930683078
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -652,6 +667,8 @@ MonoBehaviour:
   ShakeEffect: {fileID: 1057847988162944, guid: 2537a3d021c834664aad743157ae89f4,
     type: 2}
   HitBlink: {fileID: 1597827885535164, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
+  KilledBlink: {fileID: 1597827885535164, guid: c814e67ca6f4a4c1b83cfab79322347a,
+    type: 2}
 --- !u!114 &114178351733055632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -762,6 +779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockIntersections: 0
+  blockIntersectionsDistance: 0.5
 --- !u!114 &114486232794347198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -802,6 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9226498b3ac1748b580229935c12f7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitEffect: {fileID: 0}
 --- !u!114 &114516142951462474
 MonoBehaviour:
   m_ObjectHideFlags: 1

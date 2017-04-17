@@ -7,6 +7,8 @@ namespace Battle.Comp
 	{
 		public GameObject ShakeEffect;
 		public GameObject HitBlink;
+		public GameObject KilledBlink;
+
 
 		public EffectManager EffectManager { get; private set;}
 
@@ -24,7 +26,7 @@ namespace Battle.Comp
 				var desc = new EffectDescriptor();
 				desc.Effect = (animEvent.objectReferenceParameter as GameObject).GetComponent<Effect>();
 				desc.InWorldSpace = true;
-				EffectManager.CreateEffect(desc, container, GetCharacter().gameObject);
+				EffectManager.CreateEffect(desc, container, GetCharacter().gameObject).Run(GetCharacter().gameObject);
 			}	
 		}
 

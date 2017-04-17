@@ -59,7 +59,7 @@ AnimationClip:
       value: {fileID: 21300000, guid: 2a3fbbe4b7bad4602ab3e75216093cf1, type: 3}
     - time: 0.46666667
       value: {fileID: 21300000, guid: 880b0990d08fe4d5c9eff8c01dafb2c6, type: 3}
-    - time: 0.73333335
+    - time: 1.9333333
       value: {fileID: 21300000, guid: 880b0990d08fe4d5c9eff8c01dafb2c6, type: 3}
     attribute: m_Sprite
     path: Root
@@ -99,7 +99,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.8
+    m_StopTime: 2
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -201,7 +201,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.73333335
+  - time: 0.53333336
+    functionName: OnEffectEvent
+    data: Pivot
+    objectReferenceParameter: {fileID: 1597827885535164, guid: c814e67ca6f4a4c1b83cfab79322347a,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.9333333
     functionName: AnimationEvent
     data: diefinished
     objectReferenceParameter: {fileID: 0}
