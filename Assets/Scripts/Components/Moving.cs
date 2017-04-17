@@ -110,8 +110,12 @@ namespace Battle.Comp
 			bool canMove = true;
 			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
 				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
-					bool isTooClose = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude < blockIntersectionsDistance;
-					if (isTooClose)
+					float nextDistance = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude;
+					float currentDistance = (GetCharacter ().Context.Characters [i].GetPosition () - GetCharacter().GetPosition()).magnitude;
+					bool isTooClose = nextDistance < blockIntersectionsDistance;
+					bool movingOut = nextDistance > currentDistance;
+
+					if (isTooClose && !movingOut)
 						canMove = false;
 				}
 			}
