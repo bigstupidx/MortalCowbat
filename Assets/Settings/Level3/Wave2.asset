@@ -26,14 +26,14 @@ MonoBehaviour:
     Dir: -1
     HP: 70
     Speed: 4
-  - Time: 3
+  - Time: 5
     NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
     AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
     Dir: 1
     HP: 70
     Speed: 4
-  - Time: 4
+  - Time: 8
     NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
       type: 2}
     AiPreset: {fileID: 11400000, guid: cee6df12a178a426cb74216ed0c90c2a, type: 2}
