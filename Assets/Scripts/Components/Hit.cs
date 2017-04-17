@@ -5,6 +5,9 @@ namespace Battle.Comp
 {
 	public class Hit : CharacterComponent
 	{
+		[SerializeField]
+		GameObject hitEffect;
+
 		int lastAttackHitHId;
 
 		void Awake()
@@ -25,6 +28,10 @@ namespace Battle.Comp
 
 				if (attack.ShiftHitEnemy) {
 					transform.AddPositionX((int)dir * 1.0f);
+				}
+
+				if (hitEffect != null) {
+					GetComp<Effects>().EffectManager.CreateEffect(hitEffect).Run(gameObject);
 				}
 
 				//GetComp<Sound>().Play(settings.HitSfx);

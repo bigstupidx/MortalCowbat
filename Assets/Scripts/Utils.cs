@@ -63,5 +63,13 @@ public static class Utils
 			yield return 0;
 		}
 	}
+
+	public static Vector2 CameraSize(Camera cam)
+	{
+		float height = cam.orthographicSize * 2;
+		float width = height * cam.aspect;
+		return new Vector2(width, height);
+	}
+
 }
 
