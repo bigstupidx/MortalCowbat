@@ -35,7 +35,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void AiMove(Vector2 dir)
 	{
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping() && !GetComp<Death>().IsDying) {
 			var normDir = dir.normalized;
 			GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
 			GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
@@ -44,18 +44,20 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void MoveH(int dir)
 	{
-		if (GetComp<Attacking>().AllowsFlipChange()) {
-			GetComp<Moving>().Flip(dir);
-		}
+		if (!GetComp<Death>().IsDying) {
+			if (GetComp<Attacking>().AllowsFlipChange()) {
+				GetComp<Moving>().Flip(dir);
+			}
 
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
-			GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
+			if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+				GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
+			}
 		}
 	}
 
 	public void MoveV(int dir)
 	{
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping() && !GetComp<Death>().IsDying) {
 			GetComp<Moving>().SetSpeedY(dir * settings.MovingSpeed);
 		}
 	}
