@@ -107,18 +107,20 @@ namespace Battle.Comp
 
 		bool CanMoveToPosition (Vector3 pos)
 		{
+			var thisCharacterNextPivotPos = GetCharacter ().GetComp<Visual>().GetPoi("Pivot").position + (pos - GetCharacter ().GetPosition());
+			var thisCharacterCurrentPivotPos = GetCharacter ().GetComp<Visual>().GetPoi("Pivot").position;
+
 			bool canMove = true;
 			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
 				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
-					float nextDistance = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude;
-					float nextDistanceX = Mathf.Abs(GetCharacter ().Context.Characters[i].GetPosition().x - pos.x);
-					float nextDistanceY = Mathf.Abs(GetCharacter ().Context.Characters[i].GetPosition().y - pos.y);
-					float currentDistance = (GetCharacter ().Context.Characters [i].GetPosition () - GetCharacter().GetPosition()).magnitude;
 
-					//bool isTooClose = nextDistanceX < blockIntersectionsDistance && nextDistanceY < blockIntersectionsDistance * 0.5f;
+					var otherCharacterPivotPos = GetCharacter().Context.Characters[i].GetComp<Visual>().GetPoi("Pivot").position;
+					float nextDistance = (thisCharacterNextPivotPos - otherCharacterPivotPos).magnitude;
+					float nextDistanceX = Mathf.Abs(thisCharacterNextPivotPos.x - otherCharacterPivotPos.x);
+					float nextDistanceY = Mathf.Abs(thisCharacterNextPivotPos.y - otherCharacterPivotPos.y);
+					float currentDistance = (thisCharacterCurrentPivotPos - otherCharacterPivotPos).magnitude;
 
-
-					bool isTooClose = nextDistanceX < blockIntersectionsDistance && (nextDistanceY < blockIntersectionsDistance * 0.3f);
+					bool isTooClose = nextDistanceX < blockIntersectionsDistance && (nextDistanceY < blockIntersectionsDistance * 0.2f);
 
 					bool movingOut = nextDistance > currentDistance;
 
