@@ -31,14 +31,6 @@ public class KeyboadController : Controller
 	[SerializeField]
 	Character character;
 
-	protected override void Init()
-	{
-		fastAtack = KeyCode.U;
-		heavyAttack = KeyCode.K;
-		specialAttack = (KeyCode)18;
-		jump = (KeyCode)19;
-	}
-
 	void Update()
 	{
 		if (!Enabled)

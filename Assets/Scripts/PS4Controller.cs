@@ -21,6 +21,7 @@ public class PS4Controller : Controller
 
 	protected override void Init()
 	{
+		Enabled = false;
 		character = GetComponent<Character>();
 
 		jump = KeyCode.JoystickButton3; 		 // TRIANGLE
