@@ -25,21 +25,25 @@ namespace Ai
 				}
 			}	
 			if (chasedCharacter != null) {
-				var dstPosition = chasedCharacter.GetPosition();
-				var direction = (dstPosition - context.Character.GetPosition());
-				var normDir = direction.normalized;
-				context.Character.AiMove(normDir);
 
-				var sqrDist = (context.Character.GetPosition() - chasedCharacter.GetPosition()).sqrMagnitude;
+				if (!context.Character.GetComp<Moving>().Falling) {
 
-				var sqrRangeDist = context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient;
-				sqrRangeDist *= sqrRangeDist;
+					var dstPosition = chasedCharacter.GetPosition();
+					var direction = (dstPosition - context.Character.GetPosition());
+					var normDir = direction.normalized;
+					context.Character.AiMove(normDir);
 
-				if (sqrDist < sqrRangeDist) {
-					context.Character.GetComp<Moving>().Stop();
-					context.Sm.SetState(new AttackState(context));
+					var sqrDist = (context.Character.GetPosition() - chasedCharacter.GetPosition()).sqrMagnitude;
+
+					var sqrRangeDist = context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient;
+					sqrRangeDist *= sqrRangeDist;
+
+					if (sqrDist < sqrRangeDist) {
+						context.Character.GetComp<Moving>().Stop();
+						context.Sm.SetState(new AttackState(context));
+					}
 				}
-			}else {
+			} else {
 				context.Character.GetComp<Moving>().Stop();				
 			}
 		}
