@@ -24,7 +24,7 @@ namespace Ai
 				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient);
 				if (targets.Count > 0) {
 
-					if (attacksPerformed > 0 && UnityEngine.Random.Range(0, 100) < 30) {
+					if (attacksPerformed > 0 && UnityEngine.Random.Range(0.0f, 1.0f) < context.Sm.Preset.IdlingAroundProbability) {
 						context.Sm.SetState(new IdlingAroundState(context));
 					} else {
 						attacksPerformed++;

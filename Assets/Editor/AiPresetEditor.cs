@@ -17,6 +17,8 @@ public class AiPresetEditor : Editor
 
 	SerializedProperty heavyAttackMinCharge;
 	SerializedProperty heavyAttackMaxCharge;
+	SerializedProperty idlingAroundProbability;
+
 
 	void OnEnable()
 	{
@@ -28,6 +30,7 @@ public class AiPresetEditor : Editor
 		heavyAttackMaxCharge = serializedObject.FindProperty("HeavyAttackMaxCharge");
 		firstAttackDelay = serializedObject.FindProperty("FirstAttackDelay");
 		attackInterval = serializedObject.FindProperty("AttackInterval");
+		idlingAroundProbability = serializedObject.FindProperty("IdlingAroundProbability");
 	}
 
 	public override void OnInspectorGUI()
@@ -43,6 +46,11 @@ public class AiPresetEditor : Editor
 		EditorGUILayout.LabelField("Fast Attack:", fastAttackProbability.floatValue.ToString("F2"));
 		EditorGUILayout.LabelField("Heavy Attack:", heavyAttackProbability.floatValue.ToString("F2"));
 		EditorGUILayout.LabelField("Kick Attack:", kickAttackProbability.floatValue.ToString("F2"));
+
+
+		EditorGUILayout.Space();
+		EditorGUILayout.PropertyField(idlingAroundProbability);
+		EditorGUILayout.Space();
 
 
 		if ( (fastAttackProbability.floatValue + heavyAttackProbability.floatValue + kickAttackProbability.floatValue) > 1.01f) {

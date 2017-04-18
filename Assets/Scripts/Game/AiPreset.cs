@@ -22,5 +22,7 @@ namespace Ai
 		public float HeavyAttackMinCharge;
 		[Range (0.0f, 1.0f)]
 		public float HeavyAttackMaxCharge;
+		[Range (0.0f, 1.0f)]
+		public float IdlingAroundProbability = 0.3f;
 	}
 }
