@@ -90,7 +90,7 @@ namespace Battle.Comp
 
 		public void StartSpecialAttack()
 		{
-			if (!IsAttacking() && specialAttackCooldown.IsReady()) {
+			if (!IsAttacking() && !GetComp<Jumping>().IsJumping() && specialAttackCooldown.IsReady()) {
 				attacking = true;
 				GetComp<Animating>().SetTrigger(Defs.Animations.SpecialAttack);
 				specialAttackCooldown.Restart();
