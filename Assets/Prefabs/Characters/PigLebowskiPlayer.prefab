@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 114886124752029074}
   - component: {fileID: 114426680989769678}
   - component: {fileID: 114843900391655216}
+  - component: {fileID: 114087740689279968}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -654,6 +655,19 @@ MonoBehaviour:
     Container: Mouth
     InWorldSpace: 0
     CustomData: []
+--- !u!114 &114087740689279968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e93d987d349438dad87657558fd747, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: 0
+  down: 0
 --- !u!114 &114109011872003456
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,7 +6,10 @@ public class Controller : MonoBehaviour
 	void Awake()
 	{
 		Enabled = true;
+		Init();
 	}
+
+	protected virtual void Init() {}
 }
 
 

@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Character))]
-public class KeyboadController : Controller
+public class PS4Controller : Controller
 {
-	[SerializeField]
 	KeyCode left;
-
-	[SerializeField]
 	KeyCode right;
 
 	[SerializeField]
@@ -15,28 +12,21 @@ public class KeyboadController : Controller
 	[SerializeField]
 	KeyCode down;
 
-	[SerializeField]
 	KeyCode specialAttack;
-
-	[SerializeField]
 	KeyCode fastAtack;
-
-	[SerializeField]
 	KeyCode heavyAttack;
-
-	[SerializeField]
 	KeyCode jump;
 
-
-	[SerializeField]
 	Character character;
 
 	protected override void Init()
 	{
-		fastAtack = KeyCode.U;
-		heavyAttack = KeyCode.K;
-		specialAttack = (KeyCode)18;
-		jump = (KeyCode)19;
+		character = GetComponent<Character>();
+
+		jump = KeyCode.JoystickButton3; 		 // TRIANGLE
+		fastAtack = KeyCode.JoystickButton2; 	 // CIRCLE
+		heavyAttack = KeyCode.JoystickButton1; 	 // CROSS
+		specialAttack = KeyCode.JoystickButton0; //SQUARE
 	}
 
 	void Update()
@@ -67,12 +57,25 @@ public class KeyboadController : Controller
 		if (Input.GetKeyUp(heavyAttack)) {
 			character.ChargedAttackReleased();			
 		}
-			
+
 		if (Input.GetKeyDown(specialAttack)) {
 			character.AttackSpecial();			
 		}
 
 
+		var dir = GetAnalogueJoystickDirection();
+		if (dir.sqrMagnitude > 0.01f) {
+			character.AiMove(dir);
+		}
+	}
+
+	Vector2 GetAnalogueJoystickDirection()
+	{
+		Vector2 dir = Vector2.zero;
+		dir.x = Input.GetAxis("Horizontal");
+		dir.y = Input.GetAxis("Vertical");
+
+		return dir;
 	}
 }
 
