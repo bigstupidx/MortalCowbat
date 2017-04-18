@@ -111,8 +111,15 @@ namespace Battle.Comp
 			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
 				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
 					float nextDistance = (GetCharacter ().Context.Characters [i].GetPosition () - pos).magnitude;
+					float nextDistanceX = Mathf.Abs(GetCharacter ().Context.Characters[i].GetPosition().x - pos.x);
+					float nextDistanceY = Mathf.Abs(GetCharacter ().Context.Characters[i].GetPosition().y - pos.y);
 					float currentDistance = (GetCharacter ().Context.Characters [i].GetPosition () - GetCharacter().GetPosition()).magnitude;
-					bool isTooClose = nextDistance < blockIntersectionsDistance;
+
+					//bool isTooClose = nextDistanceX < blockIntersectionsDistance && nextDistanceY < blockIntersectionsDistance * 0.5f;
+
+
+					bool isTooClose = nextDistanceX < blockIntersectionsDistance && (nextDistanceY < blockIntersectionsDistance * 0.3f);
+
 					bool movingOut = nextDistance > currentDistance;
 
 					if (isTooClose && !movingOut)
