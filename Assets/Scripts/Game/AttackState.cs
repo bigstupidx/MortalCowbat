@@ -9,6 +9,7 @@ namespace Ai
 		AiStateContext context;
 
 		float nextAttack;
+		int attacksPerformed;
 
 		public AttackState(AiStateContext context)
 		{
@@ -22,11 +23,15 @@ namespace Ai
 
 				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient);
 				if (targets.Count > 0) {
-					context.Character.GetComp<Moving>().FaceTo(targets[0].GetPosition());
 
-					PerformRandomAttack();
-							
-					nextAttack = Time.time + context.Sm.Preset.AttackInterval;
+					if (attacksPerformed > 0 && UnityEngine.Random.Range(0, 100) < 30) {
+						context.Sm.SetState(new IdlingAroundState(context));
+					} else {
+						attacksPerformed++;
+						context.Character.GetComp<Moving>().FaceTo(targets[0].GetPosition());
+						PerformRandomAttack();
+						nextAttack = Time.time + context.Sm.Preset.AttackInterval;
+					}
 				} else {
 					context.Character.GetComp<Attacking>().Stop();
 					context.Sm.SetState(new ChasingState(context));
