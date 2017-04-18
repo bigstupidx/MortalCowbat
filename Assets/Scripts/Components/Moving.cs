@@ -112,9 +112,13 @@ namespace Battle.Comp
 
 			bool canMove = true;
 			for (int i = 0; i < GetCharacter ().Context.Characters.Count; ++i) {
-				if (GetCharacter ().Context.Characters [i] != GetCharacter ()) {
+				var otherCharacter = GetCharacter ().Context.Characters[i];
+				if (otherCharacter != GetCharacter ()) {
 
-					var otherCharacterPivotPos = GetCharacter().Context.Characters[i].GetComp<Visual>().GetPoi("Pivot").position;
+					if (otherCharacter.GetComp<Moving>().Falling || otherCharacter.GetComp<Death>().IsDying)
+						continue;
+
+					var otherCharacterPivotPos = otherCharacter.GetComp<Visual>().GetPoi("Pivot").position;
 					float nextDistance = (thisCharacterNextPivotPos - otherCharacterPivotPos).magnitude;
 					float nextDistanceX = Mathf.Abs(thisCharacterNextPivotPos.x - otherCharacterPivotPos.x);
 					float nextDistanceY = Mathf.Abs(thisCharacterNextPivotPos.y - otherCharacterPivotPos.y);
