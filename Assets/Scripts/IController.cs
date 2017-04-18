@@ -1,8 +1,12 @@
-﻿using System;
+﻿using UnityEngine;
 
-public class IController
+public class Controller : MonoBehaviour
 {
-	
+	public bool Enabled { get; set; }
+	void Awake()
+	{
+		Enabled = true;
+	}
 }
 
 

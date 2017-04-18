@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Character))]
-public class KeyboadController : MonoBehaviour
+public class KeyboadController : Controller
 {
 	[SerializeField]
 	KeyCode left;
@@ -34,6 +33,9 @@ public class KeyboadController : MonoBehaviour
 
 	void Update()
 	{
+		if (!Enabled)
+			return;
+
 		if (Input.GetKey(left)) {
 			character.MoveH(-1);
 		} else if (Input.GetKey(right)) {

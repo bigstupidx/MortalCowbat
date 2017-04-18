@@ -109,6 +109,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		
 		yield return StartCoroutine(CheckForPlayerOnRightSide());
 		player.CheckLimits = false;
+		player.GetComponent<Controller>().Enabled = false;
 		gameCamera.Follower.CheckLimits = false;
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
@@ -127,6 +128,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 		player.CheckLimits = true;
 		gameCamera.Follower.CheckLimits = true;
 		gameCamera.Follower.Follow = true;
+		player.GetComponent<Controller>().Enabled = true;
+
 	}
 
 	public void Pause()
