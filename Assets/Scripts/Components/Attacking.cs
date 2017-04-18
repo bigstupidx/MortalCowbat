@@ -49,6 +49,12 @@ namespace Battle.Comp
 			return attacking;
 		}
 
+		public bool AllowsFlipChange()
+		{
+			return !attacking || Charging();
+		}
+
+
 		public void StartFastAttack()
 		{
 			if (!IsAttacking()) {

@@ -44,8 +44,11 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void MoveH(int dir)
 	{
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+		if (GetComp<Attacking>().AllowsFlipChange()) {
 			GetComp<Moving>().Flip(dir);
+		}
+
+		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
 			GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
 		}
 	}
