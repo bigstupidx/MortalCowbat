@@ -195,7 +195,7 @@ AnimationClip:
   m_Events:
   - time: 0.33333334
     functionName: OnEffectEvent
-    data: Pivot
+    data: Dust
     objectReferenceParameter: {fileID: 1105864478140340, guid: a13a3c1dacf43488d9894ce9a41511f3,
       type: 2}
     floatParameter: 0
