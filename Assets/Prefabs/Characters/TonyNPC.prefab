@@ -666,6 +666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a2b739d1afa46dbaef9f55e1e7b6bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Effect: {fileID: 0}
 --- !u!114 &114178351733055632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -896,10 +897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9b643c95cd24886ae1a835d31c1090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fill: {fileID: 212052155026052232}
+  Bg: {fileID: 212117198537330410}
   fillTr: {fileID: 4883789620746956}
   fromColor: {r: 0.2827586, g: 1, b: 0, a: 1}
   toColor: {r: 1, g: 0, b: 0, a: 1}
-  fill: {fileID: 212052155026052232}
 --- !u!114 &114776329231689208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -968,7 +970,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 71
   m_Sprite: {fileID: 21300000, guid: 90f883cbcc2a14d42bbe162b86571ff3, type: 3}
   m_Color: {r: 0.875, g: 0.10294117, b: 0.10294117, a: 1}
   m_FlipX: 0
@@ -1003,7 +1005,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 70
   m_Sprite: {fileID: 21300000, guid: 90f883cbcc2a14d42bbe162b86571ff3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
