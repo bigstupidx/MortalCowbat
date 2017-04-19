@@ -33,9 +33,18 @@ public partial class Character : MonoBehaviour, ICharacter
 		return componentHolder.Get<T>();
 	}
 
+	bool CanMove()
+	{
+		return 
+			!GetComp<Attacking>().IsAttacking() && 
+			!GetComp<Jumping>().IsJumping() && 
+			!GetComp<Death>().IsDying &&
+			!GetComp<Hit>().InDaze;
+	}
+
 	public void AiMove(Vector2 dir)
 	{
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping() && !GetComp<Death>().IsDying) {
+		if (CanMove()) {
 			var normDir = dir.normalized;
 			GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
 			GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
@@ -49,7 +58,7 @@ public partial class Character : MonoBehaviour, ICharacter
 				GetComp<Moving>().Flip(dir);
 			}
 
-			if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping()) {
+			if (CanMove()) {
 				GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
 			}
 		}
@@ -57,7 +66,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void MoveV(int dir)
 	{
-		if (!GetComp<Attacking>().IsAttacking() && !GetComp<Jumping>().IsJumping() && !GetComp<Death>().IsDying) {
+		if (CanMove()) {
 			GetComp<Moving>().SetSpeedY(dir * settings.MovingSpeed);
 		}
 	}
@@ -147,6 +156,9 @@ public partial class Character : MonoBehaviour, ICharacter
 		}
 		else if (name.Equals(Defs.Events.FallFinished)) {
 			GetComp<Moving>().FinishFall();
+		}
+		else if (name.Equals(Defs.Events.HitFinished)) {
+			GetComp<Hit>().InDaze = false;
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			GetComp<Attacking>().StartAttackCharging();

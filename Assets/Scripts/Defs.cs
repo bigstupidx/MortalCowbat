@@ -35,6 +35,7 @@ public static class Defs
 		public const string DieFinished = "diefinished";
 		public const string JumpFinished = "jumpfinished";
 		public const string FallFinished = "fallfinished";
+		public const string HitFinished = "hitfinished";
 		public const string AttackCharged = "attackcharged";
 		public const string JumpStarted = "jumpstarted";
 	}

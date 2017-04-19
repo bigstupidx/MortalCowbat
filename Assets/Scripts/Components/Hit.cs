@@ -10,6 +10,8 @@ namespace Battle.Comp
 
 		int lastAttackHitHId;
 
+		public bool InDaze { get; set; }
+
 		void Awake()
 		{
 			lastAttackHitHId = -1;
@@ -25,7 +27,6 @@ namespace Battle.Comp
 		{
 			if (CanBeHit(attackId)) {
 				lastAttackHitHId = attackId;
-
 				if (attack.ShiftHitEnemy) {
 					transform.AddPositionX((int)dir * 1.0f);
 				}
@@ -70,6 +71,7 @@ namespace Battle.Comp
 							GetComp<Moving>().Fall();
 						}
 						else {
+							InDaze = true;
 							GetComp<Animating>().SetTrigger(Defs.Animations.Hit);
 						}
 					}
