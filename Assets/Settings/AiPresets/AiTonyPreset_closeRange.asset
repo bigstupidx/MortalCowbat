@@ -19,3 +19,4 @@ MonoBehaviour:
   KickAttackProbability: 0.000000059604645
   HeavyAttackMinCharge: 0.5431472
   HeavyAttackMaxCharge: 1
+  IdlingAroundProbability: 0.3

@@ -694,8 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e93d987d349438dad87657558fd747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  up: 0
-  down: 0
+  Index: 1
 --- !u!114 &114109011872003456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -771,6 +770,10 @@ MonoBehaviour:
     Container: SpecialAttackEffectContainer
     InWorldSpace: 0
     CustomData: []
+  - Effect: {fileID: 114122792587148612, guid: e9a28eb31cb794f2e8415bf04087b578, type: 2}
+    Container: Pivot
+    InWorldSpace: 1
+    CustomData: []
   hitEffects: []
 --- !u!114 &114362437923186032
 MonoBehaviour:
@@ -834,6 +837,7 @@ MonoBehaviour:
   - {fileID: 4080270058744970}
   - {fileID: 4575395773155556}
   - {fileID: 4957256672009704}
+  - {fileID: 4584346276206976}
   ChargingBar: {fileID: 114109011872003456}
   Ren: {fileID: 212198513470007222}
   sortingOrder: 0
@@ -935,7 +939,6 @@ MonoBehaviour:
   fastAtack: 97
   heavyAttack: 115
   jump: 32
-  character: {fileID: 114844989902213830}
 --- !u!114 &114843900391655216
 MonoBehaviour:
   m_ObjectHideFlags: 1

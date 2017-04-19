@@ -136,7 +136,8 @@ namespace Battle.Comp
 			for (int i = 0; i < attack.Effects.Count; ++i) {
 				GetComp<Effects>().EffectManager.CreateEffect(
 					attack.Effects[i],
-					transform.Find("Root/" + attack.Effects[i].Container),
+					GetComp<Visual>().GetPoi(attack.Effects[i].Container),
+					//transform.Find("Root/" + attack.Effects[i].Container),
 					gameObject);
 			}
 		}
