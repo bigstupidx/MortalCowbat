@@ -3,24 +3,24 @@ using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
-	public Action FinishAction { get; set; }
+	public string Id;
+	public Action<Effect> FinishAction { get; set; }
 
 	[SerializeField]
 	Animator animator;
 
 	GameObject runOn;
 
-
 	public virtual void Run(GameObject go)
 	{
 		runOn = go;
 	}
 
-	protected void OnEvent(string name)
+	public void OnEvent(string name)
 	{
 		if (name.Equals("finished")) {
 			if (FinishAction != null) {
-				FinishAction();
+				FinishAction(this);
 			}
 			Destroy(gameObject);
 		}

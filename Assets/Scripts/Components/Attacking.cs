@@ -40,6 +40,8 @@ namespace Battle.Comp
 		float chargedAttackStartTime;
 		float chargedDuration;
 
+		List<Effect> effectToStopOnHit =  new List<Effect>();
+
 		public void Perform()
 		{
 			attacking = true;
@@ -120,6 +122,9 @@ namespace Battle.Comp
 		{
 			attacking = false;
 			jumpAttacking = false;
+
+			effectToStopOnHit.ForEach(x=>GetComp<Effects>().EffectManager.StopEffect(x));
+
 			ChargedAttackReleased();
 		}
 		public float GetBasicAttackRange()
@@ -128,17 +133,21 @@ namespace Battle.Comp
 			return (box.size.x * 0.5f + box.offset.x) * Math.Abs(transform.localScale.x);
 		}
 
-
 		public void StartAttackEffects(Attack attack)
 		{
 			GetComp<Sound>().Play(attack.Sfx);
 
 			for (int i = 0; i < attack.Effects.Count; ++i) {
-				GetComp<Effects>().EffectManager.CreateEffect(
-					attack.Effects[i],
-					GetComp<Visual>().GetPoi(attack.Effects[i].Container),
-					//transform.Find("Root/" + attack.Effects[i].Container),
+				var effectDestcriptor = attack.Effects[i];
+				var effect = GetComp<Effects>().EffectManager.CreateEffect(
+					effectDestcriptor,
+					GetComp<Visual>().GetPoi(effectDestcriptor.Container),
 					gameObject);
+			
+				if (effectDestcriptor.CustomData.Contains("stoponhit")) {
+					effectToStopOnHit.Add(effect);
+					effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
+				}
 			}
 		}
 

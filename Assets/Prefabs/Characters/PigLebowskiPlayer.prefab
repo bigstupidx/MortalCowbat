@@ -769,7 +769,8 @@ MonoBehaviour:
   - Effect: {fileID: 114650871884612002, guid: 2ae387ea4a77b4370bc39db29b5d9e26, type: 2}
     Container: SpecialAttackEffectContainer
     InWorldSpace: 0
-    CustomData: []
+    CustomData:
+    - stoponhit
   - Effect: {fileID: 114122792587148612, guid: e9a28eb31cb794f2e8415bf04087b578, type: 2}
     Container: Pivot
     InWorldSpace: 1
