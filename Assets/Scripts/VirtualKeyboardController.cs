@@ -11,6 +11,11 @@ public class VirtualKeyboardController : Controller
 	public void AttachCharacter(Character controllerCharacter)
 	{
 		character = controllerCharacter;
+	
+		#if UNITY_EDITOR
+		gameObject.SetActive(false);
+		#endif
+
 	}
 
 	public void OnJumpButtonDown()
