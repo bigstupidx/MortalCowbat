@@ -6,8 +6,6 @@ public class VirtualKeyboardController : Controller
 	[SerializeField]
 	VirtualJoypad joypad;
 
-	Character character;
-
 	public void AttachCharacter(Character controllerCharacter)
 	{
 		character = controllerCharacter;

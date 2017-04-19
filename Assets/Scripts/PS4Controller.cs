@@ -5,11 +5,7 @@ public class PS4Controller : Controller
 {
 	KeyCode left;
 	KeyCode right;
-
-	[SerializeField]
 	KeyCode up;
-
-	[SerializeField]
 	KeyCode down;
 
 	KeyCode specialAttack;
@@ -17,13 +13,9 @@ public class PS4Controller : Controller
 	KeyCode heavyAttack;
 	KeyCode jump;
 
-	Character character;
-
 	protected override void Init()
 	{
 		Enabled = false;
-		character = GetComponent<Character>();
-
 		jump = KeyCode.JoystickButton3; 		 // TRIANGLE
 		fastAtack = KeyCode.JoystickButton2; 	 // CIRCLE
 		heavyAttack = KeyCode.JoystickButton1; 	 // CROSS

@@ -31,7 +31,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 	List<Character> characters = new List<Character>();
 	List<IResetable> resetables;
 
-	Character player { get { return characters.Find(x=>x.Type == Defs.CharacterType.Player); }}
+	List<Character> players { get { return characters.FindAll(x=>x.Type == Defs.CharacterType.Player);} }
+
 	CharacterContext characterContext;
 	AiStateMachineContext aiContext;
 	Limits limits;
@@ -106,10 +107,9 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	public IEnumerator SetNextLevel()
 	{
-		
 		yield return StartCoroutine(CheckForPlayerOnRightSide());
-		player.CheckLimits = false;
-		player.GetComponent<Controller>().Enabled = false;
+		players.ForEach(x=>x.CheckLimits = false);
+		players.ForEach(x=>x.GetComponent<Controller>().Enabled = false);
 		gameCamera.Follower.CheckLimits = false;
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
@@ -125,10 +125,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 		yield return StartCoroutine(gameCamera.Follower.AllignWithLimit());
 
-		player.CheckLimits = true;
+		players.ForEach(x=>x.CheckLimits = true);
 		gameCamera.Follower.CheckLimits = true;
 		gameCamera.Follower.Follow = true;
-		player.GetComponent<Controller>().Enabled = true;
+		players.ForEach(x=>x.GetComponent<Controller>().Enabled = true);
 
 	}
 
@@ -161,7 +161,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		nextLevelArrow.SetActive(true);
 		nextLevelArrow.transform.SetPositionX(dstMinPosX);
 	
-		while (player.GetPosition().x < dstMinPosX)
+		while (players.Exists(x=>x.GetPosition().x < dstMinPosX))
 			yield return 0;
 	
 		nextLevelArrow.SetActive(false);
@@ -170,18 +170,26 @@ public partial class GameManager : MonoBehaviour, IResetable
 	IEnumerator MovePlayerToTheNextLevel()
 	{
 		var dstPosX = limits.XMax + 4.0f; // TODO
-
-		while (player.GetPosition().x < dstPosX) {
-			player.MoveH(1);
+	
+	
+		while(true) {
+			bool done = true;
+			for (int i = 0; i < players.Count; ++i) {
+				if (players[i].GetPosition().x < dstPosX) {
+					players[i].MoveH(1);
+					done = false;
+				}	
+			}
+			if (done)
+				break;
 			yield return 0;
 		}
-
 	}
 
 	IEnumerator MoveCameraToTheNextLevel()
 	{
 		var startCamPosX = gameCamera.GetPosition().x;
-		var dstCamPosX = player.GetPosition().x;
+		var dstCamPosX = players[0].GetPosition().x;
 		yield return StartCoroutine(Utils.LerpWithEase (startCamPosX, 
 			dstCamPosX, 
 			2.0f, 
@@ -230,17 +238,20 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	void InitPlayer()
 	{
-		if (player == null) {
+		if (players.Count == 0) {
 			PlacePlayer();
-			gameCamera.Follower.Target = player.transform;
+			gameCamera.Follower.Target = players[0].transform;
 		}
 	}
 
 	void InitializeCharacter(Character character)
 	{
 		if (character.Type == Defs.CharacterType.Player) {
-			player.GetComp<Health>().HealthChangedAction += ui.OnPlayerHealthChanged;
-			player.GetComp<Attacking>().SpecialAttackCooldown.OnProgress += ui.OnPlayerSpecialAttackProgress;
+			int playersIndex = GetPlayerIndex(character);
+			character.GetComp<Health>().HealthChangedAction += 
+				(hp, full)=> ui.OnPlayerHealthChanged(playersIndex, hp, full);
+			character.GetComp<Attacking>().SpecialAttackCooldown.OnProgress += 
+				(progress) => ui.OnPlayerSpecialAttackProgress(playersIndex, progress);
 		} else {
 			SetNpcStateMachine(character, aiContext);
 		}
@@ -306,7 +317,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	}
 
 
-	void PlacePlayer()
+	Character PlacePlayer()
 	{
 		var player = Instantiate(playerPrefab);
 
@@ -314,11 +325,27 @@ public partial class GameManager : MonoBehaviour, IResetable
 		var playerScript = player.GetComponent<Character>();
 		characters.Add(playerScript);
 		ui.VirtualKeyboardController.AttachCharacter(playerScript);
+		return playerScript;
+	}
+
+
+	void AddSecondaryPlayer()
+	{
+		var player = PlacePlayer();
+		InitializeCharacter(player);
+		ui.ShowHudForPlayer(1, true);
+		
 	}
 
 	Limits GetLimits()
 	{
 		return limits;
+	}
+
+
+	int GetPlayerIndex (Character character)
+	{
+		return players.IndexOf(character);
 	}
 
 	void Update()
@@ -328,6 +355,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 		}
 		if (Input.GetKeyDown(KeyCode.R)) {
 			Resume();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Backspace)) {
+			AddSecondaryPlayer();
 		}
 	}
 

@@ -27,10 +27,6 @@ public class KeyboadController : Controller
 	[SerializeField]
 	KeyCode jump;
 
-
-	[SerializeField]
-	Character character;
-
 	void Update()
 	{
 		if (!Enabled)
@@ -55,16 +51,12 @@ public class KeyboadController : Controller
 		if (Input.GetKeyDown(heavyAttack)) {
 			character.HeavyAttack();			
 		}
-
 		if (Input.GetKeyUp(heavyAttack)) {
 			character.ChargedAttackReleased();			
 		}
-			
 		if (Input.GetKeyDown(specialAttack)) {
 			character.AttackSpecial();			
 		}
-
-
 	}
 }
 

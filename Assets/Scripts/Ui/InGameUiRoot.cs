@@ -1,22 +1,26 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace Ui
 {
 	public class InGameUiRoot : MonoBehaviour
 	{
-		public DialogController DialogController { get; private set; }
-		public VirtualKeyboardController VirtualKeyboardController { get { return virtualKeyboardController; } }
+		public DialogController DialogController { 
+			get; private set; 
+		}
 
+		public VirtualKeyboardController VirtualKeyboardController {
+			get { return virtualKeyboardController; }
+		}
 
 		[SerializeField]
-		InGamePlayerHealthBar playerHealthbar;
+		List<InGamePlayerHealthBar> playerHealthbar;
 
 		[SerializeField]
-		InGamePlayerSpecialAttackBar playerSpecialAttackBar;
+		List<InGamePlayerSpecialAttackBar> playerSpecialAttackBar;
 
 		[SerializeField]
 		VirtualKeyboardController virtualKeyboardController;
-
 
 		[SerializeField]
 		Wave wave;
@@ -24,20 +28,25 @@ namespace Ui
 		[SerializeField]
 		Dialoger dialoger;
 
-
-
 		void Awake()
 		{
 			DialogController = new DialogController(dialoger);
+			ShowHudForPlayer(1, false);
 		}
 
-		public void OnPlayerHealthChanged(float actual, float maxHealth)
+		public void ShowHudForPlayer(int index, bool show)
 		{
-			playerHealthbar.Set(actual / maxHealth);		
+			playerHealthbar[index].gameObject.SetActive(show);
+			playerSpecialAttackBar[index].gameObject.SetActive(show);
 		}
-		public void OnPlayerSpecialAttackProgress(float progress)
+
+		public void OnPlayerHealthChanged(int index, float actual, float maxHealth)
 		{
-			playerSpecialAttackBar.Set(progress);
+			playerHealthbar[index].Set(actual / maxHealth);		
+		}
+		public void OnPlayerSpecialAttackProgress(int index, float progress)
+		{
+			playerSpecialAttackBar[index].Set(progress);
 		}
 
 		public void OnWave(int actual, int from)
