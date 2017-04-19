@@ -23,7 +23,8 @@ public class KilledBlink : Effect
 			time -= Time.deltaTime;
 			yield return new WaitForSeconds(0.1f);
 		}
-		Utils.SetColor(go,new Color(1,1,1,0));
+		if (go != null)
+			Utils.SetColor(go,new Color(1,1,1,0));
 
 		OnEvent("finished");
 	}
