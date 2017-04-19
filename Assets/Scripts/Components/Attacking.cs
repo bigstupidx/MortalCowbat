@@ -35,6 +35,7 @@ namespace Battle.Comp
 		int fastAttackCounter;
 		int kickAttackFrame;
 		float kickAttackTimer;
+		float lastAttackTime;
 
 		float chargedAttackStartTime;
 		float chargedDuration;
@@ -65,6 +66,9 @@ namespace Battle.Comp
 					StartAttackEffects(JumpAttack);
 					jumpId++;
 				} else {
+
+					SetFastAttackCounter ();
+
 					var trigger = GetFastAttack();
 					GetComp<Animating>().SetTrigger(trigger);
 					StartAttackEffects(BasicAttack);
@@ -75,8 +79,8 @@ namespace Battle.Comp
 
 		string GetFastAttack()
 		{
-			fastAttackCounter++;
 			int mod = fastAttackCounter % fastAttacksTriggers.Count;
+			fastAttackCounter++;
 			return fastAttacksTriggers[mod];
 		}
 
@@ -207,6 +211,14 @@ namespace Battle.Comp
 				}
 			} else {
 				chargingBar.gameObject.SetActive(false);
+			}
+		}
+
+		void SetFastAttackCounter ()
+		{
+			if (Time.time > (lastAttackTime + GlobalBattleConfig.FastAttackChangeMaxDelay)) {
+				fastAttackCounter = 0;
+				lastAttackTime = Time.time;
 			}
 		}
 
