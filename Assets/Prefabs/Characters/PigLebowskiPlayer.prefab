@@ -668,7 +668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colliders:
   - {fileID: 0}
-  ranged: 0
+  ranged: 1
   shiftHitEnemy: 0
   enemyFalls: 0
   attackPoints: 20
