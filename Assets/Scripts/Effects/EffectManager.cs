@@ -15,7 +15,7 @@ public class EffectManager : MonoBehaviour
 	{
 		var effectGo = Instantiate(prefab);
 		effectGo.transform.localPosition = Vector3.zero;
-		effectGo.transform.localScale = Vector3.one;
+		//effectGo.transform.localScale = Vector3.one;
 		var effect = effectGo.GetComponent<Effect>();
 
 		runningEffects.Add(effect);
@@ -35,7 +35,7 @@ public class EffectManager : MonoBehaviour
 			effectGo.transform.localPosition = Vector3.zero;
 		}
 
-		effectGo.transform.localScale = new Vector3(1, 1,1);
+		//effectGo.transform.localScale = new Vector3(1, 1,1);
 	
 		int offset = 0;
 		var sprRen = onWhat.GetComponentInChildren<SpriteRenderer>();
