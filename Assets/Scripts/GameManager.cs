@@ -110,6 +110,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 		yield return StartCoroutine(CheckForPlayerOnRightSide());
 		players.ForEach(x=>x.CheckLimits = false);
 		players.ForEach(x=>x.GetComponent<Controller>().Enabled = false);
+		players.ForEach(x=>x.GetComponent<Moving>().blockIntersections = false);
+
 		gameCamera.Follower.CheckLimits = false;
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
@@ -129,7 +131,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.CheckLimits = true;
 		gameCamera.Follower.Follow = true;
 		players.ForEach(x=>x.GetComponent<Controller>().Enabled = true);
-
+		players.ForEach(x=>x.GetComponent<Moving>().blockIntersections = true);
 	}
 
 	public void Pause()
@@ -170,8 +172,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 	IEnumerator MovePlayerToTheNextLevel()
 	{
 		var dstPosX = limits.XMax + 4.0f; // TODO
-	
-	
 		while(true) {
 			bool done = true;
 			for (int i = 0; i < players.Count; ++i) {

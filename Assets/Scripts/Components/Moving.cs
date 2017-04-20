@@ -5,8 +5,7 @@ namespace Battle.Comp
 {
 	public class Moving : CharacterComponent
 	{
-		[SerializeField]
-		bool blockIntersections;
+		public bool blockIntersections;
 
 		[SerializeField]
 		float blockIntersectionsDistance = 0.5f;
