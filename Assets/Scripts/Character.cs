@@ -47,7 +47,11 @@ public partial class Character : MonoBehaviour, ICharacter
 		if (CanMove()) {
 			var normDir = dir.normalized;
 			GetComp<Moving>().SetSpeed(normDir.x * settings.MovingSpeed, normDir.y * settings.MovingSpeed);
-			GetComp<Moving>().Flip(dir.x > 0 ?  1 : -1);
+			if (dir.x > 0.05)
+				GetComp<Moving>().Flip(1);
+			else if (dir.x < -0.05)
+				GetComp<Moving>().Flip(-1);
+			
 		}
 	}
 
