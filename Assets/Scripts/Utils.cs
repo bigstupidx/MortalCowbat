@@ -71,5 +71,11 @@ public static class Utils
 		return new Vector2(width, height);
 	}
 
+	public static Vector3 Reflect(Vector3 vector, Vector3 normal)
+	{
+		return vector - 2 * Vector3.Dot(vector, normal) * normal;
+	}
+
+
 }
 

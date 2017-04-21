@@ -334,7 +334,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 		var player = PlacePlayer();
 		InitializeCharacter(player);
 		ui.ShowHudForPlayer(1, true);
-		
 	}
 
 	Limits GetLimits()
