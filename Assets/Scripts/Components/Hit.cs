@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System;
 
 
 namespace Battle.Comp
 {
 	public class Hit : CharacterComponent
 	{
+		public Action<Character> HitAction;
+
 		[SerializeField]
 		GameObject hitEffect;
 
@@ -61,6 +64,10 @@ namespace Battle.Comp
 
 				bool alive = GetComp<Health>().ReduceHealth(attack.AttackPoints * multiplicator);
 				GetComp<Attacking>().SetChargedAttackStartTime(-1);
+
+				if (HitAction != null) {
+					HitAction(GetCharacter());
+				}
 
 				if (alive) {
 					GetComp<Attacking>().Stop();

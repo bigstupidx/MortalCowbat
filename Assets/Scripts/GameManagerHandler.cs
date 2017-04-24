@@ -41,8 +41,6 @@ public partial class GameManager
 			if (events.PlayerDied != null) {
 				events.PlayerDied(level, npcGenerator.WaveIndex);
 			}
-
-
 			Invoke("RestartAndKillNpcs", 3.0f);
 		}
 	}
@@ -91,6 +89,17 @@ public partial class GameManager
 	{
 		if (events.LevelStarted != null) {
 			events.LevelStarted(level);
+		}
+	}
+
+	void OnCharacterHit(Character character)
+	{
+		if (character.Type == Defs.CharacterType.NPC) {
+			npcGenerator.OnNPCHit(character);
+		}
+
+		if (events.OnCharacterHit != null) {
+			events.OnCharacterHit(character);
 		}
 	}
 }

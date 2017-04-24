@@ -9,7 +9,7 @@ public class GameEvents : IResetable
 	public Action<int, int> PlayerDied;
 	public Action<int> AllWavesFinished;
 	public Action<int> NPCLeftChanged;
-
+	public Action<Character> OnCharacterHit;
 	#region IResetable implementation
 
 	public void Reset ()

@@ -4,7 +4,6 @@ using Vis;
 using Ai;
 using System.Collections.Generic;
 using Ge;
-using System.ComponentModel;
 
 
 public class NPCGenerator : MonoBehaviour, IResetable, IPausable
@@ -28,6 +27,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	}
 
 	NPCSpawnPositionGenerator spawnPositionGenerator;
+	WaveManager waveManager;
 
 	float timer;
 	int generatedNPCCount;
@@ -40,7 +40,6 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 
 	Context context;
 	Level levelDef;
-	Wave currentWave;
 
 	float waveEndCheckTimer;
 	const float WaveEndCheckInterval = 1.0f;
@@ -51,7 +50,9 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		this.context = context;
 		Running = true;
 		waveIndex = 0;
-		currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
+		var currentWave = GameObject.Instantiate(levelDef.Waves[waveIndex]);
+		waveManager = new WaveManager(currentWave);
+
 		timer = 0;
 		waveEndCheckTimer = Time.time + WaveEndCheckInterval;
 		// call actions
@@ -64,11 +65,6 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	#region IResetable implementation
 	public void Reset ()
 	{
-		//AllWavesFinishedAction = null;
-		//NextWaveAction = null;
-		//NPCLeftChagedAction = null;
-		//WaveFinishedAction = null;
-		//CharacterGenerated = null;
 		waveIndex = 0;
 		killedNPCs = 0;
 		generatedNPCCount = 0;
@@ -78,9 +74,15 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	#endregion
 
 
+	public void OnNPCHit(Character character)
+	{
+		var dependentEvents = waveManager.GetDependentEventsOnEvent(character.Id, Wave.Event.Condition.NPCHit);
+		GenerateNPCFromEvents(dependentEvents);
+	}
+
 	public void OnNPCDeath(Character character)
 	{
-		var dependentEvents = GetDependentEventOnEvent(character.Id, Wave.Event.Condition.NPCKilled);
+		var dependentEvents = waveManager.GetDependentEventsOnEvent(character.Id, Wave.Event.Condition.NPCKilled);
 		GenerateNPCFromEvents(dependentEvents);
 
 		killedNPCs++;
@@ -99,7 +101,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	void Update()
 	{
 		if (Running) {
-			var passedEvents = GetTimePassedEvents();
+			var passedEvents = waveManager.GetTimePassedEvents(timer);
 			GenerateNPCFromEvents(passedEvents);
 		
 			if (Time.time > waveEndCheckTimer) {
@@ -142,30 +144,6 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	}
 
 
-	public Wave.Event FindEvent(int id)
-	{
-		var  eventList = new List<Wave.Event>();
-		for (int i = 0; i < currentWave.Events.Count; ++i) {
-			eventList.Add(currentWave.Events[i]);
-		}
-
-		while (eventList.Count > 0) {
-			if (eventList[0].RuntimeData.Processed && eventList[0].RuntimeData.Id == id)
-				return eventList[0];
-
-			eventList.AddRange(eventList[0].DependentEvents);
-			eventList.RemoveAt(0);
-		}
-		return null;
-	}
-
-	public List<Wave.Event> GetDependentEventOnEvent(int id, Wave.Event.Condition trigger)
-	{
-		var result = new List<Wave.Event>();
-		var evt = FindEvent(id);
-		result = evt.DependentEvents.FindAll(x=>!x.RuntimeData.Processed && x.Trigger == trigger);
-		return result;
-	}
 
 	Vector3 GetRandomPositionOutsideScreen(int side)
 	{
@@ -191,8 +169,9 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 			aliveNpcCount = 0;
 			waveIndex = Math.Min (waveIndex + 1, WavesInCurrentLevel ());
 			wavesFinished = waveIndex == WavesInCurrentLevel ();
-			if (!wavesFinished)
-				currentWave = GameObject.Instantiate (levelDef.Waves [waveIndex]);
+			if (!wavesFinished) {
+				//currentWave = GameObject.Instantiate (levelDef.Waves [waveIndex]);
+			}
 			else
 				waveIndex--;
 			NextWaveAction (waveIndex, WavesInCurrentLevel ());
@@ -200,35 +179,15 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		return wavesFinished;
 	}
 
-
-
 	int GetTotalEnemiesLeft()
 	{
-		int enemiesLeft = 0;
-		for (int i = 0; i < currentWave.Events.Count; ++i) {
-			GetEnemiesLeft(currentWave.Events[i], ref enemiesLeft);
-		}
-		return enemiesLeft + aliveNpcCount;
-	}
-
-	void GetEnemiesLeft(Wave.Event evt, ref int enemiesLeft)
-	{
-		if (!evt.RuntimeData.Processed) {
-			enemiesLeft++;
-		}
-		for (int i = 0; i < evt.DependentEvents.Count; ++i) {
-			GetEnemiesLeft(evt.DependentEvents[i], ref enemiesLeft);
-		}
+		var notProcessedEventsCount = waveManager.GetTotalNotProcessedEventsCount();
+		return notProcessedEventsCount + aliveNpcCount;
 	}
 
 	int WavesInCurrentLevel()
 	{
 		return levelDef.Waves.Count;
-	}
-
-	List<Wave.Event> GetTimePassedEvents ()
-	{
-		return currentWave.Events.FindAll(x => x.Time < timer && !x.RuntimeData.Processed);
 	}
 
 	public void Pause ()
