@@ -24,7 +24,7 @@ public class PS4Controller : Controller
 //		specialAttack = KeyCode.JoystickButton0; //SQUARE
 	}
 
-	void Update()
+	public void Update()
 	{
 		if (!Enabled)
 			return;
@@ -69,12 +69,10 @@ public class PS4Controller : Controller
 	Vector2 GetAnalogueJoystickDirection()
 	{
 		Vector2 dir = Vector2.zero;
-		//dir.x = Input.GetAxis("HorizontalJoy"+Index);
-		//dir.y = Input.GetAxis("VerticalJoy"+Index);
-		dir.x = Input.GetAxis("Horizontal");
-		dir.y = Input.GetAxis("Vertical");
-
-
+		dir.x = Input.GetAxis("HorizontalJoy"+Index);
+		dir.y = Input.GetAxis("VerticalJoy"+Index);
+		//dir.x = Input.GetAxis("Horizontal");
+		//dir.y = Input.GetAxis("Vertical");
 		return dir;
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using Ai;
+using Ge;
 
 [CustomEditor(typeof(Wave))]
 [CanEditMultipleObjects]

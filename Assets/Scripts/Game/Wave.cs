@@ -3,31 +3,77 @@ using UnityEngine;
 using System.Collections.Generic;
 using Ai;
 
-[CreateAssetMenu(menuName = "NPC/Wave"), Serializable]
-public class Wave : ScriptableObject
+
+namespace Ge
 {
-	[Serializable]
-	public class TimeEvent
+	[CreateAssetMenu(menuName = "NPC/Wave"), Serializable]
+	public class Wave : ScriptableObject
 	{
-		public TimeEvent(TimeEvent evt)
+		[Serializable]
+		public class Event
 		{
-			Time = evt.Time	;
-			NPCPrefab = evt.NPCPrefab;
-			AiPreset = evt.AiPreset;
-			Dir = evt.Dir;
+			public float Time;
+			public enum Condition
+			{
+				Time,
+				NPCKilled,
+				NPCHit
+			}
+
+			public Condition Trigger;
+			public SpawnData SpawnData;
+			public RuntimeData RuntimeData;
+			public List<Event> DependentEvents;
+		
+			public Event()
+			{
+				Trigger = Condition.Time;
+				SpawnData = new SpawnData();
+				RuntimeData = new RuntimeData();
+				DependentEvents = new List<Event>();
+			}
+
+			public Event Clone ()
+			{
+				return new Event {
+					Trigger = this.Trigger,
+					Time = this.Time,
+					SpawnData = this.SpawnData.Clone()
+				};
+			}
 		}
 
-		public TimeEvent()
-		{}
 
-		public float Time;
-		public GameObject NPCPrefab;
-		public AiPreset AiPreset;
-		public int Dir;
-		public int HP;
-		public int Speed;
+		public class RuntimeData
+		{
+			public bool Processed;
+			public float ProcessedTime;
+			public int Id;
+		}
+
+		[Serializable]
+		public class SpawnData
+		{
+			public GameObject NPCPrefab;
+			public AiPreset AiPreset;
+			public int Dir;
+			public int HP;
+			public int Speed;
+		
+			public SpawnData Clone ()
+			{
+				return new SpawnData {
+					NPCPrefab = this.NPCPrefab,
+					AiPreset = this.AiPreset,
+					Dir = this.Dir,
+					HP = this.HP,
+					Speed = this.Speed
+				};
+			}
+		}
+
+
+		public List<Event> Events;
 	}
-
-	public List<TimeEvent> Events;
 }
 

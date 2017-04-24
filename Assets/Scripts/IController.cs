@@ -12,7 +12,9 @@ public class Controller : MonoBehaviour
 		Init();
 	}
 
+	public virtual void UpdateMe() {}
 	protected virtual void Init() {}
+
 }
 
 

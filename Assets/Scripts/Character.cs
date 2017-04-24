@@ -5,6 +5,7 @@ using Battle.Comp;
 
 public partial class Character : MonoBehaviour, ICharacter
 {
+	public int Id { get; set; }
 	public Defs.CharacterType Type;
 	public bool CheckLimits { get; set;}
 	public CharacterSettings Settings { get { return settings; }}
@@ -111,14 +112,14 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Moving>().UpdateMe();
 			GetComp<Animating>().UpdateMe();
 			GetComp<Jumping>().UpdateMe();
-			GetComp<Moving>().Stop();
-
+			//GetComp<Moving>().Stop();
 
 			if (CheckLimits) {
 				TrimPositionToLimits();
 			}
 			GetComp<Attacking>().UpdateMe();
 			GetComp<Visual>().UpdateMe();
+			GetComp<Moving>().Stop();
 		}
 	}
 

@@ -36,7 +36,7 @@ public partial class GameManager
 	void OnCharacterDeathFinished(Character character)
 	{
 		if (character.Type == Defs.CharacterType.NPC) {
-			npcGenerator.OnNPCDeath();
+			npcGenerator.OnNPCDeath(character);
 		} else {
 			if (events.PlayerDied != null) {
 				events.PlayerDied(level, npcGenerator.WaveIndex);
