@@ -113,6 +113,7 @@ class WaveWindow : EditorWindow
 		evt.SpawnData.HP = EditorGUILayout.IntField ("HP", evt.SpawnData.HP, GUILayout.Width (80));
 		evt.SpawnData.Speed = EditorGUILayout.IntField ("Speed", evt.SpawnData.Speed, GUILayout.Width (80));
 		evt.SpawnData.Dir = EditorGUILayout.IntField ("Side", evt.SpawnData.Dir, GUILayout.Width (80));
+		evt.SpawnData.Delay = EditorGUILayout.FloatField ("Delay", evt.SpawnData.Delay, GUILayout.Width (80));
 	}
 
 //	bool DrawNPCEvent(Wave.NPCEvent npcEvent)

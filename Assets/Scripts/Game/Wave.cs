@@ -59,6 +59,7 @@ namespace Ge
 			public int Dir;
 			public int HP;
 			public int Speed;
+			public float Delay;
 		
 			public SpawnData Clone ()
 			{

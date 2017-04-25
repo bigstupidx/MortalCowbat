@@ -4,6 +4,7 @@ using Vis;
 using Ai;
 using System.Collections.Generic;
 using Ge;
+using System.Collections;
 
 
 public class NPCGenerator : MonoBehaviour, IResetable, IPausable
@@ -122,27 +123,33 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	void GenerateNPCFromEvents(List<Wave.Event> evts)
 	{
 		for (int i = 0; i < evts.Count; ++i) {
-			var evt = evts[i];
-			evt.RuntimeData.ProcessedTime = Time.time;
-			evt.RuntimeData.Processed = true;
-			evt.RuntimeData.Id = eventId;
-			var npc = Instantiate(evt.SpawnData.NPCPrefab);
-			npc.transform.position = GetRandomPositionOutsideScreen(evt.SpawnData.Dir);
-			npc.GetComponent<AiStateMachine>().Preset = evt.SpawnData.AiPreset;
-			npc.GetComponent<CharacterSettings>().MovingSpeed = evt.SpawnData.Speed;
-			npc.GetComponent<CharacterSettings>().Health = evt.SpawnData.HP;
-			npc.GetComponent<Character>().Id = eventId;
-			eventId++;
-
-			if (CharacterGenerated != null) {
-				CharacterGenerated(npc.GetComponent<Character>());
-			}
-
+			evts[i].RuntimeData.Processed = true;
+			StartCoroutine(CreateNPC (evts[i], evts[i].SpawnData.Delay));
 			generatedNPCCount++;
 			aliveNpcCount++;
 		}
 	}
 
+	IEnumerator CreateNPC (Wave.Event evt, float delay)
+	{
+		if (delay > 0) {
+			yield return new WaitForSeconds(delay);
+		}
+
+		evt.RuntimeData.Id = eventId;
+		evt.RuntimeData.ProcessedTime = Time.time;
+		var npc = Instantiate (evt.SpawnData.NPCPrefab);
+		npc.transform.position = GetRandomPositionOutsideScreen (evt.SpawnData.Dir);
+		npc.GetComponent<AiStateMachine> ().Preset = evt.SpawnData.AiPreset;
+		npc.GetComponent<CharacterSettings> ().MovingSpeed = evt.SpawnData.Speed;
+		npc.GetComponent<CharacterSettings> ().Health = evt.SpawnData.HP;
+		npc.GetComponent<Character> ().Id = eventId;
+		eventId++;
+		if (CharacterGenerated != null) {
+			CharacterGenerated (npc.GetComponent<Character> ());
+		}
+
+	}
 
 
 	Vector3 GetRandomPositionOutsideScreen(int side)
