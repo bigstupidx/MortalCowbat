@@ -1,5 +1,6 @@
 ﻿using Ge;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Ge
@@ -55,7 +56,27 @@ namespace Ge
 
 		public List<Wave.Event> GetTimePassedEvents (float globalTime)
 		{
-			return wave.Events.FindAll(x => x.Time < globalTime && !x.RuntimeData.Processed);
+			var result = wave.Events.FindAll(x => x.Time < globalTime && !x.RuntimeData.Processed).ToList();
+
+			var  eventList = new Queue<Wave.Event>(wave.Events);
+			while (eventList.Count > 0) {
+				var firstEvent = eventList.Dequeue();
+				if (firstEvent.RuntimeData.Processed) {
+					for (int i = 0; i < firstEvent.DependentEvents.Count; ++i) {
+						var depEvt = firstEvent.DependentEvents[i];
+						if (depEvt.Trigger == Wave.Event.Condition.Time) {
+							if (!depEvt.RuntimeData.Processed) {
+								if (globalTime > (depEvt.Time + (firstEvent.RuntimeData.ProcessedTime))) {
+									result.Add(depEvt);
+								}
+							} else {
+								eventList.Enqueue(depEvt);
+							}
+						}
+					}			
+				}
+			}
+			return result;
 		}
 	}
 }

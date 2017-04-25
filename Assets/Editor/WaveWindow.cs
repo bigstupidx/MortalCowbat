@@ -54,7 +54,7 @@ class WaveWindow : EditorWindow
 		}
 	}
 
-	bool DrawEvent(Wave.Event evt, int space, bool timeEvent)
+	bool DrawEvent(Wave.Event evt, int space, bool mainTimeEvent)
 	{
 		
 		float labelWidth = EditorGUIUtility.labelWidth;
@@ -64,16 +64,19 @@ class WaveWindow : EditorWindow
 		for (int i = 0; i < space; ++i)
 			EditorGUILayout.Space();
 
-		if (timeEvent) {
+		if (mainTimeEvent) {
 			float newTime = EditorGUILayout.FloatField(evt.Time,  GUILayout.Width(30));
 			if (Math.Abs(newTime - evt.Time) > 0.01f) {
 				evt.Time = newTime;
 				Sort();
 			}
 		} else {
-			EditorGUIUtility.labelWidth = 70;
-			evt.Trigger = (Wave.Event.Condition)EditorGUILayout.EnumPopup ("Trigger", evt.Trigger);
-			EditorGUIUtility.labelWidth = 40;
+			//EditorGUIUtility.labelWidth = 70;
+			evt.Trigger = (Wave.Event.Condition)EditorGUILayout.EnumPopup (evt.Trigger, GUILayout.Width(70));
+			if (evt.Trigger == Wave.Event.Condition.Time) {
+				evt.Time = EditorGUILayout.FloatField(evt.Time,  GUILayout.Width(30));
+			}
+			//EditorGUIUtility.labelWidth = 40;
 		}
 
 		DrawSpawnData (evt);
@@ -115,32 +118,6 @@ class WaveWindow : EditorWindow
 		evt.SpawnData.Dir = EditorGUILayout.IntField ("Side", evt.SpawnData.Dir, GUILayout.Width (80));
 		evt.SpawnData.Delay = EditorGUILayout.FloatField ("Delay", evt.SpawnData.Delay, GUILayout.Width (80));
 	}
-
-//	bool DrawNPCEvent(Wave.NPCEvent npcEvent)
-//	{
-//		float labelWidth = EditorGUIUtility.labelWidth;
-//		EditorGUIUtility.labelWidth = 50;
-//		bool removed = false;
-//		EditorGUILayout.BeginHorizontal();
-//		EditorGUILayout.Space();
-//		npcEvent.Trigger = (Wave.NPCEvent.Condition)EditorGUILayout.EnumPopup ("Trigger", npcEvent.Trigger, GUILayout.Width (150));
-//
-//		npcEvent.NPCPrefab = EditorGUILayout.ObjectField(npcEvent.NPCPrefab, typeof(GameObject), false) as GameObject;
-//		npcEvent.AiPreset = EditorGUILayout.ObjectField(npcEvent.AiPreset, typeof(AiPreset), false) as AiPreset;
-//		npcEvent.HP = EditorGUILayout.IntField("HP", npcEvent.HP, GUILayout.Width(80));
-//		npcEvent.Speed = EditorGUILayout.IntField("Speed",npcEvent.Speed, GUILayout.Width(80));
-//		npcEvent.Dir = EditorGUILayout.IntField("Side", npcEvent.Dir, GUILayout.Width(80));
-//
-//		GUI.color = Color.red;
-//		if (GUILayout.Button("X")) {
-//			removed = true;
-//		}
-//		GUI.color = Color.white;
-//
-//		EditorGUILayout.EndHorizontal();
-//		EditorGUIUtility.labelWidth = labelWidth;
-//		return removed;
-//	}
 
 	void DrawAddNewEvent()
 	{	var color = GUI.color;
