@@ -39,7 +39,6 @@ public partial class GameManager : MonoBehaviour, IResetable
 	LevelFrame levelFrame;
 
 	GameEvents events;
-	const int LevelCount = 4;
 
 	int level {
 		get;
@@ -117,7 +116,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.Follow = false;
 		level++;
 
-		if (level > LevelCount) {
+		if (level > 4) {
 			SceneManager.LoadScene(0);
 		}
 

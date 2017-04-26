@@ -33,6 +33,10 @@ class GameLevelsWindow : EditorWindow
 
 	void DrawLevels()
 	{
+		if (gameLevels == null) {
+			Close();
+			return;
+		}
 
 		scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
 		EditorGUILayout.BeginHorizontal();
@@ -40,6 +44,8 @@ class GameLevelsWindow : EditorWindow
 		for (int i = 0; i < gameLevels.Levels.Count; ++i) {
 			EditorGUILayout.BeginVertical();
 			var level = gameLevels.Levels[i];
+
+			DrawEnvironment(level);
 
 			EditorGUILayout.BeginHorizontal();
 			GUI.color = Color.yellow;
@@ -72,6 +78,17 @@ class GameLevelsWindow : EditorWindow
 		if (GUI.changed || levelsModified) {
 			EditorUtility.SetDirty(gameLevels);
 		}
+	}
+
+	void DrawEnvironment(Level level)
+	{
+		float labelWidth = EditorGUIUtility.labelWidth;
+		EditorGUIUtility.labelWidth = 40;
+		EditorGUILayout.BeginVertical();
+		level.Environment = EditorGUILayout.TextField("Env", level.Environment, GUILayout.Width (130));
+		level.Frame = EditorGUILayout.IntField("Frame", level.Frame,  GUILayout.Width (130));
+		EditorGUILayout.EndVertical();
+		EditorGUIUtility.labelWidth = labelWidth;
 	}
 
 	bool DrawWaves(List<Wave> waves)
