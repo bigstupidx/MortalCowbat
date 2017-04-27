@@ -42,9 +42,11 @@ class GameLevelsWindow : EditorWindow
 		EditorGUILayout.BeginHorizontal();
 		bool levelsModified = false;
 		for (int i = 0; i < gameLevels.Levels.Count; ++i) {
-			EditorGUILayout.BeginVertical();
 			var level = gameLevels.Levels[i];
+			if (level == null)
+				continue;
 
+			EditorGUILayout.BeginVertical();
 			DrawEnvironment(level);
 
 			EditorGUILayout.BeginHorizontal();
@@ -85,7 +87,7 @@ class GameLevelsWindow : EditorWindow
 		float labelWidth = EditorGUIUtility.labelWidth;
 		EditorGUIUtility.labelWidth = 40;
 		EditorGUILayout.BeginVertical();
-		level.Environment = EditorGUILayout.TextField("Env", level.Environment, GUILayout.Width (130));
+		level.Environment = EditorGUILayout.EnumPopup("Env", (Defs.Env)Defs.GetEnvIndex(level.Environment),  GUILayout.Width (130)).ToString();
 		level.Frame = EditorGUILayout.IntField("Frame", level.Frame,  GUILayout.Width (130));
 		EditorGUILayout.EndVertical();
 		EditorGUIUtility.labelWidth = labelWidth;
