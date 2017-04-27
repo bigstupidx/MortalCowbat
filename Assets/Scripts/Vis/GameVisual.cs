@@ -28,7 +28,6 @@ namespace Vis
 			}
 
 			env.transform.SetParent(EnvContainer);
-			//env.transform.SetAsLastSibling();
 			env.transform.localPosition = Vector3.zero;
 		}
 	}

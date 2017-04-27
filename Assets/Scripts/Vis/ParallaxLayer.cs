@@ -8,18 +8,18 @@ namespace Vis
 		float speed;
 
 		float camStartPosX;
-
-		void Awake()
+		float startPosX;
+		void Start()
 		{
 			camStartPosX = Camera.main.transform.position.x;
+			startPosX = transform.position.x;
 		}
 
 		void Update()
 		{
 			var shift = Camera.main.transform.position.x - camStartPosX;
-
 			var newPosX = (1 - speed) * shift;
-			transform.SetPositionX(newPosX);
+			transform.SetPositionX(startPosX + newPosX);
 		}
 
 	}
