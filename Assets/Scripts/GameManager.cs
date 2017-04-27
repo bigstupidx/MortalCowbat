@@ -116,8 +116,12 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	bool IsNewEnvironment(int oldLevel, int newLevel)
 	{
-		return 
-			levels.Levels[oldLevel - 1].Environment != levels.Levels[newLevel - 1].Environment;
+		return levels.Levels[oldLevel - 1].Environment != levels.Levels[newLevel - 1].Environment;
+	}
+
+	bool LevelExists(int level)
+	{
+		return level < levels.Levels.Count;
 	}
 
 
@@ -131,18 +135,19 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.CheckLimits = false;
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
+
 		level++;
 
+		if (!LevelExists(level - 1)) {
+			SceneManager.LoadScene(0);
+			yield break;
+		}
 
 		if (IsNewEnvironment(level-1, level)) {
 			yield return StartCoroutine(ui.ShowLevelTransition());
 			gameCamera.SetPositionX(Defs.InitialCameraPositionInLevel);
 			players.ForEach(x=>x.transform.SetPositionX(Defs.InitialCameraPositionInLevel));
 			
-		}
-
-		if (level > 4) {
-			SceneManager.LoadScene(0);
 		}
 
 		CallLevelStarted(level);
