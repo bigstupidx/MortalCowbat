@@ -96,16 +96,24 @@ namespace Battle.Comp
 				pos.x += speedX * Time.deltaTime;
 				pos.y += speedY * Time.deltaTime;
 
-				bool canMove = !blockIntersections || CanMoveToPosition (pos);
+				Vector3 modifiedPos;
+				bool canMove = !blockIntersections || CanMoveToPosition (pos, out modifiedPos);
 
 				if (canMove) {
 					transform.position = pos;
+				}else {
+					Stop();
 				}
+//					else {
+//					transform.position = modifiedPos;	
+//				}
 			}
 		}
 
-		bool CanMoveToPosition (Vector3 pos)
+		bool CanMoveToPosition (Vector3 pos, out Vector3 modifiedPos)
 		{
+			modifiedPos = Vector3.zero;
+
 			var thisCharacterNextPivotPos = GetCharacter ().GetComp<Visual>().GetPoi("Pivot").position + (pos - GetCharacter ().GetPosition());
 			var thisCharacterCurrentPivotPos = GetCharacter ().GetComp<Visual>().GetPoi("Pivot").position;
 
@@ -124,14 +132,36 @@ namespace Battle.Comp
 					float currentDistance = (thisCharacterCurrentPivotPos - otherCharacterPivotPos).magnitude;
 
 					bool isTooClose = nextDistanceX < blockIntersectionsDistance && (nextDistanceY < blockIntersectionsDistance * 0.2f);
-
 					bool movingOut = nextDistance > currentDistance;
 
-					if (isTooClose && !movingOut)
+					if (isTooClose && !movingOut) {
 						canMove = false;
+						modifiedPos = GetModifiedPositionIfIntersetion(pos, otherCharacter.GetPosition(), pos - transform.position);
+					}
 				}
 			}
 			return canMove;
+		}
+
+		Vector3 GetModifiedPositionIfIntersetion(
+			Vector3 intersectedPosition,
+			Vector3 colliderCenter, Vector3 moveDir)
+		{
+			var radDir = intersectedPosition - colliderCenter;
+			float x = -radDir.y;
+			float y = radDir.x;
+			radDir.x = x;
+			radDir.y = y;
+
+			var pos = GetCharacter().GetPosition();
+			var side = Math.Sign(
+				(intersectedPosition.x - colliderCenter.x) * 
+				(pos.y - colliderCenter.y) - (intersectedPosition.y - colliderCenter.y) * (pos.x - colliderCenter.x));
+
+			radDir *= side < 1 ? 1 : -1 ; 
+
+
+			return intersectedPosition + radDir.normalized * moveDir.magnitude;
 		}
 	}
 }

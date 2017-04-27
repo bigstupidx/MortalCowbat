@@ -110,13 +110,15 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (!GetComp<Pause>().Paused) {
 			GetComp<Moving>().UpdateMe();
+			if (CheckLimits) {
+				TrimPositionToLimits();
+			}
+
 			GetComp<Animating>().UpdateMe();
 			GetComp<Jumping>().UpdateMe();
 			//GetComp<Moving>().Stop();
 
-			if (CheckLimits) {
-				TrimPositionToLimits();
-			}
+
 			GetComp<Attacking>().UpdateMe();
 			GetComp<Visual>().UpdateMe();
 			GetComp<Moving>().Stop();
@@ -178,8 +180,27 @@ public partial class Character : MonoBehaviour, ICharacter
 	{
 		if (Context != null) {
 		var pos = transform.position;
-			pos.y = Math.Max(Math.Min(Context.Limits().YMax, pos.y), Context.Limits().YMin);
-			pos.x = Math.Max(Math.Min(Context.Limits().XMax, pos.x), Context.Limits().XMin);
+
+			if (pos.x > Context.Limits().XMax) {
+				GetComp<Moving>().Stop();
+				pos.x = Context.Limits().XMax;
+			}
+			else if (pos.x < Context.Limits().XMin) {
+				GetComp<Moving>().Stop();
+				pos.x = Context.Limits().XMin;
+			}
+
+			if (pos.y > Context.Limits().YMax) {
+				GetComp<Moving>().Stop();
+				pos.y = Context.Limits().YMax;
+			}
+			else if (pos.y < Context.Limits().YMin) {
+				GetComp<Moving>().Stop();
+				pos.y = Context.Limits().YMin;
+			}
+
+		//	pos.y = Math.Max(Math.Min(Context.Limits().YMax, pos.y), Context.Limits().YMin);
+		//	pos.x = Math.Max(Math.Min(Context.Limits().XMax, pos.x), Context.Limits().XMin);
 			transform.position = pos;
 		}
 	}
