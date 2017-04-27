@@ -114,6 +114,13 @@ public partial class GameManager : MonoBehaviour, IResetable
 		InitLevel();
 	}
 
+	bool IsNewEnvironment(int oldLevel, int newLevel)
+	{
+		return 
+			levels.Levels[oldLevel - 1].Environment != levels.Levels[newLevel - 1].Environment;
+	}
+
+
 	public IEnumerator SetNextLevel()
 	{
 		yield return StartCoroutine(CheckForPlayerOnRightSide());
@@ -125,6 +132,14 @@ public partial class GameManager : MonoBehaviour, IResetable
 		yield return StartCoroutine(MovePlayerToTheNextLevel());
 		gameCamera.Follower.Follow = false;
 		level++;
+
+
+		if (IsNewEnvironment(level-1, level)) {
+			yield return StartCoroutine(ui.ShowLevelTransition());
+			gameCamera.SetPositionX(Defs.InitialCameraPositionInLevel);
+			players.ForEach(x=>x.transform.SetPositionX(Defs.InitialCameraPositionInLevel));
+			
+		}
 
 		if (level > 4) {
 			SceneManager.LoadScene(0);
@@ -141,6 +156,10 @@ public partial class GameManager : MonoBehaviour, IResetable
 		gameCamera.Follower.Follow = true;
 		players.ForEach(x=>x.GetComponent<Controller>().Enabled = true);
 		players.ForEach(x=>x.GetComponent<Moving>().blockIntersections = true);
+
+		yield return StartCoroutine(ui.HideLevelTransition());
+
+
 	}
 
 	public void Pause()
@@ -332,7 +351,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 	{
 		var player = Instantiate(playerPrefab);
 
-		player.transform.position = new Vector3(gameCamera.GetPosition().x - 4, -2.0f,0);
+		player.transform.position = new Vector3(gameCamera.GetPosition().x, -2.0f,0);
 		var playerScript = player.GetComponent<Character>();
 		characters.Add(playerScript);
 		ui.VirtualKeyboardController.AttachCharacter(playerScript);

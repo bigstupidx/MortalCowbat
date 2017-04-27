@@ -3,6 +3,7 @@
 public static class Defs
 {
 	public const float AnimationSpeed = 15.0f;
+	public const float InitialCameraPositionInLevel = -16;
 
 	public enum CharacterType
 	{

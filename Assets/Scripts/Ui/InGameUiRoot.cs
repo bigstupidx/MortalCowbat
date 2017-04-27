@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using System;
 
 namespace Ui
 {
@@ -12,6 +14,9 @@ namespace Ui
 		public VirtualKeyboardController VirtualKeyboardController {
 			get { return virtualKeyboardController; }
 		}
+
+		[SerializeField]
+		LevelTransition levelTransition;
 
 		[SerializeField]
 		List<InGamePlayerHealthBar> playerHealthbar;
@@ -32,6 +37,16 @@ namespace Ui
 		{
 			DialogController = new DialogController(dialoger);
 			ShowHudForPlayer(1, false);
+		}
+
+		public IEnumerator ShowLevelTransition()
+		{
+			yield return StartCoroutine(levelTransition.Show());
+		}
+
+		public IEnumerator HideLevelTransition()
+		{
+			yield return StartCoroutine(levelTransition.Hide());
 		}
 
 		public void ShowHudForPlayer(int index, bool show)
