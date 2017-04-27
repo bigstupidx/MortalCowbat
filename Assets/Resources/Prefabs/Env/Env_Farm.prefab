@@ -980,6 +980,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4832196666925324}
+  - component: {fileID: 114410695840526130}
   m_Layer: 0
   m_Name: Env_Farm
   m_TagString: Untagged
@@ -3978,7 +3979,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1471245188738226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.9, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4700601691702328}
@@ -4391,6 +4392,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.7
+--- !u!114 &114410695840526130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471245188738226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fdb01b6bc00c4e1e9e2a96a479d98c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114694410902387848
 MonoBehaviour:
   m_ObjectHideFlags: 1
