@@ -12,6 +12,7 @@ namespace Vis
 		{
 			var env = CreateEnvironment(name);
 			PlaceEnvironment(env);
+			Env = env.GetComponent<Environment>();
 		}
 
 		GameObject CreateEnvironment(string name)
@@ -22,12 +23,12 @@ namespace Vis
 
 		void PlaceEnvironment(GameObject env)
 		{
-			for (int i = 1; i < EnvContainer.childCount; ++i) {
+			for (int i = 0; i < EnvContainer.childCount; ++i) {
 				Destroy(EnvContainer.GetChild(i).gameObject);
 			}
 
 			env.transform.SetParent(EnvContainer);
-			env.transform.SetAsLastSibling();
+			//env.transform.SetAsLastSibling();
 			env.transform.localPosition = Vector3.zero;
 		}
 	}

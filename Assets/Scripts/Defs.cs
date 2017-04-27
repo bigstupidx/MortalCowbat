@@ -62,5 +62,17 @@ public static class Defs
 		Moving,
 		Idle
 	}
+
+	public enum Env
+	{
+		Farm,
+		Zoo
+	}
+
+	public static int GetEnvIndex(string env)
+	{
+		var names = Enum.GetNames(typeof(Env));
+		return Array.FindIndex(names, x=>x.Equals(env));
+	}
 }
 

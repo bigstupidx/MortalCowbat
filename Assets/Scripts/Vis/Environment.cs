@@ -22,6 +22,11 @@ namespace Vis
 				}
 			}
 		}
+
+		public LevelFrame Frame(int index)
+		{
+			return levelFrames[index];
+		}
 	}
 }
 

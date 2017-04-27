@@ -9,11 +9,7 @@ using System.Collections;
 
 public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 {
-	[SerializeField]
-	GameLevels levels;
-
 	public int WaveIndex { get { return waveIndex; }}
-
 	public Action AllWavesFinishedAction;
 	public Action<int, int>  WaveFinishedAction;
 	public Action<int, int>  NextWaveAction;
@@ -45,9 +41,9 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 	float waveEndCheckTimer;
 	const float WaveEndCheckInterval = 1.0f;
 
-	public void Init(Context context, int level)
+	public void Init(Context context, int level, Level levelDef)
 	{
-		this.levelDef = levels.Levels[level - 1];
+		this.levelDef = levelDef;
 		this.context = context;
 		Running = true;
 		waveIndex = 0;

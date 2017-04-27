@@ -8,6 +8,7 @@ using System;
 using Battle.Comp;
 using UnityEngine.SceneManagement;
 
+
 public partial class GameManager : MonoBehaviour, IResetable
 {
 	[SerializeField]
@@ -26,7 +27,14 @@ public partial class GameManager : MonoBehaviour, IResetable
 	NPCGenerator npcGenerator;
 
 	[SerializeField]
+	GameVisual gameVisual;
+
+	[SerializeField]
 	InGameUiRoot ui;
+
+	[SerializeField]
+	GameLevels levels;
+
 
 	List<Character> characters = new List<Character>();
 	List<IResetable> resetables;
@@ -76,6 +84,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	void InitLevel()
 	{
+		gameVisual.LoadEnvironment(GetLevelDefinition(level).Environment);
+
 		InitLevelFrame ();
 		InitNPCGenerator ();
 		InitPlayer();
@@ -199,7 +209,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 
 	void InitLevelFrame ()
 	{
-		levelFrame = GameObject.Find (string.Format ("LevelFrame{0}", level)).GetComponent<LevelFrame> ();
+		int frameIndex = GetLevelDefinition(level).Frame;
+		levelFrame = gameVisual.Env.Frame(frameIndex);
 		gameCamera.Follower.LevelFrame = levelFrame;
 
 		limits = new Limits() { 
@@ -215,7 +226,7 @@ public partial class GameManager : MonoBehaviour, IResetable
 		npcGenerator.Init (new NPCGenerator.Context {
 			LevelFrame = levelFrame,
 			GameCamera = gameCamera,
-		}, level);
+		}, level, GetLevelDefinition(level));
 	}
 
 	void InitCallbacks()
@@ -361,4 +372,8 @@ public partial class GameManager : MonoBehaviour, IResetable
 		}
 	}
 
+	Level GetLevelDefinition(int level)
+	{
+		return levels.Levels[level - 1];
+	}
 }
