@@ -412,7 +412,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1634333760155082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.66, y: 0, z: 0}
+  m_LocalPosition: {x: -3.66, y: -1.78, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4392931543852718}
@@ -485,7 +485,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1733404250187666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18000007, y: -1.91, z: 0}
+  m_LocalPosition: {x: 0, y: -2.15, z: 0}
   m_LocalScale: {x: 7, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4036169337679142}
@@ -762,6 +762,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 1
   shiftHitEnemy: 1
+  shiftHitDistance: 1
   enemyFalls: 1
   attackPoints: 20
   attackSfx: {fileID: 0}
@@ -798,6 +799,7 @@ MonoBehaviour:
   BasicAttack: {fileID: 114486232794347198}
   SpecialAttack: {fileID: 114516142951462474}
   JumpAttack: {fileID: 114266997317933594}
+  HeavyAttack: {fileID: 0}
 --- !u!114 &114356443682051916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -839,6 +841,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 0
   shiftHitEnemy: 0
+  shiftHitDistance: 1
   enemyFalls: 0
   attackPoints: 10
   attackSfx: {fileID: 0}
@@ -879,6 +882,7 @@ MonoBehaviour:
   - {fileID: 61079986119182918}
   ranged: 1
   shiftHitEnemy: 0
+  shiftHitDistance: 1
   enemyFalls: 0
   attackPoints: 30
   attackSfx: {fileID: 0}
