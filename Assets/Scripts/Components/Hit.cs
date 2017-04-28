@@ -31,7 +31,7 @@ namespace Battle.Comp
 			if (CanBeHit(attackId)) {
 				lastAttackHitHId = attackId;
 				if (attack.ShiftHitEnemy) {
-					transform.AddPositionX((int)dir * 1.0f);
+					transform.AddPositionX((int)dir * attack.ShiftHitEnemyDistance);
 				}
 
 				if (hitEffect != null) {
