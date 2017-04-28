@@ -38,7 +38,8 @@ namespace Battle.Comp
 			if (CanBeHit(attackId)) {
 				lastAttackHitHId = attackId;
 				if (attack.ShiftHitEnemy) {
-					transform.AddPositionX((int)dir * attack.ShiftHitEnemyDistance);
+					//transform.AddPositionX((int)dir * attack.ShiftHitEnemyDistance);
+					StartCoroutine(GetComp<Moving>().ShiftCoroutine((int)dir * attack.ShiftHitEnemyDistance, 0.1f));
 				}
 
 				if (hitEffect != null) {

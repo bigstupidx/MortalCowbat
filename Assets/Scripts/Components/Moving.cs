@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 
 namespace Battle.Comp
 {
@@ -87,6 +88,17 @@ namespace Battle.Comp
 			var scale = transform.localScale;
 			scale.x = dir * Math.Abs(scale.x);
 			transform.localScale = scale;
+		}
+
+		public IEnumerator ShiftCoroutine(float distance, float time)
+		{
+			float startTime = Time.time;
+			while ((Time.time - startTime) < time) {
+				float step = Time.deltaTime / time * distance;
+				transform.AddPositionX(step);
+				distance -= step;
+				yield return 0;
+			}
 		}
 
 		public override void UpdateMe()

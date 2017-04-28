@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114053792649777356}
   - component: {fileID: 61606742329124576}
   m_Layer: 0
-  m_Name: PigBaseAttacks
+  m_Name: PigHeavyAttacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,6 +268,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1775663690191930
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4982513184376920}
+  - component: {fileID: 114873817588823962}
+  - component: {fileID: 61801865031939812}
+  m_Layer: 0
+  m_Name: PigBaseAttacks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1995707075933464
 GameObject:
   m_ObjectHideFlags: 1
@@ -340,6 +357,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4277916914946824}
+  - {fileID: 4982513184376920}
   - {fileID: 4376981505844798}
   - {fileID: 4672839399874602}
   - {fileID: 4584346276206976}
@@ -385,7 +403,7 @@ Transform:
   m_LocalScale: {x: 7, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4376981505844798
 Transform:
@@ -395,10 +413,10 @@ Transform:
   m_GameObject: {fileID: 1114444404757384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4419213477316520
 Transform:
@@ -437,7 +455,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4613886232197990
 Transform:
@@ -464,7 +482,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4872331934969100
 Transform:
@@ -491,7 +509,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4957256672009704
 Transform:
@@ -505,6 +523,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4066104247787474}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4982513184376920
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775663690191930}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4170419622160586}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61275100916209336
 BoxCollider2D:
@@ -526,6 +557,20 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114444404757384}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 2.1469164, y: -0.050000127}
+  serializedVersion: 2
+  m_Size: {x: 2.8038344, y: 3.2400002}
+--- !u!61 &61801865031939812
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775663690191930}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -684,8 +729,9 @@ MonoBehaviour:
   colliders:
   - {fileID: 0}
   ranged: 1
-  shiftHitEnemy: 0
-  enemyFalls: 0
+  shiftHitEnemy: 1
+  shiftHitDistance: 4
+  enemyFalls: 1
   attackPoints: 20
   attackSfx: {fileID: 0}
   effects: []
@@ -777,6 +823,7 @@ MonoBehaviour:
   - {fileID: 61275100916209336}
   ranged: 1
   shiftHitEnemy: 1
+  shiftHitDistance: 4
   enemyFalls: 1
   attackPoints: 30
   attackSfx: {fileID: 0}
@@ -900,6 +947,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 1
   shiftHitEnemy: 1
+  shiftHitDistance: 1
   enemyFalls: 1
   attackPoints: 20
   attackSfx: {fileID: 0}
@@ -1007,9 +1055,39 @@ MonoBehaviour:
   - fastpunch02
   - kick
   specialAttackCooldown: {fileID: 114362437923186032}
-  BasicAttack: {fileID: 114053792649777356}
+  BasicAttack: {fileID: 114873817588823962}
   SpecialAttack: {fileID: 114351736271625434}
   JumpAttack: {fileID: 114611607432357674}
+  HeavyAttack: {fileID: 114053792649777356}
+--- !u!114 &114873817588823962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775663690191930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b79482f57d1451dbd580c6dfc148b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colliders:
+  - {fileID: 0}
+  ranged: 1
+  shiftHitEnemy: 1
+  shiftHitDistance: 1
+  enemyFalls: 0
+  attackPoints: 20
+  attackSfx: {fileID: 0}
+  effects: []
+  hitEffects:
+  - Effect: {fileID: 114868955937026058, guid: 3b8d22656bf2348e899fcc97128c2c14, type: 2}
+    Container: Hit
+    InWorldSpace: 1
+    CustomData: []
+  - Effect: {fileID: 114243814342895862, guid: 060487c82891846649aa850e53b6a071, type: 2}
+    Container: Mouth
+    InWorldSpace: 0
+    CustomData: []
 --- !u!114 &114886124752029074
 MonoBehaviour:
   m_ObjectHideFlags: 1

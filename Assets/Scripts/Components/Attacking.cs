@@ -27,6 +27,8 @@ namespace Battle.Comp
 		public Attack BasicAttack;
 		public Attack SpecialAttack;
 		public Attack JumpAttack;
+		public Attack HeavyAttack;
+
 
 		bool chargedAttackReleased;
 		bool attacking;
@@ -92,7 +94,7 @@ namespace Battle.Comp
 				attacking = true;
 				chargedAttackReleased = false;
 				GetComp<Animating>().SetTrigger(Defs.Animations.HeavyAttack);
-				StartAttackEffects(BasicAttack);
+				StartAttackEffects(HeavyAttack);
 				// automatic chargin release
 				if (duration > 0) {
 					Invoke("ChargedAttackReleased", duration);			
@@ -114,7 +116,7 @@ namespace Battle.Comp
 		{
 			var chargedState = AttackMultiplicator(chargedDuration);
 			SetChargedAttackStartTime(-1.0f);
-			HeavyAttackAction(GetCharacter(),  BasicAttack, chargedState.Key, chargedState.Value);
+			HeavyAttackAction(GetCharacter(),  HeavyAttack, chargedState.Key, chargedState.Value);
 		}
 
 
@@ -135,8 +137,6 @@ namespace Battle.Comp
 
 		public void StartAttackEffects(Attack attack)
 		{
-			GetComp<Sound>().Play(attack.Sfx);
-
 			for (int i = 0; i < attack.Effects.Count; ++i) {
 				var effectDestcriptor = attack.Effects[i];
 				var effect = GetComp<Effects>().EffectManager.CreateEffect(
