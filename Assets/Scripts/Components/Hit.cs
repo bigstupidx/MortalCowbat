@@ -22,7 +22,9 @@ namespace Battle.Comp
 
 		public void StopDaze()
 		{
-			StartAction(()=>inDaze = false, UnityEngine.Random.Range(0.0f, 0.2f));
+			float dazerRndDelay = GlobalBattleConfig.RandomizeDazeDuration ? 
+				UnityEngine.Random.Range(0.0f,GlobalBattleConfig.DazeRandomDuration) : 0;
+			StartAction(()=>inDaze = false, dazerRndDelay);
 		}
 
 		public bool CanBeHit(int attackId)
