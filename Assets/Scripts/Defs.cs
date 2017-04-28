@@ -44,6 +44,9 @@ public static class Defs
 	public static class Pois
 	{
 		public const string SpecialAttackEffect = "SpecialAttackEffect";
+		public const string Pivot = "Pivot";
+		public const string Hit = "Hit";
+		public const string Mouth = "Mouth";
 	}
 
 	public enum HDirection 

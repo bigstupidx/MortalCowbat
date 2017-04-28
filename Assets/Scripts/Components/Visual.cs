@@ -40,7 +40,7 @@ namespace Battle.Comp
 			const int minSortingOrder = 10;
 			const int maxSortingOrder = 100;
 
-			float c = (Position.y - minY) / (maxY - minY);
+			float c = (GetComp<Visual>().GetPoi(Defs.Pois.Pivot).position.y - minY) / (maxY - minY);
 			sortingOrder = minSortingOrder + (int)((maxSortingOrder - minSortingOrder) * (1 - c));
 			Ren.sortingOrder = sortingOrder;
 			ChargingBar.SetSortingOrder(sortingOrder + 1);
