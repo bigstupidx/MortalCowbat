@@ -7,17 +7,22 @@ namespace Battle.Comp
 	public class Hit : CharacterComponent
 	{
 		public Action<Character> HitAction;
+		public bool InDaze { get { return inDaze; }}
 
 		[SerializeField]
 		GameObject hitEffect;
 
 		int lastAttackHitHId;
-
-		public bool InDaze { get; set; }
+		bool inDaze;
 
 		void Awake()
 		{
 			lastAttackHitHId = -1;
+		}
+
+		public void StopDaze()
+		{
+			StartAction(()=>inDaze = false, UnityEngine.Random.Range(0.0f, 0.2f));
 		}
 
 		public bool CanBeHit(int attackId)
@@ -78,7 +83,7 @@ namespace Battle.Comp
 							GetComp<Moving>().Fall();
 						}
 						else {
-							InDaze = true;
+							inDaze = true;
 							GetComp<Animating>().SetTrigger(Defs.Animations.Hit);
 						}
 					}

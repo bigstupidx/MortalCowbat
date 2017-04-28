@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Lib;
 
 namespace Battle.Comp
 {
-	public class CharacterComponent : MonoBehaviour
+	public class CharacterComponent : MonoGod
 	{
 		ComponentHolder componentHolder;
 		Character character;

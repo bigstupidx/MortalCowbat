@@ -165,7 +165,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Moving>().FinishFall();
 		}
 		else if (name.Equals(Defs.Events.HitFinished)) {
-			GetComp<Hit>().InDaze = false;
+			GetComp<Hit>().StopDaze();
 		}
 		else if (name.Equals(Defs.Events.AttackCharged)) {
 			GetComp<Attacking>().StartAttackCharging();
