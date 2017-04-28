@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class EffectManager : MonoBehaviour
 {
@@ -15,7 +16,12 @@ public class EffectManager : MonoBehaviour
 	{
 		var effectGo = Instantiate(prefab);
 		effectGo.transform.localPosition = Vector3.zero;
-		//effectGo.transform.localScale = Vector3.one;
+
+		var scale = effectGo.transform.localScale;
+		scale.x = Mathf.Abs(scale.x);
+		scale.y = Mathf.Abs(scale.y);
+		effectGo.transform.localScale = scale;
+
 		var effect = effectGo.GetComponent<Effect>();
 
 		runningEffects.Add(effect);
@@ -35,8 +41,11 @@ public class EffectManager : MonoBehaviour
 			effectGo.transform.localPosition = Vector3.zero;
 		}
 
-		//effectGo.transform.localScale = new Vector3(1, 1,1);
-	
+		var scale = effectGo.transform.localScale;
+		scale.x = Mathf.Abs(scale.x);
+		scale.y = Mathf.Abs(scale.y);
+		effectGo.transform.localScale = scale;
+
 		int offset = 0;
 		var sprRen = onWhat.GetComponentInChildren<SpriteRenderer>();
 		if (sprRen != null) {
