@@ -10,6 +10,9 @@ namespace Battle.Comp
 		[SerializeField]
 		List<Transform> pois;
 
+		[SerializeField]
+		BoxCollider2D body;
+
 
 		public ChargingBar ChargingBar;
 
@@ -25,6 +28,10 @@ namespace Battle.Comp
 			return pois.Find(x=>x.name.Equals(name));
 		}
 
+		public Vector2 GetBodySize()
+		{
+			return body.size;
+		}
 
 		public override void UpdateMe()
 		{

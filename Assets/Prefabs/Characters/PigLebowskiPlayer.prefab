@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4170419622160586}
   - component: {fileID: 212198513470007222}
+  - component: {fileID: 61875801566986344}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -533,6 +534,20 @@ BoxCollider2D:
   m_Offset: {x: 2.52, y: -0.05}
   serializedVersion: 2
   m_Size: {x: 3.55, y: 3.24}
+--- !u!61 &61875801566986344
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1129738617194814}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 2.790289, y: 3.8751447}
 --- !u!61 &61994107059315322
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -843,6 +858,7 @@ MonoBehaviour:
   - {fileID: 4575395773155556}
   - {fileID: 4957256672009704}
   - {fileID: 4584346276206976}
+  body: {fileID: 61875801566986344}
   ChargingBar: {fileID: 114109011872003456}
   Ren: {fileID: 212198513470007222}
   sortingOrder: 0

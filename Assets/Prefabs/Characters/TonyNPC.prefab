@@ -241,6 +241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4036169337679142}
   - component: {fileID: 212718279887179918}
+  - component: {fileID: 61304692477527372}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -517,6 +518,20 @@ BoxCollider2D:
   m_Offset: {x: 4.3, y: -0.05}
   serializedVersion: 2
   m_Size: {x: 9.84, y: 3.08}
+--- !u!61 &61304692477527372
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858354367835614}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 2.4799998, y: 4.3676085}
 --- !u!61 &61466176070307024
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -890,6 +905,7 @@ MonoBehaviour:
   - {fileID: 4230615154780162}
   - {fileID: 4814260649229994}
   - {fileID: 4449536466417220}
+  body: {fileID: 61304692477527372}
   ChargingBar: {fileID: 114711302147943672}
   Ren: {fileID: 212718279887179918}
   sortingOrder: 0
