@@ -55,7 +55,7 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 		// call actions
 		NextWaveAction(waveIndex, levelDef.Waves.Count); // X/Y waves
 		NPCLeftChagedAction(GetTotalEnemiesLeft());
-		spawnPositionGenerator = new NPCSpawnPositionGenerator(5, context.LevelFrame, context.GameCamera);
+		spawnPositionGenerator = new NPCSpawnPositionGenerator(10, context.LevelFrame, context.GameCamera);
 	}
 
 
@@ -128,6 +128,10 @@ public class NPCGenerator : MonoBehaviour, IResetable, IPausable
 
 	IEnumerator CreateNPC (Wave.Event evt, float delay)
 	{
+		if (GlobalBattleConfig.RandomizeNPCSpawnTime) {
+			delay += UnityEngine.Random.Range(0.1f, 0.3f);
+		}
+	
 		if (delay > 0) {
 			yield return new WaitForSeconds(delay);
 		}
