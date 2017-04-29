@@ -11,14 +11,11 @@ namespace Battle.Comp
 		[SerializeField]
 		float blockIntersectionsDistance = 0.5f;
 
-
 		public bool Paused { get; set; }
-		public bool Falling { get { return falling; }}
 		public Collider2D Collider { get; private set; }
 
 		float speedX;
 		float speedY;
-		bool falling;
 
 		void Awake()
 		{
@@ -62,17 +59,6 @@ namespace Battle.Comp
 			return SpeedX() > 0 || SpeedY() > 0.0f;
 		}
 
-		public void Fall ()
-		{
-			GetComp<Animating>().SetTrigger(Defs.Animations.Fall);
-			falling = true;
-		}
-
-		public void FinishFall()
-		{
-			falling = false;
-		}
-
 		public void FaceTo (Vector3 position)
 		{
 			Flip(position.x > transform.position.x ? 1  : -1);
@@ -103,7 +89,7 @@ namespace Battle.Comp
 
 		public override void UpdateMe()
 		{
-			if (!falling) {
+			if (!GetComp<Falling>().IsFalling) {
 				var pos = transform.position;
 				pos.x += speedX * Time.deltaTime;
 				pos.y += speedY * Time.deltaTime;
@@ -134,7 +120,7 @@ namespace Battle.Comp
 				var otherCharacter = GetCharacter ().Context.Characters[i];
 				if (otherCharacter != GetCharacter ()) {
 
-					if (otherCharacter.GetComp<Moving>().Falling || otherCharacter.GetComp<Death>().IsDying)
+					if (otherCharacter.GetComp<Falling>().IsFalling || otherCharacter.GetComp<Death>().IsDying)
 						continue;
 
 					var otherCharacterPivotPos = otherCharacter.GetComp<Visual>().GetPoi("Pivot").position;

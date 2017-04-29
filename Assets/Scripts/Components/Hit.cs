@@ -29,7 +29,7 @@ namespace Battle.Comp
 
 		public bool CanBeHit(int attackId)
 		{
-			return (attackId ==-1 || lastAttackHitHId != attackId) && !GetComp<Moving>().Falling;
+			return (attackId ==-1 || lastAttackHitHId != attackId) && !GetComp<Falling>().IsFalling;
 		}
 
 
@@ -67,7 +67,7 @@ namespace Battle.Comp
 				}
 
 				if (maxed) {
-					GetComp<Effects>().EffectManager.CreateEffect(GetComp<Effects>().ShakeEffect);
+					
 				}
 
 				bool alive = GetComp<Health>().ReduceHealth(attack.AttackPoints * multiplicator);
@@ -83,7 +83,7 @@ namespace Battle.Comp
 						GetComp<Moving>().Stop();
 
 						if (attack.EnemyFalls) {
-							GetComp<Moving>().Fall();
+							GetComp<Falling>().Fall();
 						}
 						else {
 							inDaze = true;

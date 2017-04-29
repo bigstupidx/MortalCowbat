@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 114555992711135210}
   - component: {fileID: 114091898601145780}
   - component: {fileID: 114130057374857632}
+  - component: {fileID: 114941769040148194}
   - component: {fileID: 114178351733055632}
   m_Layer: 0
   m_Name: TonyBOSS
@@ -733,6 +734,7 @@ MonoBehaviour:
   - {fileID: 114555992711135210}
   - {fileID: 114091898601145780}
   - {fileID: 114130057374857632}
+  - {fileID: 114941769040148194}
 --- !u!114 &114194692613541140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -762,6 +764,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 1
   shiftHitEnemy: 1
+  shiftHitDistance: 1
   enemyFalls: 1
   attackPoints: 20
   attackSfx: {fileID: 0}
@@ -798,6 +801,7 @@ MonoBehaviour:
   BasicAttack: {fileID: 114486232794347198}
   SpecialAttack: {fileID: 114516142951462474}
   JumpAttack: {fileID: 114266997317933594}
+  HeavyAttack: {fileID: 0}
 --- !u!114 &114356443682051916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -839,6 +843,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 0
   shiftHitEnemy: 0
+  shiftHitDistance: 1
   enemyFalls: 0
   attackPoints: 10
   attackSfx: {fileID: 0}
@@ -879,6 +884,7 @@ MonoBehaviour:
   - {fileID: 61079986119182918}
   ranged: 1
   shiftHitEnemy: 0
+  shiftHitDistance: 1
   enemyFalls: 0
   attackPoints: 30
   attackSfx: {fileID: 0}
@@ -962,6 +968,17 @@ MonoBehaviour:
   JumpingSpeed: 3
   Health: 30
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
+--- !u!114 &114941769040148194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1634333760155082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41be72d9902b2405989408e27b7f96c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114948132880745778
 MonoBehaviour:
   m_ObjectHideFlags: 1

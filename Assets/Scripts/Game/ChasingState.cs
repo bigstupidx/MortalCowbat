@@ -26,7 +26,7 @@ namespace Ai
 			}	
 			if (chasedCharacter != null) {
 
-				if (!context.Character.GetComp<Moving>().Falling) {
+				if (!context.Character.GetComp<Falling>().IsFalling) {
 
 					var dstPosition = chasedCharacter.GetPosition();
 					var direction = (dstPosition - context.Character.GetPosition());

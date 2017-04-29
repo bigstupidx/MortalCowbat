@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 114426680989769678}
   - component: {fileID: 114843900391655216}
   - component: {fileID: 114087740689279968}
+  - component: {fileID: 114689922017940744}
   m_Layer: 0
   m_Name: PigLebowskiPlayer
   m_TagString: Untagged
@@ -887,6 +888,7 @@ MonoBehaviour:
   - {fileID: 114426680989769678}
   - {fileID: 114886124752029074}
   - {fileID: 114843900391655216}
+  - {fileID: 114689922017940744}
 --- !u!114 &114426680989769678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -989,6 +991,17 @@ MonoBehaviour:
   JumpingSpeed: 9
   Health: 200
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
+--- !u!114 &114689922017940744
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1493431373868202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41be72d9902b2405989408e27b7f96c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1
