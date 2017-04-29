@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4080270058744970}
   m_Layer: 0
-  m_Name: Mouth
+  m_Name: HeavyAttackFist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,6 +238,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1661908564597438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4966000772649204}
+  m_Layer: 0
+  m_Name: Mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1667888083518180
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,8 +331,9 @@ Transform:
   - {fileID: 4613886232197990}
   - {fileID: 4575395773155556}
   - {fileID: 4128893259724038}
-  - {fileID: 4080270058744970}
+  - {fileID: 4966000772649204}
   - {fileID: 4957256672009704}
+  - {fileID: 4080270058744970}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -327,12 +343,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1208412736215184}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.41, y: 0.974, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.62, y: 0.89, z: 0}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
   m_Children: []
   m_Father: {fileID: 4066104247787474}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4128893259724038
 Transform:
@@ -524,6 +540,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4066104247787474}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4966000772649204
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1661908564597438}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.41, y: 0.974, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4066104247787474}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4982513184376920
 Transform:
@@ -903,10 +932,11 @@ MonoBehaviour:
   pois:
   - {fileID: 4896245416441908}
   - {fileID: 4128893259724038}
-  - {fileID: 4080270058744970}
+  - {fileID: 4966000772649204}
   - {fileID: 4575395773155556}
   - {fileID: 4957256672009704}
   - {fileID: 4584346276206976}
+  - {fileID: 4080270058744970}
   body: {fileID: 61875801566986344}
   ChargingBar: {fileID: 114109011872003456}
   Ren: {fileID: 212198513470007222}
@@ -1002,6 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41be72d9902b2405989408e27b7f96c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShakeCamera: 0
 --- !u!114 &114753656847734008
 MonoBehaviour:
   m_ObjectHideFlags: 1

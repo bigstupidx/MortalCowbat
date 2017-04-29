@@ -162,7 +162,7 @@ public partial class Character : MonoBehaviour, ICharacter
 			GetComp<Attacking>().Stop();
 		}
 		else if (name.Equals(Defs.Events.FallFinished)) {
-			GetComp<Moving>().FinishFall();
+			GetComp<Falling>().FinishFall();
 		}
 		else if (name.Equals(Defs.Events.HitFinished)) {
 			GetComp<Hit>().StopDaze();
@@ -173,6 +173,7 @@ public partial class Character : MonoBehaviour, ICharacter
 		else if (name.Equals(Defs.Events.JumpStarted)) {
 			GetComp<Jumping>().JumpStarted();
 		}
+
 	}
 
 

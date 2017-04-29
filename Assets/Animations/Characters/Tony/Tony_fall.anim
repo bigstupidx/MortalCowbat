@@ -92,6 +92,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.2
+    functionName: OnEffectEvent
+    data: Pivot
+    objectReferenceParameter: {fileID: 1057847988162944, guid: 0adacaa60b63b4b71aa0c4f52a77d11f,
+      type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 2.1333334
     functionName: AnimationEvent
     data: fallfinished
