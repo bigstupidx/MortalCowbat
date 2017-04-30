@@ -32,6 +32,7 @@ namespace Battle.Comp
 
 		bool chargedAttackReleased;
 		bool attacking;
+		bool usingSpecialAttack;
 		bool jumpAttacking;
 		int jumpId;
 		int fastAttackCounter;
@@ -52,6 +53,11 @@ namespace Battle.Comp
 		public bool IsAttacking()
 		{
 			return attacking;
+		}
+
+		public bool UsingSpeciatAttack()
+		{
+			return usingSpecialAttack;
 		}
 
 		public bool AllowsFlipChange()
@@ -106,6 +112,8 @@ namespace Battle.Comp
 		{
 			if (!IsAttacking() && !GetComp<Jumping>().IsJumping() && specialAttackCooldown.IsReady()) {
 				attacking = true;
+				usingSpecialAttack =  true;
+				//GetComp<Effects>().EffectManager.CreateEffect(GetComp<Effects>().StopNPCs).Run(gameObject);
 				GetComp<Animating>().SetTrigger(Defs.Animations.SpecialAttack);
 				specialAttackCooldown.Restart();
 				StartAttackEffects(SpecialAttack);
@@ -123,9 +131,11 @@ namespace Battle.Comp
 		public void Stop()
 		{
 			attacking = false;
+			usingSpecialAttack = false;
 			jumpAttacking = false;
 
 			effectToStopOnHit.ForEach(x=>GetComp<Effects>().EffectManager.StopEffect(x));
+			effectToStopOnHit.Clear();
 
 			ChargedAttackReleased();
 		}
@@ -143,10 +153,11 @@ namespace Battle.Comp
 					effectDestcriptor,
 					GetComp<Visual>().GetPoi(effectDestcriptor.Container),
 					gameObject);
+				effect.Run(gameObject);
 			
 				if (effectDestcriptor.CustomData.Contains("stoponhit")) {
 					effectToStopOnHit.Add(effect);
-					effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
+					//effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
 				}
 			}
 		}

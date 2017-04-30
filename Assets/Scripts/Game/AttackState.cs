@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Battle.Comp;
+using System.Linq;
 
 namespace Ai
 {
@@ -22,8 +23,7 @@ namespace Ai
 			if (Time.time > nextAttack) {
 
 				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient);
-				if (targets.Count > 0) {
-
+				if (targets.Count > 0 && !targets.Any(x=>x.GetComp<Attacking>().UsingSpeciatAttack())) {
 					if (attacksPerformed > 0 && UnityEngine.Random.Range(0.0f, 1.0f) < context.Sm.Preset.IdlingAroundProbability) {
 						context.Sm.SetState(new IdlingAroundState(context));
 					} else {
