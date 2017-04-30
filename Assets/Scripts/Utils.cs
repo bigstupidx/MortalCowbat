@@ -76,6 +76,15 @@ public static class Utils
 		return vector - 2 * Vector3.Dot(vector, normal) * normal;
 	}
 
+	public static bool IsEqual(float f1, float f2)
+	{
+		const float Epsilon = 0.00001f;
+		return Math.Abs(f1 - f2) < Epsilon;
+	}
 
+	public static bool IsZero(float f)
+	{
+		return IsEqual(f, 0.0f);
+	}
 }
 

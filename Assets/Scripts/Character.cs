@@ -183,31 +183,35 @@ public partial class Character : MonoBehaviour, ICharacter
 		var pos = transform.position;
 
 			var halfBodySize = GetComp<Visual>().GetBodySize() * 0.5f;
-			bool stop = false;
+			bool stopInY = false;
+			bool stopInX = false;
 			float xMax = (Context.Limits().XMax - halfBodySize.x);
 			float xMin = (Context.Limits().XMin + halfBodySize.x);
 			float yMax = Context.Limits().YMax;
 			float yMin = Context.Limits().YMin;
 
 			if (pos.x > xMax) {
-				stop = true;
+				stopInX = true;
 				pos.x = xMax;
 			}
 			else if (pos.x < xMin) {
-				stop = true;
+				stopInX = true;
 				pos.x = xMin;
 			}
 
 			if (pos.y > yMax) {
-				stop = true;
+				stopInY = true;
 				pos.y = yMax;
 			}
 			else if (pos.y < yMin) {
-				stop = true;
+				stopInY = true;
 				pos.y = yMin;
 			}
 
-			if (stop) {
+
+
+			if ((stopInY && Utils.IsZero(GetComp<Moving>().SpeedX())) ||
+				(stopInX && Utils.IsZero(GetComp<Moving>().SpeedY()))) {
 				GetComp<Moving>().Stop();
 			}
 
