@@ -13,9 +13,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Events:
   - Time: 3
-    NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
-      type: 2}
-    AiPreset: {fileID: 11400000, guid: c109e82a9a6344d46bae429d3c84cc6a, type: 2}
-    Dir: 1
-    HP: 30
-    Speed: 4
+    Trigger: 0
+    SpawnData:
+      NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+        type: 2}
+      AiPreset: {fileID: 11400000, guid: 35af003212ea148e5994dd26262cb941, type: 2}
+      Dir: 1
+      HP: 60
+      Speed: 2
+      Delay: 0
+    DependentEvents: []
