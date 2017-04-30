@@ -323,7 +323,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1493431373868202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.15, y: -2.34, z: 0}
+  m_LocalPosition: {x: -5.15, y: -9.15, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 4185840299897978}
@@ -468,7 +468,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1629880616802874}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.45, y: 0.97, z: 0}
+  m_LocalPosition: {x: 0.26, y: 0.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4170419622160586}
@@ -592,9 +592,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 2.1469164, y: -0.050000127}
+  m_Offset: {x: 2.3648944, y: -0.049999785}
   serializedVersion: 2
-  m_Size: {x: 2.8038344, y: 3.2400002}
+  m_Size: {x: 3.2397923, y: 3.2400002}
 --- !u!61 &61801865031939812
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -760,7 +760,7 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 1
   shiftHitEnemy: 1
-  shiftHitDistance: 4
+  shiftHitDistance: 5
   enemyFalls: 1
   attackPoints: 20
   attackSfx: {fileID: 0}
@@ -853,7 +853,7 @@ MonoBehaviour:
   - {fileID: 61275100916209336}
   ranged: 1
   shiftHitEnemy: 1
-  shiftHitDistance: 4
+  shiftHitDistance: 3
   enemyFalls: 1
   attackPoints: 30
   attackSfx: {fileID: 0}
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   colliders:
   - {fileID: 0}
   ranged: 1
-  shiftHitEnemy: 1
+  shiftHitEnemy: 0
   shiftHitDistance: 1
   enemyFalls: 0
   attackPoints: 20
