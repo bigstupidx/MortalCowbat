@@ -90,7 +90,7 @@ namespace Battle.Comp
 
 		public void StartHeavyAttack(float duration = -1)
 		{
-			if (!IsAttacking()) {
+			if (!IsAttacking() && !GetComp<Jumping>().IsJumping()) {
 				attacking = true;
 				chargedAttackReleased = false;
 				GetComp<Animating>().SetTrigger(Defs.Animations.HeavyAttack);
