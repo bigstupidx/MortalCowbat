@@ -87,10 +87,17 @@ class GameLevelsWindow : EditorWindow
 		float labelWidth = EditorGUIUtility.labelWidth;
 		EditorGUIUtility.labelWidth = 40;
 		EditorGUILayout.BeginVertical();
-		level.Environment = EditorGUILayout.EnumPopup("Env", (Defs.Env)Defs.GetEnvIndex(level.Environment),  GUILayout.Width (130)).ToString();
+		int envIndex = Defs.GetEnvIndex(level.Environment);
+		if (envIndex == -1)
+			envIndex = 0;
+		level.Environment = EditorGUILayout.EnumPopup("Env", (Defs.Env)envIndex,  GUILayout.Width (130)).ToString();
 		level.Frame = EditorGUILayout.IntField("Frame", level.Frame,  GUILayout.Width (130));
 		EditorGUILayout.EndVertical();
 		EditorGUIUtility.labelWidth = labelWidth;
+
+		if (GUI.changed) {
+			EditorUtility.SetDirty(level);
+		}
 	}
 
 	bool DrawWaves(List<Wave> waves)
