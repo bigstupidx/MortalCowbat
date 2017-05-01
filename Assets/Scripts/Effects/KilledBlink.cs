@@ -6,6 +6,9 @@ public class KilledBlink : Effect
 	[SerializeField]
 	float duration;
 
+	[SerializeField]
+	float frequence;
+
 	public override void Run(GameObject go)
 	{
 		base.Run(go);
@@ -21,7 +24,7 @@ public class KilledBlink : Effect
 			Utils.SetColor(go, (index % 2 == 0) ? Color.white : new Color(1,1,1,0));
 			index++;
 			time -= Time.deltaTime;
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(frequence);
 		}
 		if (go != null)
 			Utils.SetColor(go,new Color(1,1,1,0));
