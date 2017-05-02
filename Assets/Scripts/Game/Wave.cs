@@ -20,19 +20,11 @@ namespace Ge
 				NPCHit
 			}
 
-			public Condition Trigger;
-			public SpawnData SpawnData;
-			public RuntimeData RuntimeData;
-			public List<Event> DependentEvents;
-		
-			public Event()
-			{
-				Trigger = Condition.Time;
-				SpawnData = new SpawnData();
-				RuntimeData = new RuntimeData();
-				DependentEvents = new List<Event>();
-			}
-
+			public Condition Trigger = Condition.Time;
+			public SpawnData SpawnData = new SpawnData();
+			public RuntimeData RuntimeData = new RuntimeData();
+			public List<Event> DependentEvents = new List<Event>();
+	
 			public Event Clone ()
 			{
 				return new Event {
@@ -74,7 +66,7 @@ namespace Ge
 		}
 
 
-		public List<Event> Events;
+		public List<Event> Events = new List<Event>();
 	}
 }
 

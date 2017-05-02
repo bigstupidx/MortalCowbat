@@ -124,8 +124,18 @@ class GameLevelsWindow : EditorWindow
 		GUI.color = Color.green;
 		bool modified = false;
 		if (GUILayout.Button("+", GUILayout.Width(50))) {
-			waves.Add(null);
-			modified = true;
+
+			var path = EditorUtility.SaveFilePanel(
+				"Save Wave",
+				"Assets/Settings",
+				"Wave.asset",
+				"asset");
+
+			if (path.Length != 0) {
+				path = EdUtils.TrimProjectPath(path);
+				waves.Add(EdUtils.CreateAndSave<Wave>(path));
+				modified = true;
+			}
 		}
 		GUI.color = color;
 		return modified;
@@ -171,8 +181,18 @@ class GameLevelsWindow : EditorWindow
 		GUI.color = Color.green;
 		bool modified = false;
 		if (GUILayout.Button("+", GUILayout.Width(50))) {
-			levels.Add(null);
-			modified = true;
+
+			var path = EditorUtility.SaveFilePanel(
+				"Save Level",
+				"Assets/Settings",
+				"Level" + levels.Count + ".asset",
+				"asset");
+
+			if (path.Length != 0) {
+				path = EdUtils.TrimProjectPath(path);
+				levels.Add(EdUtils.CreateAndSave<Level>(path));
+				modified = true;
+			}
 		}
 		GUI.color = color;
 		return modified;

@@ -7,6 +7,6 @@ public class Level : ScriptableObject
 {
 	public string Environment;
 	public int Frame;
-	public List<Ge.Wave> Waves;
+	public List<Ge.Wave> Waves = new List<Ge.Wave>();
 }
 
