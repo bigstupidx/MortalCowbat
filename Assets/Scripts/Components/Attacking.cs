@@ -60,11 +60,6 @@ namespace Battle.Comp
 			return usingSpecialAttack;
 		}
 
-		public bool AllowsFlipChange()
-		{
-			return !attacking || Charging();
-		}
-
 
 		public void StartFastAttack()
 		{
@@ -207,7 +202,7 @@ namespace Battle.Comp
 			}
 		}
 
-		bool Charging()
+		public bool Charging()
 		{
 			return chargedAttackStartTime > 0;
 		}

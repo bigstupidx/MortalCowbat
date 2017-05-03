@@ -43,6 +43,14 @@ public partial class Character : MonoBehaviour, ICharacter
 			!GetComp<Hit>().InDaze;
 	}
 
+	bool CanFlip()
+	{
+		return 
+			(!GetComp<Attacking>().IsAttacking() || GetComp<Attacking>().Charging()) &&
+			!GetComp<Death>().IsDying &&
+			!GetComp<Jumping>().IsJumping();
+	}
+
 	public void AiMove(Vector2 dir)
 	{
 		if (CanMove()) {
@@ -58,14 +66,12 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void MoveH(int dir)
 	{
-		if (!GetComp<Death>().IsDying) {
-			if (GetComp<Attacking>().AllowsFlipChange()) {
-				GetComp<Moving>().Flip(dir);
-			}
+		if (CanFlip()) {
+			GetComp<Moving>().Flip(dir);
+		}
 
-			if (CanMove()) {
-				GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
-			}
+		if (CanMove()) {
+			GetComp<Moving>().SetSpeedX(dir * settings.MovingSpeed);
 		}
 	}
 
@@ -133,7 +139,7 @@ public partial class Character : MonoBehaviour, ICharacter
 
 	public void Hit(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 	{
-		GetComp<Hit>().Perform(attack, attackingCharacter, dir,multiplicator, maxed, attackId);
+		StartCoroutine(GetComp<Hit>().Perform(attack, attackingCharacter, dir,multiplicator, maxed, attackId));
 	}
 
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 
 
 namespace Battle.Comp
@@ -11,6 +12,9 @@ namespace Battle.Comp
 
 		[SerializeField]
 		GameObject hitEffect;
+
+		[SerializeField]
+		float dazePlusTime;
 
 		int lastAttackHitHId;
 		bool inDaze;
@@ -24,7 +28,7 @@ namespace Battle.Comp
 		{
 			float dazerRndDelay = GlobalBattleConfig.RandomizeDazeDuration ? 
 				UnityEngine.Random.Range(0.0f,GlobalBattleConfig.DazeRandomDuration) : 0;
-			StartAction(()=>inDaze = false, dazerRndDelay);
+			StartAction(()=>inDaze = false, dazePlusTime + dazerRndDelay);
 		}
 
 		public bool CanBeHit(int attackId)
@@ -33,15 +37,11 @@ namespace Battle.Comp
 		}
 
 
-		public void Perform(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
+		public IEnumerator Perform(Attack attack, Character attackingCharacter, int dir, float multiplicator, bool maxed, int attackId = -1)
 		{
 			if (CanBeHit(attackId)) {
 				lastAttackHitHId = attackId;
-				if (attack.ShiftHitEnemy) {
-					//transform.AddPositionX((int)dir * attack.ShiftHitEnemyDistance);
-					StartCoroutine(GetComp<Moving>().ShiftCoroutine((int)dir * attack.ShiftHitEnemyDistance, 0.1f));
-				}
-
+			
 				if (hitEffect != null) {
 					GetComp<Effects>().EffectManager.CreateEffect(hitEffect).Run(gameObject);
 				}
@@ -78,6 +78,10 @@ namespace Battle.Comp
 				}
 
 				if (alive) {
+					if (attack.ShiftHitEnemy) {
+						StartCoroutine(GetComp<Moving>().ShiftCoroutine((int)dir * attack.ShiftHitEnemyDistance, 0.1f));
+					}
+
 					GetComp<Attacking>().Stop();
 					if (!GetComp<Jumping>().IsJumping()) {
 						GetComp<Moving>().Stop();
@@ -91,7 +95,12 @@ namespace Battle.Comp
 						}
 					}
 				} else {
+					if (attack.ShiftHitEnemy) {
+						StartCoroutine(GetComp<Moving>().ShiftCoroutine((int)dir * attack.ShiftHitEnemyDistance, 0.1f));
+					}
+
 					GetComp<Death>().Perform();
+					yield break;
 				}
 			}
 		}
