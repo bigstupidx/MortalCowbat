@@ -592,9 +592,9 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 2.3648944, y: -0.049999785}
+  m_Offset: {x: 2.780959, y: -0.049999785}
   serializedVersion: 2
-  m_Size: {x: 3.2397923, y: 3.2400002}
+  m_Size: {x: 4.071928, y: 3.2400002}
 --- !u!61 &61801865031939812
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -772,6 +772,10 @@ MonoBehaviour:
     CustomData: []
   - Effect: {fileID: 114243814342895862, guid: 060487c82891846649aa850e53b6a071, type: 2}
     Container: Mouth
+    InWorldSpace: 0
+    CustomData: []
+  - Effect: {fileID: 114022620299951610, guid: 2537a3d021c834664aad743157ae89f4, type: 2}
+    Container: Pivot
     InWorldSpace: 0
     CustomData: []
 --- !u!114 &114087740689279968
@@ -1006,6 +1010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 0}
+  dazePlusTime: 0
 --- !u!114 &114669130076354188
 MonoBehaviour:
   m_ObjectHideFlags: 1
