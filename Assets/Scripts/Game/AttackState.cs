@@ -20,7 +20,7 @@ namespace Ai
 
 		public void Update()
 		{
-			if (Time.time > nextAttack) {
+			if (Time.time > nextAttack && !context.Character.GetComp<Hit>().InDaze) {
 
 				var targets = context.Sm.FindTargets(context.Character.GetComp<Attacking>().GetBasicAttackRange() * context.Sm.Preset.AttackRangeCoeficient);
 				if (targets.Count > 0 && !targets.Any(x=>x.GetComp<Attacking>().UsingSpeciatAttack())) {
