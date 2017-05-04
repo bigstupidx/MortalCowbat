@@ -155,6 +155,10 @@ namespace Battle.Comp
 					//effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
 				}
 			}
+
+			if (attack.ShiftAttacker) {
+				StartCoroutine(GetComp<Moving>().ShiftCoroutine(GetComp<Moving>().GetFlip() * 0.5f, 0.1f));
+			}
 		}
 
 		public void StartAttackCharging ()
