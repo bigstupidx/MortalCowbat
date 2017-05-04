@@ -69,6 +69,7 @@ class WaveWindow : EditorWindow
 			if (Math.Abs(newTime - evt.Time) > 0.01f) {
 				evt.Time = newTime;
 				Sort();
+				GUI.FocusControl(null);
 			}
 		} else {
 			//EditorGUIUtility.labelWidth = 70;
