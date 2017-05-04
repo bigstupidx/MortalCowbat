@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dialogs:
-  - Name: First_level_pig1
+  - Name: Farm_level1_a
     Sentences:
     - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
       Title: STR_PIG_LEBOWSKI
@@ -66,4 +66,19 @@ MonoBehaviour:
     Parameters:
     - Key: 0
       Value: 1
+    Delay: 1
+  - Name: Farm_level2_a
+    Sentences:
+    - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
+      Title: STR_PIG_LEBOWSKI
+      Text: STR_PIG_LEBOWSKI_FARM_DIALOG2
+      Position: left
+    - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
+      Title: STR_TONY
+      Text: STR_TONY_FARM_DIALOG2
+      Position: right
+    Condition: 4
+    Parameters:
+    - Key: 0
+      Value: 2
     Delay: 1
