@@ -9,7 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fae7c129e0d2f4c13a9f644b08692547, type: 3}
-  m_Name: Level1
+  m_Name: Level4
   m_EditorClassIdentifier: 
+  Environment: Farm
+  Frame: 3
   Waves:
   - {fileID: 11400000, guid: 7a621616c886840afbe0af3ddeac697e, type: 2}

@@ -12,14 +12,91 @@ MonoBehaviour:
   m_Name: Wave1
   m_EditorClassIdentifier: 
   Events:
-  - Time: 3
+  - Time: 1
     Trigger: 0
     SpawnData:
       NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
         type: 2}
-      AiPreset: {fileID: 11400000, guid: 35af003212ea148e5994dd26262cb941, type: 2}
-      Dir: 1
-      HP: 60
+      AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
+      Dir: 0
+      HP: 120
       Speed: 2
       Delay: 0
     DependentEvents: []
+  - Time: 1
+    Trigger: 0
+    SpawnData:
+      NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+        type: 2}
+      AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
+      Dir: 0
+      HP: 120
+      Speed: 2
+      Delay: 0
+    DependentEvents: []
+  - Time: 1
+    Trigger: 0
+    SpawnData:
+      NPCPrefab: {fileID: 1634333760155082, guid: 752b16e5c9d1c44cc8a7f22268c7b73e,
+        type: 2}
+      AiPreset: {fileID: 11400000, guid: c9d189ccb0a044bd2992486ba5e57cd7, type: 2}
+      Dir: 1
+      HP: 250
+      Speed: 4
+      Delay: 0
+    DependentEvents:
+    - Time: 15
+      Trigger: 0
+      SpawnData:
+        NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+          type: 2}
+        AiPreset: {fileID: 0}
+        Dir: 1
+        HP: 120
+        Speed: 2
+        Delay: 0
+      DependentEvents: []
+    - Time: 30
+      Trigger: 0
+      SpawnData:
+        NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+          type: 2}
+        AiPreset: {fileID: 0}
+        Dir: 0
+        HP: 120
+        Speed: 2
+        Delay: 0
+      DependentEvents: []
+    - Time: 45
+      Trigger: 0
+      SpawnData:
+        NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+          type: 2}
+        AiPreset: {fileID: 0}
+        Dir: 1
+        HP: 120
+        Speed: 2
+        Delay: 0
+      DependentEvents: []
+    - Time: 60
+      Trigger: 0
+      SpawnData:
+        NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+          type: 2}
+        AiPreset: {fileID: 0}
+        Dir: 0
+        HP: 120
+        Speed: 2
+        Delay: 0
+      DependentEvents: []
+    - Time: 75
+      Trigger: 0
+      SpawnData:
+        NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+          type: 2}
+        AiPreset: {fileID: 0}
+        Dir: 1
+        HP: 120
+        Speed: 2
+        Delay: 0
+      DependentEvents: []

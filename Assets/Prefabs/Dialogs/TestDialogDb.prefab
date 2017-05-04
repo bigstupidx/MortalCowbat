@@ -82,3 +82,20 @@ MonoBehaviour:
     - Key: 0
       Value: 2
     Delay: 1
+  - Name: Farm_level4_a
+    Sentences:
+    - Speaker: {fileID: 21300000, guid: 6a09c8b9e84ae42e09f0bf50866011f4, type: 3}
+      Title: STR_PIG_LEBOWSKI
+      Text: STR_PIG_LEBOWSKI_FARM_DIALOG3
+      Position: left
+    - Speaker: {fileID: 21300000, guid: ffb6f429b3ef2483fa7fb66f7c60214b, type: 3}
+      Title: STR_SPROCK
+      Text: STR_SPROCK_FARM_DIALOG3
+      Position: right
+    Condition: 0
+    Parameters:
+    - Key: 0
+      Value: 3
+    - Key: 0
+      Value: 2
+    Delay: 1

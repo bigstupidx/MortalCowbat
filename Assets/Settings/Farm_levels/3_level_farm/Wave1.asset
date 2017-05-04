@@ -40,7 +40,7 @@ MonoBehaviour:
       NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
         type: 2}
       AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
-      Dir: -1
+      Dir: 0
       HP: 110
       Speed: 3
       Delay: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
       NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
         type: 2}
       AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
-      Dir: -1
+      Dir: 0
       HP: 110
       Speed: 3
       Delay: 0
