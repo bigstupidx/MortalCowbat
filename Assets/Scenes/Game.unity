@@ -3079,7 +3079,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.36
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3257,7 +3257,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1001 &2082532379
+--- !u!1001 &2057098685
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3294,7 +3294,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4832196666925324, guid: 211f3d5b543cc4e9cba0d42563d1cef5, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 211f3d5b543cc4e9cba0d42563d1cef5, type: 2}
@@ -3303,7 +3303,7 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 4832196666925324, guid: 211f3d5b543cc4e9cba0d42563d1cef5,
     type: 2}
-  m_PrefabInternal: {fileID: 2082532379}
+  m_PrefabInternal: {fileID: 2057098685}
 --- !u!1 &2119016611
 GameObject:
   m_ObjectHideFlags: 0
