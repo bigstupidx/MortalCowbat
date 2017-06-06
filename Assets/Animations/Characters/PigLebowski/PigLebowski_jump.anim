@@ -20,25 +20,19 @@ AnimationClip:
       - serializedVersion: 2
         time: 0
         value: {x: 0, y: -0.028719734, z: 0}
-        inSlope: {x: 0, y: 12.214414, z: 0}
-        outSlope: {x: 0, y: 12.214414, z: 0}
+        inSlope: {x: 0, y: 65.20441, z: 0}
+        outSlope: {x: 0, y: 65.20441, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 0.26666668
-        value: {x: 0, y: 3.6080322, z: 0}
-        inSlope: {x: 0, y: 11.545186, z: 0}
-        outSlope: {x: 0, y: 11.545186, z: 0}
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.4
-        value: {x: 0, y: 4.656278, z: 0}
-        inSlope: {x: 0, y: 3.2994974, z: 0}
+        value: {x: 0, y: 6.144865, z: 0}
+        inSlope: {x: 0, y: 3.5019093, z: 0}
         outSlope: {x: 0, y: -1.9479504, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.73333335
-        value: {x: 0, y: 0.011691451, z: 0}
-        inSlope: {x: 0, y: -20.312006, z: 0}
+        time: 0.53333336
+        value: {x: 0, y: 0.07935447, z: 0}
+        inSlope: {x: 0, y: -52.819885, z: 0}
         outSlope: {x: 0, y: -10.11038, z: 0}
         tangentMode: 0
       m_PreInfinity: 2
@@ -124,7 +118,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.73333335
+    m_StopTime: 0.53333336
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -168,19 +162,19 @@ AnimationClip:
       - serializedVersion: 2
         time: 0
         value: -0.028719734
-        inSlope: 12.214414
-        outSlope: 12.214414
+        inSlope: 65.20441
+        outSlope: 65.20441
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.4
-        value: 4.656278
-        inSlope: 3.2994974
+        time: 0.26666668
+        value: 6.144865
+        inSlope: 3.5019093
         outSlope: -1.9479504
         tangentMode: 1
       - serializedVersion: 2
-        time: 0.73333335
-        value: 0.011691451
-        inSlope: -20.312006
+        time: 0.53333336
+        value: 0.07935447
+        inSlope: -52.819885
         outSlope: -10.11038
         tangentMode: 1
       m_PreInfinity: 2
@@ -309,7 +303,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.73333335
+  - time: 0.53333336
     functionName: AnimationEvent
     data: jumpfinished
     objectReferenceParameter: {fileID: 0}
