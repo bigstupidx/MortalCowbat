@@ -21,6 +21,9 @@ public class KilledBlink : Effect
 
 		int index = 0;
 		while (time > 0) {
+			if (go == null) {
+				break;
+			}
 			Utils.SetColor(go, (index % 2 == 0) ? Color.white : new Color(1,1,1,0));
 			index++;
 			time -= Time.deltaTime;

@@ -152,7 +152,7 @@ namespace Battle.Comp
 			
 				if (effectDestcriptor.CustomData.Contains("stoponhit")) {
 					effectToStopOnHit.Add(effect);
-					//effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
+					effect.FinishAction += eff => effectToStopOnHit.Remove (eff);
 				}
 			}
 
