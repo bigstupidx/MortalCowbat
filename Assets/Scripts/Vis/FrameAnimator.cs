@@ -7,14 +7,13 @@ namespace Vis
 	public class FrameAnimator : MonoBehaviour
 	{
 		public List<Sprite> Sprites { get { return sprites; }}
-
-		[SerializeField]
-		SpriteRenderer sprRenderer;
+		public SpriteRenderer sprRenderer;
 
 		[SerializeField]
 		List<Sprite> sprites;
 	
 		public float SpriteIndex;
+        public bool Active;
 
 
 		public int GetSpriteIndex()
@@ -50,12 +49,14 @@ namespace Vis
 			Sprites.Add(null);
 		}
 
-		void Update()
+		void LateUpdate()
 		{
-			if (sprRenderer != null && GetSpriteIndex() < sprites.Count) {
-				sprRenderer.sprite = sprites[GetSpriteIndex()];		
-			}
-		}
+            if (Active) {
+			    if (sprRenderer != null && GetSpriteIndex() < sprites.Count) {
+				    sprRenderer.sprite = sprites[GetSpriteIndex()];
+                }
+		    }
+        }
 	}
 }
 

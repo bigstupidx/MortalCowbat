@@ -14,17 +14,21 @@ public class FrameAnimatorEditor : Editor
 
 	public override void OnInspectorGUI()
 	{
-		//base.OnInspectorGUI();
 		var myTarget = (FrameAnimator)target;
 
-		showDefaultInspector = EditorGUILayout.Toggle("Debug", showDefaultInspector);
+		showDefaultInspector = EditorGUILayout.Toggle("Advanced", showDefaultInspector);
 		if (showDefaultInspector) {
 			base.OnInspectorGUI();
 		}
 
+        myTarget.sprRenderer = (SpriteRenderer)EditorGUILayout.ObjectField(myTarget.sprRenderer, typeof(SpriteRenderer), true);
+        EditorGUILayout.Space();
+        var color = GUI.color;
+        for (int i = 0; i < myTarget.Sprites.Count; ++i) {
+            GUI.color = myTarget.SpriteIndex == i ? Color.green : Color.white;
+           
 
-		for (int i = 0; i < myTarget.Sprites.Count; ++i) {
-			EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(i.ToString(), GUILayout.Width(10));
 			myTarget.Sprites[i] = (Sprite)EditorGUILayout.ObjectField("", myTarget.Sprites[i], typeof(Sprite), false, GUILayout.Width(100));
 			EditorGUILayout.BeginVertical();
@@ -45,10 +49,16 @@ public class FrameAnimatorEditor : Editor
 
 			EditorGUILayout.EndHorizontal();
 		}
+        GUI.color = color;
 
 		if(GUILayout.Button("+")) {
 			myTarget.Add();
 		}
+
+        if (GUI.changed) {
+            EditorUtility.SetDirty(myTarget);
+        }
+
 	}
 }
 
