@@ -19,18 +19,18 @@ MonoBehaviour:
         type: 2}
       AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
       Dir: 1
-      HP: 100
+      HP: 1000
       Speed: 2
       Delay: 0
     DependentEvents: []
   - Time: 3
     Trigger: 0
     SpawnData:
-      NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+      NPCPrefab: {fileID: 1634333760155082, guid: ff668a2d917844d899cc529b733ec5d9,
         type: 2}
-      AiPreset: {fileID: 11400000, guid: dc5005bfc18344ba98101080791a9298, type: 2}
-      Dir: 1
-      HP: 100
-      Speed: 2
+      AiPreset: {fileID: 11400000, guid: d29a7436a8d8447148e4cc3ac110ed9a, type: 2}
+      Dir: 0
+      HP: 800
+      Speed: 4
       Delay: 0
     DependentEvents: []

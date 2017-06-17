@@ -15,11 +15,11 @@ MonoBehaviour:
   - Time: 3
     Trigger: 0
     SpawnData:
-      NPCPrefab: {fileID: 1634333760155082, guid: 68501c9cf7cc041909a5d7a8cf7d99a2,
+      NPCPrefab: {fileID: 1634333760155082, guid: 4d360352cf367473587b265d21a3fb05,
         type: 2}
-      AiPreset: {fileID: 0}
+      AiPreset: {fileID: 11400000, guid: 3ef5f18abc011466689bacfee31f3f49, type: 2}
       Dir: 1
-      HP: 60
-      Speed: 2
+      HP: 2500
+      Speed: 1
       Delay: 0
     DependentEvents: []
