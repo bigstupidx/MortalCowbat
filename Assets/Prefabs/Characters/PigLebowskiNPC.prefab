@@ -623,10 +623,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e9b643c95cd24886ae1a835d31c1090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fill: {fileID: 0}
+  Bg: {fileID: 0}
   fillTr: {fileID: 4322520725020666}
   fromColor: {r: 0.2827586, g: 1, b: 0, a: 1}
   toColor: {r: 1, g: 0, b: 0, a: 1}
-  fill: {fileID: 212291901424478314}
 --- !u!114 &114103992939279188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -638,6 +639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a2dbcce2e864fb1992a830d153f011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockIntersections: 0
+  blockIntersectionsDistance: 0.5
 --- !u!114 &114179355335923278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -649,6 +652,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9226498b3ac1748b580229935c12f7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitEffect: {fileID: 0}
+  dazePlusTime: 0
 --- !u!114 &114216622601502772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,8 +669,10 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 1
   shiftHitEnemy: 1
+  shiftHitDistance: 1
+  shiftAttacker: 0
   enemyFalls: 1
-  attackPoints: 20
+  attackPoints: 200
   attackSfx: {fileID: 0}
   effects: []
   hitEffects:
@@ -702,6 +709,7 @@ MonoBehaviour:
   BasicAttack: {fileID: 114565483941095976}
   SpecialAttack: {fileID: 114962683884621062}
   JumpAttack: {fileID: 114216622601502772}
+  HeavyAttack: {fileID: 0}
 --- !u!114 &114423742534173956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -739,6 +747,7 @@ MonoBehaviour:
   ShakeEffect: {fileID: 1057847988162944, guid: 2537a3d021c834664aad743157ae89f4,
     type: 2}
   HitBlink: {fileID: 1597827885535164, guid: 04abb5c1c86ab46f4b5eff6c4c2c62e8, type: 2}
+  KilledBlink: {fileID: 0}
 --- !u!114 &114546283586643256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -755,6 +764,7 @@ MonoBehaviour:
   - {fileID: 4254645799878262}
   - {fileID: 4749859258491930}
   - {fileID: 4205072537090974}
+  body: {fileID: 0}
   ChargingBar: {fileID: 114075668070962232}
   Ren: {fileID: 212621288551795596}
   sortingOrder: 0
@@ -785,8 +795,10 @@ MonoBehaviour:
   - {fileID: 0}
   ranged: 0
   shiftHitEnemy: 0
+  shiftHitDistance: 1
+  shiftAttacker: 0
   enemyFalls: 0
-  attackPoints: 10
+  attackPoints: 200
   attackSfx: {fileID: 0}
   effects: []
   hitEffects:
@@ -812,7 +824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovingSpeed: 2
   JumpingSpeed: 3
-  Health: 30
+  Health: 2000
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114618182391527330
 MonoBehaviour:
@@ -846,7 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569f7d8bf65cc400dab813f3afd25151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiPreset: {fileID: 11400000, guid: 1d1b45eabb0f74f66a6463f4ce723d6d, type: 2}
+  aiPreset: {fileID: 0}
   character: {fileID: 114844989902213830}
   DetectionRange: 500
 --- !u!114 &114842451498159924
@@ -913,8 +925,10 @@ MonoBehaviour:
   - {fileID: 61643189715867430}
   ranged: 1
   shiftHitEnemy: 0
+  shiftHitDistance: 1
+  shiftAttacker: 0
   enemyFalls: 0
-  attackPoints: 30
+  attackPoints: 2000
   attackSfx: {fileID: 0}
   effects:
   - Effect: {fileID: 114650871884612002, guid: 2ae387ea4a77b4370bc39db29b5d9e26, type: 2}

@@ -1024,7 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569f7d8bf65cc400dab813f3afd25151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiPreset: {fileID: 0}
+  aiPreset: {fileID: 11400000, guid: d29a7436a8d8447148e4cc3ac110ed9a, type: 2}
   character: {fileID: 114070835100372882}
   DetectionRange: 500
 --- !u!114 &114195937346571340
@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirstAttackDelay: 0.1
-  AttackInterval: 1.5
+  AttackInterval: 0.8
 --- !u!114 &114423422066519330
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1180,7 +1180,7 @@ MonoBehaviour:
   shiftHitDistance: 1
   shiftAttacker: 0
   enemyFalls: 0
-  attackPoints: 10
+  attackPoints: 300
   attackSfx: {fileID: 0}
   effects: []
   hitEffects:
@@ -1301,9 +1301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddb6e3a3ab41406d94188943f70ef7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovingSpeed: 2
+  MovingSpeed: 4
   JumpingSpeed: 3
-  Health: 30
+  Health: 800
   HitSfx: {fileID: 8300000, guid: f1cfc8623763d45ce8de220b9035f8d3, type: 3}
 --- !u!114 &114945164850287408
 MonoBehaviour:

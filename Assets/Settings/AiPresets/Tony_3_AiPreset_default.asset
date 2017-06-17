@@ -9,14 +9,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5843b065c4c34088b64c00dbfffe499, type: 3}
-  m_Name: TonyAiPreset_default
+  m_Name: Tony_3_AiPreset_default
   m_EditorClassIdentifier: 
-  FirstAttackDelay: 0.3
-  AttackInterval: 1.5
-  AttackRangeCoeficient: 0.8
+  FirstAttackDelay: 0.7
+  AttackInterval: 2.5
+  AttackRangeCoeficient: 0.5
   FastAttackProbability: 1
   HeavyAttackProbability: 0
   KickAttackProbability: 0
   HeavyAttackMinCharge: 0.5431472
   HeavyAttackMaxCharge: 1
-  IdlingAroundProbability: 0.3
+  IdlingAroundProbability: 0.9
