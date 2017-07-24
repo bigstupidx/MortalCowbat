@@ -22,14 +22,16 @@ namespace Battle.Comp
 		List<string> fastAttacksTriggers;
 
 		[SerializeField]
+		List<Attack> fastAttacksDefs;
+
+		[SerializeField]
 		Cooldown specialAttackCooldown;
 
 		public Attack BasicAttack;
 		public Attack SpecialAttack;
 		public Attack JumpAttack;
 		public Attack HeavyAttack;
-
-
+	
 		bool chargedAttackReleased;
 		bool attacking;
 		bool usingSpecialAttack;
@@ -71,22 +73,30 @@ namespace Battle.Comp
 					StartAttackEffects(JumpAttack);
 					jumpId++;
 				} else {
-
 					SetFastAttackCounter ();
 
-					var trigger = GetFastAttack();
-					GetComp<Animating>().SetTrigger(trigger);
-					StartAttackEffects(BasicAttack);
+					var fastAttack = GetFastAttack();
+					GetComp<Animating>().SetTrigger(fastAttack.Key);
+					Debug.Log ("Start effect: " + fastAttack.Value.name);
+					StartAttackEffects(fastAttack.Value);
 					attacking = true;
 				}
 			}
 		}
 
-		string GetFastAttack()
+		KeyValuePair<string, Attack> GetFastAttack()
 		{
 			int mod = fastAttackCounter % fastAttacksTriggers.Count;
+			Attack attackDef = BasicAttack;
+
+			if (mod < fastAttacksDefs.Count) {
+				attackDef = fastAttacksDefs[mod];
+			}
+		
 			fastAttackCounter++;
-			return fastAttacksTriggers[mod];
+			return new KeyValuePair<string, Attack> (
+				fastAttacksTriggers [mod],
+				attackDef);
 		}
 
 		public void StartHeavyAttack(float duration = -1)
@@ -238,8 +248,8 @@ namespace Battle.Comp
 		{
 			if (Time.time > (lastAttackTime + GlobalBattleConfig.FastAttackChangeMaxDelay)) {
 				fastAttackCounter = 0;
-				lastAttackTime = Time.time;
 			}
+			lastAttackTime = Time.time;
 		}
 
 		public KeyValuePair<float, bool> AttackMultiplicator(float chargedTime)
